@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -50,6 +51,24 @@ public class OI {
         // construct joysticks, buttons here and bind buttons to actions
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
+    }
+
+    /**
+     * Returns the Y value of the left joystick.
+     *
+     * @return The value of the stick Y axis. Should be in [-1, 1].
+     */
+    public double getLeftY() {
+        return leftFlight.getY();
+    }
+
+    /**
+     * Returns the Y value of the left joystick.
+     *
+     * @return The value of the stick Y axis. Should be in [-1, 1].
+     */
+    public double getRightY() {
+        return rightFlight.getY();
     }
 
     public static OI getInstance() {
