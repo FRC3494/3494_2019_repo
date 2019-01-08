@@ -11,6 +11,15 @@ public class Drivetrain extends Subsystem {
     private Drivetrain() {
     }
 
+    /**
+     * Tank drive.
+     *
+     * @param leftSpeed  Speed of left side.
+     * @param rightSpeed Speed of right side.
+     */
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+    }
+
     public static Drivetrain getInstance() {
         return INSTANCE;
     }
