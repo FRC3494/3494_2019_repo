@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.Drive;
 
@@ -61,7 +63,14 @@ public class Drivetrain extends Subsystem {
 
     @Override
     public void periodic() {
-
+        if(SmartDashboard.getBoolean("Display Drivetrain data?", false)){
+            System.out.println("The left side: " + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel) + ", "
+                    + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel) + ", " +
+                    PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower2Channel));
+            System.out.println("The left side: " + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel) + ", "
+                    + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel) + ", " +
+                    PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower2Channel));
+        }
     }
 
 

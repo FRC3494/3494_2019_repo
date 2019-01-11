@@ -41,7 +41,7 @@ public class OI {
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
     }
-    
+
     public static OI getInstance() {
         return INSTANCE;
     }
