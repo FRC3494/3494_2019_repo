@@ -31,6 +31,7 @@ public class OI {
     public double getLeftY(){
         return -this.removeDeadband(leftFlight.getY());
     }
+
     public double getRightY(){
         return -this.removeDeadband(rightFlight.getY());
     }
@@ -40,25 +41,7 @@ public class OI {
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
     }
-
-    /**
-     * Returns the Y value of the left joystick.
-     *
-     * @return The value of the stick Y axis. Should be in [-1, 1].
-     */
-    public double getLeftY() {
-        return leftFlight.getY();
-    }
-
-    /**
-     * Returns the Y value of the left joystick.
-     *
-     * @return The value of the stick Y axis. Should be in [-1, 1].
-     */
-    public double getRightY() {
-        return rightFlight.getY();
-    }
-
+    
     public static OI getInstance() {
         return INSTANCE;
     }
