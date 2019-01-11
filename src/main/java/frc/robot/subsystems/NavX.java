@@ -9,7 +9,7 @@ import frc.robot.RobotMap;
 
 public class NavX extends Subsystem {
 
-    private NavX INSTANCE = NavX();
+    private NavX INSTANCE = new NavX();
     private AHRS ahrs;
     private double resetValue;
 
