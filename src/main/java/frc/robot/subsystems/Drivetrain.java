@@ -26,13 +26,24 @@ public class Drivetrain extends Subsystem {
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
 
-        if (!checkTankDriveNotBroken(leftSpeed, rightSpeed)) {
+        if (!checkDriveMotorsGoCorrectDirection(leftSpeed, rightSpeed)) {
             this.stop();
         }
     }
 
-    //this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
-    private boolean checkTankDriveNotBroken(double leftSpeed, double rightSpeed) {
+    /**
+     * checkDriveMotorsGoCorrectDirection sanity check
+     * this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
+     * @param leftSpeed  Speed of left side.
+     * @param rightSpeed Speed of right side.
+     * leftCounter uses Math.signum to get the signs of the three left motors.
+     * if the motor is traveling forward, leftCounter increments by 1. If backward, it decrements by 1.
+     * leftCounter  will have values of 3 or -3 if all motors travel in the same direction.
+     * the if statement makes sure all motors are going the same direction,
+     *                   and that they are traveling the same direction as the variable leftSpeed is telling them to go
+     * Ditto for right side.
+     */
+    private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel));
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel));
