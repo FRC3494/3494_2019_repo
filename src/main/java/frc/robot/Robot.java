@@ -28,13 +28,13 @@ public class Robot extends TimedRobot {
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 
-        if(!SmartDashboard.containsKey("Display Drivetrain data?")) {
+        if (!SmartDashboard.containsKey("Display Drivetrain data?")) {
             SmartDashboard.putBoolean("Display Drivetrain data?", false);
             SmartDashboard.setPersistent("Display Drivetrain data?");
         }
         Preferences.getInstance().putBoolean("Display Drivetrain data?", false);
 
-        if(!SmartDashboard.containsKey("Display navX data?")) {
+        if (!SmartDashboard.containsKey("Display navX data?")) {
             SmartDashboard.putBoolean("Display navX data?", false);
             SmartDashboard.setPersistent("Display navX data?");
         }

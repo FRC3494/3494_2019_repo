@@ -48,18 +48,19 @@ public class OI {
     private Joystick leftFlight;
     private Joystick rightFlight;
 
-    public double removeDeadband(double y){
-        if (Math.abs(y)<=.05){
+    public double removeDeadband(double y) {
+        if (Math.abs(y) <= .05) {
             return 0;
-        }else{
+        } else {
             return y;
         }
     }
-    public double getLeftY(){
+
+    public double getLeftY() {
         return -this.removeDeadband(leftFlight.getY());
     }
 
-    public double getRightY(){
+    public double getRightY() {
         return -this.removeDeadband(rightFlight.getY());
     }
 

@@ -24,22 +24,21 @@ public class Drivetrain extends Subsystem {
      * @param leftSpeed  Speed of left side.
      * @param rightSpeed Speed of right side.
      */
-    public void tankDrive(double leftPower, double rightPower)
-    {
+    public void tankDrive(double leftSpeed, double rightSpeed) {
 
-        if(!checkTankDriveNotBroken(leftPower,rightPower)){
+        if (!checkTankDriveNotBroken(leftSpeed, rightSpeed)) {
             this.stop();
         }
     }
 
     //this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
-    private boolean checkTankDriveNotBroken(double leftPower, double rightPower){
+    private boolean checkTankDriveNotBroken(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel));
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel));
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower2Channel));
 
-        if (Math.abs(leftCounter)!=3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel)) != Math.signum(leftPower)){
+        if (Math.abs(leftCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel)) != Math.signum(leftSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
@@ -49,21 +48,20 @@ public class Drivetrain extends Subsystem {
         rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower1Channel));
         rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower2Channel));
 
-        if (Math.abs(rightCounter)!=3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel)) != Math.signum(leftPower)){
+        if (Math.abs(rightCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel)) != Math.signum(leftSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
         return true;
     }
 
-    public void stop()
-    {
-        this.tankDrive(0,0);
+    public void stop() {
+        this.tankDrive(0, 0);
     }
 
     @Override
     public void periodic() {
-        if(SmartDashboard.getBoolean("Display Drivetrain data?", false)){
+        if (SmartDashboard.getBoolean("Display Drivetrain data?", false)) {
             System.out.println("The left side: " + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel) + ", "
                     + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel) + ", " +
                     PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower2Channel));

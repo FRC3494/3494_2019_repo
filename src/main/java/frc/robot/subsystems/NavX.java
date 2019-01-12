@@ -13,30 +13,31 @@ public class NavX extends Subsystem {
     private AHRS ahrs;
     private double resetValue;
 
-    private NavX(){
-        ahrs = new AHRS(SerialPort.Port.kMXP );
+    private NavX() {
+        ahrs = new AHRS(SerialPort.Port.kMXP);
         resetValue = 0;
     }
-    public NavX getInstance(){
+
+    public NavX getInstance() {
         return INSTANCE;
     }
 
-    public double getFusedHeading(){
+    public double getFusedHeading() {
         double fusedHeading = (double) (ahrs.getFusedHeading() - resetValue);
-        if (fusedHeading<0){
+        if (fusedHeading < 0) {
             return 360 + fusedHeading;
         }
         return fusedHeading;
     }
 
-    public void resetFusedHeading(){
+    public void resetFusedHeading() {
         resetValue = ahrs.getFusedHeading();
     }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    public void periodic(){
-        if(SmartDashboard.getBoolean("Display navX data?", false)) {
+    public void periodic() {
+        if (SmartDashboard.getBoolean("Display navX data?", false)) {
             System.out.println("The robot angle is " + this.getFusedHeading());
         }
     }
