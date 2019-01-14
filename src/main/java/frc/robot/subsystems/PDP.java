@@ -12,19 +12,19 @@ public class PDP extends Subsystem {
     private static final PDP INSTANCE = new PDP();
     private PowerDistributionPanel powerDistributionPanel;
 
-    private PDP(){
-        powerDistributionPanel = new PowerDistributionPanel(RobotMap.PDP.CAN_ID);
+    private PDP() {
+        powerDistributionPanel = new PowerDistributionPanel();
     }
 
-    public static PDP getInstance(){
+    public static PDP getInstance() {
         return INSTANCE;
     }
 
-    public double getVoltage(){
+    public double getVoltage() {
         return this.powerDistributionPanel.getVoltage();
     }
 
-    public double getCurrent(int channel){
+    public double getCurrent(int channel) {
         return this.powerDistributionPanel.getCurrent(channel);
     }
 

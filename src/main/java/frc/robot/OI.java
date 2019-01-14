@@ -56,10 +56,20 @@ public class OI {
         }
     }
 
+    /**
+     * Returns the Y value of the left joystick.
+     *
+     * @return The value of the stick Y axis. Should be in [-1, 1].
+     */
     public double getLeftY() {
         return -this.removeDeadband(leftFlight.getY());
     }
 
+    /**
+     * Returns the Y value of the right joystick.
+     *
+     * @return The value of the stick Y axis. Should be in [-1, 1].
+     */
     public double getRightY() {
         return -this.removeDeadband(rightFlight.getY());
     }

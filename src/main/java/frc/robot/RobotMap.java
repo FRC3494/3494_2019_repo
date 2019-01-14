@@ -24,10 +24,6 @@ public class RobotMap {
     // public static final int rangefinderPort = 1;
     // public static final int rangefinderModule = 1;
 
-    public class PDP {
-        public static final int CAN_ID = 0;
-    }
-
     public class DRIVETRAIN {
         public static final int leftMasterChannel = 0;
         public static final int leftFollower1Channel = 1;

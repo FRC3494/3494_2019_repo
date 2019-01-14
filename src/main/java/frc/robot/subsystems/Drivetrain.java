@@ -43,6 +43,7 @@ public class Drivetrain extends Subsystem {
      *                   and that they are traveling the same direction as the variable leftSpeed is telling them to go
      * Ditto for right side.
      */
+    //find better system than printing errors
     private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
         leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel));
@@ -59,7 +60,7 @@ public class Drivetrain extends Subsystem {
         rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower1Channel));
         rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower2Channel));
 
-        if (Math.abs(rightCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel)) != Math.signum(leftSpeed)) {
+        if (Math.abs(rightCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel)) != Math.signum(rightSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
