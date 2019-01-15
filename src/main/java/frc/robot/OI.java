@@ -48,6 +48,12 @@ public class OI {
     private Joystick leftFlight;
     private Joystick rightFlight;
 
+    private OI() {
+        // construct joysticks, buttons here and bind buttons to actions
+        leftFlight = new Joystick(RobotMap.LEFT_JOY);
+        rightFlight = new Joystick(RobotMap.RIGHT_JOY);
+    }
+
     public double removeDeadband(double y) {
         if (Math.abs(y) <= .05) {
             return 0;
@@ -72,12 +78,6 @@ public class OI {
      */
     public double getRightY() {
         return -this.removeDeadband(rightFlight.getY());
-    }
-
-    private OI() {
-        // construct joysticks, buttons here and bind buttons to actions
-        leftFlight = new Joystick(RobotMap.LEFT_JOY);
-        rightFlight = new Joystick(RobotMap.RIGHT_JOY);
     }
 
     public static OI getInstance() {

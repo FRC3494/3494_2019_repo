@@ -11,10 +11,6 @@ public class Drivetrain extends Subsystem {
     // here. Call these from Commands.
     private static Drivetrain INSTANCE = new Drivetrain();
 
-    public static Drivetrain getInstance() {
-        return INSTANCE;
-    }
-
     private Drivetrain() {
     }
 
@@ -34,14 +30,16 @@ public class Drivetrain extends Subsystem {
     /**
      * checkDriveMotorsGoCorrectDirection sanity check
      * this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
-     * @param leftSpeed  Speed of left side.
-     * @param rightSpeed Speed of right side.
+     * <p>
      * leftCounter uses Math.signum to get the signs of the three left motors.
      * if the motor is traveling forward, leftCounter increments by 1. If backward, it decrements by 1.
      * leftCounter  will have values of 3 or -3 if all motors travel in the same direction.
      * the if statement makes sure all motors are going the same direction,
-     *                   and that they are traveling the same direction as the variable leftSpeed is telling them to go
+     * and that they are traveling the same direction as the variable leftSpeed is telling them to go
      * Ditto for right side.
+     *
+     * @param leftSpeed  Speed of left side.
+     * @param rightSpeed Speed of right side.
      */
     //find better system than printing errors
     private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
@@ -83,6 +81,9 @@ public class Drivetrain extends Subsystem {
         }
     }
 
+    public static Drivetrain getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void initDefaultCommand() {
