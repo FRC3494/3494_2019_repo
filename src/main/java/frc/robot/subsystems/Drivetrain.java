@@ -2,9 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.Drive;
+import frc.robot.sensors.PDP;
 
 public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem

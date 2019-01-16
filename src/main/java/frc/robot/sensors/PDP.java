@@ -1,11 +1,10 @@
-package frc.robot.subsystems;
+package frc.robot.sensors;
 
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
 
-public class PDP extends Subsystem {
+public class PDP {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -26,10 +25,5 @@ public class PDP extends Subsystem {
 
     public double getCurrent(int channel) {
         return this.powerDistributionPanel.getCurrent(channel);
-    }
-
-    public void initDefaultCommand() {
-        // TODO: Set the default command, if any, for a subsystem here. Example:
-        //    setDefaultCommand(new MySpecialCommand());
     }
 }
