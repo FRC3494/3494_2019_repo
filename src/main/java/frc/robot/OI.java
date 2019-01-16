@@ -42,6 +42,7 @@ public class OI {
     // Start the command when the button is released and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+
     private static OI INSTANCE = new OI();
     // declare buttons, joysticks here
     private Joystick leftFlight;
@@ -53,13 +54,12 @@ public class OI {
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
     }
 
-    /**
-     * Returns the Y value of the left joystick.
-     *
-     * @return The value of the stick Y axis. Should be in [-1, 1].
-     */
-    public double getLeftY() {
-        return leftFlight.getY();
+    public double removeDeadband(double y) {
+        if (Math.abs(y) <= .05) {
+            return 0;
+        } else {
+            return y;
+        }
     }
 
     /**
@@ -67,8 +67,17 @@ public class OI {
      *
      * @return The value of the stick Y axis. Should be in [-1, 1].
      */
+    public double getLeftY() {
+        return -this.removeDeadband(leftFlight.getY());
+    }
+
+    /**
+     * Returns the Y value of the right joystick.
+     *
+     * @return The value of the stick Y axis. Should be in [-1, 1].
+     */
     public double getRightY() {
-        return rightFlight.getY();
+        return -this.removeDeadband(rightFlight.getY());
     }
 
     public static OI getInstance() {
