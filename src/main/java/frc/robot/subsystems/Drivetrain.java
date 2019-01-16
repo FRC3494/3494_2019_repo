@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -9,9 +12,44 @@ import frc.robot.sensors.PDP;
 public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+
+    /**
+     * Master CANSparkMax, left side.
+     */
+    private CANSparkMax driveLeftMaster;
+    /**
+     * Follower CANSparkMax, left side.
+     */
+    private CANSparkMax driveLeftFollowOne;
+    /**
+     * Additional follower CANSparkMax, left side.
+     */
+    private CANSparkMax driveLeftFollowTwo;
+
+    /**
+     * Master CANSparkMax, right side.
+     */
+    private CANSparkMax driveRightMaster;
+    /**
+     * Follower CANSparkMax, right side.
+     */
+    private CANSparkMax driveRightFollowOne;
+    /**
+     * Additional follower CANSparkMax, right side.
+     */
+    private CANSparkMax driveRightFollowTwo;
+
+
     private static Drivetrain INSTANCE = new Drivetrain();
 
     private Drivetrain() {
+        this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.leftMasterChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveLeftFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.leftFollower1Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveLeftFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.leftFollower2Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveRightMaster = new CANSparkMax(RobotMap.DRIVETRAIN.rightMasterChannel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveRightFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.rightFollower1Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.rightFollower2Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
+
     }
 
     /**
