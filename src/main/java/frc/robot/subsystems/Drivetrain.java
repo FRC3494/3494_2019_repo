@@ -68,6 +68,9 @@ public class Drivetrain extends Subsystem {
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
 
+        this.driveLeftMaster.set(leftSpeed);
+        this.driveRightMaster.set(rightSpeed);
+
         if (!checkDriveMotorsGoCorrectDirection(leftSpeed, rightSpeed)) {
             this.stop();
         }
