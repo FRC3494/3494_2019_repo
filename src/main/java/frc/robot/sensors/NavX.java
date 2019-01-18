@@ -12,7 +12,7 @@ public class NavX {
     private double resetValue;
 
     private NavX() {
-        ahrs = new AHRS(SerialPort.Port.kMXP);
+        this.ahrs = new AHRS(SerialPort.Port.kMXP);
         resetValue = 0;
     }
 
@@ -21,7 +21,7 @@ public class NavX {
     }
 
     public double getFusedHeading() {
-        double fusedHeading = (double) (ahrs.getFusedHeading() - resetValue);
+        double fusedHeading = (ahrs.getFusedHeading() - resetValue);
         if (fusedHeading < 0) {
             return 360 + fusedHeading;
         }
@@ -44,10 +44,5 @@ public class NavX {
      * }
      * }
      */
-
-    public void initDefaultCommand() {
-        // TODO: Set the default command, if any, for a subsystem here. Example:
-        //    setDefaultCommand(new MySpecialCommand());
-    }
 }
 

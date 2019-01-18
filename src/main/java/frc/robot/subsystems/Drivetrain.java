@@ -93,25 +93,49 @@ public class Drivetrain extends Subsystem {
     //find better system than printing errors
     private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
-        leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel));
-        leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower1Channel));
-        leftCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftFollower2Channel));
+        leftCounter += Math.signum(this.getLeftMasterCurrent());
+        leftCounter += Math.signum(this.getLeftFollowOneCurrent());
+        leftCounter += Math.signum(this.getLeftFollowTwoCurrent());
 
-        if (Math.abs(leftCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.leftMasterChannel)) != Math.signum(leftSpeed)) {
+        if (Math.abs(leftCounter) != 3 || Math.signum(this.getLeftMasterCurrent()) != Math.signum(leftSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
 
         int rightCounter = 0;
-        rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel));
-        rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower1Channel));
-        rightCounter += Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightFollower2Channel));
+        rightCounter += Math.signum(this.getRightMasterCurrent());
+        rightCounter += Math.signum(this.getRightFollowOneCurrent());
+        rightCounter += Math.signum(this.getRightFollowTwoCurrent());
 
-        if (Math.abs(rightCounter) != 3 || Math.signum(PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.rightMasterChannel)) != Math.signum(rightSpeed)) {
+        if (Math.abs(rightCounter) != 3 || Math.signum(this.getRightMasterCurrent()) != Math.signum(rightSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
         return true;
+    }
+
+    public double getLeftMasterCurrent(){
+        return this.driveLeftMaster.getOutputCurrent();
+    }
+
+    public double getLeftFollowOneCurrent(){
+        return this.driveLeftFollowOne.getOutputCurrent();
+    }
+
+    public double getLeftFollowTwoCurrent(){
+        return this.driveLeftFollowTwo.getOutputCurrent();
+    }
+
+    public double getRightMasterCurrent(){
+        return this.driveRightMaster.getOutputCurrent();
+    }
+
+    public double getRightFollowOneCurrent(){
+        return this.driveRightFollowOne.getOutputCurrent();
+    }
+
+    public double getRightFollowTwoCurrent(){
+        return this.driveRightFollowTwo.getOutputCurrent();
     }
 
     public void stop() {

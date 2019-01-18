@@ -12,7 +12,7 @@ public class PDP {
     private PowerDistributionPanel powerDistributionPanel;
 
     private PDP() {
-        powerDistributionPanel = new PowerDistributionPanel();
+        this.powerDistributionPanel = new PowerDistributionPanel();
     }
 
     public static PDP getInstance() {
