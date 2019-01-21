@@ -28,9 +28,9 @@ public class RobotMap {
         public static final int leftMasterChannel = 0;
         public static final int leftFollower1Channel = 1;
         public static final int leftFollower2Channel = 2;
-        public static final int rightMasterChannel = 3;
-        public static final int rightFollower1Channel = 4;
-        public static final int rightFollower2Channel = 5;
+        public static final int rightMasterChannel = 13;
+        public static final int rightFollower1Channel = 14;
+        public static final int rightFollower2Channel = 15;
     }
 
     public static final int LEFT_JOY = 0;
