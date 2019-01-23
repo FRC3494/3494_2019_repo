@@ -1,8 +1,6 @@
 package frc.robot.sensors;
 
-
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class PDP {
 
@@ -12,7 +10,7 @@ public class PDP {
     private PowerDistributionPanel powerDistributionPanel;
 
     private PDP() {
-        powerDistributionPanel = new PowerDistributionPanel();
+        this.powerDistributionPanel = new PowerDistributionPanel();
     }
 
     public static PDP getInstance() {
