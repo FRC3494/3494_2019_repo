@@ -72,7 +72,7 @@ public class Drivetrain extends Subsystem {
         this.driveRightMaster.set(rightSpeed);
 
         if (!checkMotorsGoingSameDirection(leftSpeed, rightSpeed)) {
-            this.stop();
+            //add debug method here to fix the problem
         }
     }
 
@@ -126,7 +126,6 @@ public class Drivetrain extends Subsystem {
         if(getLeftMasterDirection()!=getLeftFollowOneDirection() ||
            getLeftMasterDirection()!=getLeftFollowTwoDirection())
         {
-            this.stop();
             return false;
         }
 
