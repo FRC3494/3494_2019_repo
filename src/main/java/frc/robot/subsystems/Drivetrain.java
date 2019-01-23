@@ -71,7 +71,7 @@ public class Drivetrain extends Subsystem {
         this.driveLeftMaster.set(leftSpeed);
         this.driveRightMaster.set(rightSpeed);
 
-        if (!checkDriveMotorsGoCorrectDirection(leftSpeed, rightSpeed)) {
+        if (!checkMotorsGoingSameDirection(leftSpeed, rightSpeed)) {
             this.stop();
         }
     }
@@ -91,13 +91,14 @@ public class Drivetrain extends Subsystem {
      * @param rightSpeed Speed of right side.
      */
     //find better system than printing errors
+    /*
     private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
-        leftCounter += Math.signum(this.getLeftMasterCurrent());
-        leftCounter += Math.signum(this.getLeftFollowOneCurrent());
-        leftCounter += Math.signum(this.getLeftFollowTwoCurrent());
+        leftCounter += Math.signum(this.getLeftMasterDirection());
+        leftCounter += Math.signum(this.getLeftFollowOneDirection());
+        leftCounter += Math.signum(this.getLeftFollowTwoDirection());
 
-        if (Math.abs(leftCounter) != 3 || Math.signum(this.getLeftMasterCurrent()) != Math.signum(leftSpeed)) {
+        if (Math.abs(leftCounter) != 3 || Math.signum(this.getLeftMasterDirection()) != Math.signum(leftSpeed)) {
             System.out.println("One of the left motors is jammed! RIP");
             return false;
         }
@@ -113,29 +114,115 @@ public class Drivetrain extends Subsystem {
         }
         return true;
     }
+    */
 
-    public double getLeftMasterCurrent(){
-        return this.driveLeftMaster.getOutputCurrent();
+    private enum Direction{
+        kBackward, //corresponds to 0
+        kNeutral, //corresponds to 1
+        kForward; //corresponds to 2
     }
 
-    public double getLeftFollowOneCurrent(){
-        return this.driveLeftFollowOne.getOutputCurrent();
+    private boolean checkMotorsGoingSameDirection(double leftSpeed, double rightSpeed){
+        if(getLeftMasterDirection()!=getLeftFollowOneDirection() ||
+           getLeftMasterDirection()!=getLeftFollowTwoDirection())
+        {
+            this.stop();
+            return false;
+        }
+
+        if((getLeftMasterDirection().ordinal()-1)!=Math.signum(leftSpeed)){
+            return false;
+        }
+
+        if(getRightMasterDirection()!=getRightFollowOneDirection() ||
+           getRightMasterDirection()!=getRightFollowTwoDirection())
+        {
+            return false;
+        }
+
+        if((getRightMasterDirection().ordinal()-1)!=Math.signum(rightSpeed)){
+            return false;
+        }
     }
 
-    public double getLeftFollowTwoCurrent(){
-        return this.driveLeftFollowTwo.getOutputCurrent();
+    public Direction getLeftMasterDirection() {
+        double motorDirection = Math.signum(this.driveLeftMaster.getEncoder().getVelocity());
+
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
     }
 
-    public double getRightMasterCurrent(){
-        return this.driveRightMaster.getOutputCurrent();
+    //add method to check if encoders are null
+    public Direction getLeftFollowOneDirection() {
+        double motorDirection = Math.signum(this.driveLeftFollowOne.getEncoder().getVelocity());
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
     }
 
-    public double getRightFollowOneCurrent(){
-        return this.driveRightFollowOne.getOutputCurrent();
+    public Direction getLeftFollowTwoDirection() {
+        double motorDirection = Math.signum(this.driveLeftFollowTwo.getEncoder().getVelocity());
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
     }
 
-    public double getRightFollowTwoCurrent(){
-        return this.driveRightFollowTwo.getOutputCurrent();
+    public Direction getRightMasterDirection() {
+        double motorDirection = Math.signum(this.driveRightMaster.getEncoder().getVelocity());
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
+    }
+
+    public Direction getRightFollowOneDirection() {
+        double motorDirection = Math.signum(this.driveRightFollowOne.getEncoder().getVelocity());
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
+    }
+
+    public Direction getRightFollowTwoDirection() {
+        double motorDirection = Math.signum(this.driveRightFollowTwo.getEncoder().getVelocity());
+        if (motorDirection == 1) {
+            return Direction.kForward;
+        }
+
+        if (motorDirection == -1) {
+            return Direction.kBackward;
+        }
+
+        return Direction.kNeutral;
     }
 
     public void stop() {
