@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -67,7 +66,6 @@ public class Drivetrain extends Subsystem {
      * @param rightSpeed Speed of right side.
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
-
         this.driveLeftMaster.set(leftSpeed);
         this.driveRightMaster.set(rightSpeed);
 
@@ -114,27 +112,27 @@ public class Drivetrain extends Subsystem {
         return true;
     }
 
-    public double getLeftMasterCurrent(){
+    public double getLeftMasterCurrent() {
         return this.driveLeftMaster.getOutputCurrent();
     }
 
-    public double getLeftFollowOneCurrent(){
+    public double getLeftFollowOneCurrent() {
         return this.driveLeftFollowOne.getOutputCurrent();
     }
 
-    public double getLeftFollowTwoCurrent(){
+    public double getLeftFollowTwoCurrent() {
         return this.driveLeftFollowTwo.getOutputCurrent();
     }
 
-    public double getRightMasterCurrent(){
+    public double getRightMasterCurrent() {
         return this.driveRightMaster.getOutputCurrent();
     }
 
-    public double getRightFollowOneCurrent(){
+    public double getRightFollowOneCurrent() {
         return this.driveRightFollowOne.getOutputCurrent();
     }
 
-    public double getRightFollowTwoCurrent(){
+    public double getRightFollowTwoCurrent() {
         return this.driveRightFollowTwo.getOutputCurrent();
     }
 
