@@ -32,7 +32,10 @@ public class RobotMap {
         public static final int rightFollower1Channel = 14;
         public static final int rightFollower2Channel = 15;
     }
-
+    public class CARGO_MANIPULATOR{
+        public static final int RIGHT_MOTOR_CHANNEL = 1;
+        public static final int LEFT_MOTOR_CHANNEL = 2;
+    }
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
 }
