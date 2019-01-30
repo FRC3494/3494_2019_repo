@@ -76,46 +76,6 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    /**
-     * checkDriveMotorsGoCorrectDirection sanity check
-     * this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
-     * <p>
-     * leftCounter uses Math.signum to get the signs of the three left motors.
-     * if the motor is traveling forward, leftCounter increments by 1. If backward, it decrements by 1.
-     * leftCounter  will have values of 3 or -3 if all motors travel in the same direction.
-     * the if statement makes sure all motors are going the same direction,
-     * and that they are traveling the same direction as the variable leftSpeed is telling them to go
-     * Ditto for right side.
-     *
-     * @param leftSpeed  Speed of left side.
-     * @param rightSpeed Speed of right side.
-     */
-    //find better system than printing errors
-    /*
-    private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
-        int leftCounter = 0;
-        leftCounter += Math.signum(this.getLeftMasterDirection());
-        leftCounter += Math.signum(this.getLeftFollowOneDirection());
-        leftCounter += Math.signum(this.getLeftFollowTwoDirection());
-
-        if (Math.abs(leftCounter) != 3 || Math.signum(this.getLeftMasterDirection()) != Math.signum(leftSpeed)) {
-            System.out.println("One of the left motors is jammed! RIP");
-            return false;
-        }
-
-        int rightCounter = 0;
-        rightCounter += Math.signum(this.getRightMasterCurrent());
-        rightCounter += Math.signum(this.getRightFollowOneCurrent());
-        rightCounter += Math.signum(this.getRightFollowTwoCurrent());
-
-        if (Math.abs(rightCounter) != 3 || Math.signum(this.getRightMasterCurrent()) != Math.signum(rightSpeed)) {
-            System.out.println("One of the left motors is jammed! RIP");
-            return false;
-        }
-        return true;
-    }
-    */
-
     private enum Direction{
         kBackward, //corresponds to 0
         kNeutral, //corresponds to 1
