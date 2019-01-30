@@ -39,6 +39,8 @@ public class Drivetrain extends Subsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
+    private CANSparkMax[] driveLeftMotors = {this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo};
+    private CANSparkMax[] driveRightMotors = {this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo};
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
@@ -58,6 +60,7 @@ public class Drivetrain extends Subsystem {
 
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.rightFollower2Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
+
     }
 
     /**
@@ -71,7 +74,71 @@ public class Drivetrain extends Subsystem {
         this.driveLeftMaster.set(leftSpeed);
         this.driveRightMaster.set(rightSpeed);
     }
-    
+
+    private boolean checkMotorSpeeds(double leftSpeed, double rightSpeed){
+        if (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
+        Math.signum(driveLeftMaster.getEncoder().getVelocity()) != Math.signum(driveLeftFollowTwo.getEncoder().getVelocity()))
+        {
+            return false;
+        }
+        if (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(leftSpeed))
+        {
+            return false;
+        }
+
+        if (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(driveRightFollowOne.getEncoder().getVelocity()) ||
+                Math.signum(driveRightMaster.getEncoder().getVelocity()) != Math.signum(driveRightFollowTwo.getEncoder().getVelocity()))
+        {
+            return false;
+        }
+        if (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(rightSpeed))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkMotorsEngaged(){
+        double dif = driveLeftMaster.getEncoder().getVelocity() - driveLeftFollowOne.getEncoder().getVelocity();
+        if (Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
+            return false;
+        }
+        dif = driveLeftMaster.getEncoder().getVelocity() - driveLeftFollowTwo.getEncoder().getVelocity();
+        if (Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
+            return false;
+        }
+
+        dif = driveRightMaster.getEncoder().getVelocity() - driveRightFollowOne.getEncoder().getVelocity();
+        if (Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
+            return false;
+        }
+        dif = driveRightMaster.getEncoder().getVelocity() - driveRightFollowTwo.getEncoder().getVelocity();
+        if (Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkMotorCurrent(){
+        for (int i = 0; i<3; i++){
+            double dif = driveLeftMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
+            if(Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT){
+                return false;
+            }
+        }
+
+        for (int i = 0; i<3; i++){
+            double dif = driveRightMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
+            if(Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void stop() {
         this.tankDrive(0, 0);
     }

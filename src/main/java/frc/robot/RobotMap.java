@@ -31,6 +31,10 @@ public class RobotMap {
         public static final int rightMasterChannel = 13;
         public static final int rightFollower1Channel = 14;
         public static final int rightFollower2Channel = 15;
+
+        public static final double TOLERANCE_AXLE = .01;
+        public static final double EXPECTED_FREE_CURRENT = 1.8;
+        public static final double TOLERANCE_CURRENT = .05;
     }
 
     public static final int LEFT_JOY = 0;
