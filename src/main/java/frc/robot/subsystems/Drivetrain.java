@@ -89,6 +89,7 @@ public class Drivetrain extends Subsystem {
      * @param rightSpeed Speed of right side.
      */
     //find better system than printing errors
+    /*
     private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
         int leftCounter = 0;
         leftCounter += Math.signum(this.getLeftMasterCurrent());
@@ -111,6 +112,7 @@ public class Drivetrain extends Subsystem {
         }
         return true;
     }
+    */
 
     public double getLeftMasterCurrent() {
         return this.driveLeftMaster.getOutputCurrent();
