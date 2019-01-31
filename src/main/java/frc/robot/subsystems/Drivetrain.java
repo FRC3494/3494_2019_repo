@@ -75,6 +75,7 @@ public class Drivetrain extends Subsystem {
         this.driveRightMaster.set(rightSpeed);
     }
 
+    //checkMotorSpeeds() checks to make sure each of the left and right motors are going the same direction they are supposed to be going
     private boolean checkMotorSpeeds(double leftSpeed, double rightSpeed){
         if (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
         Math.signum(driveLeftMaster.getEncoder().getVelocity()) != Math.signum(driveLeftFollowTwo.getEncoder().getVelocity()))
@@ -99,6 +100,8 @@ public class Drivetrain extends Subsystem {
         return true;
     }
 
+    //checkMotorsEngaged() checks to make sure that each left motor is going roughly the same speed as the other left motors
+    //same for right side
     private boolean checkMotorsEngaged(){
         double dif = driveLeftMaster.getEncoder().getVelocity() - driveLeftFollowOne.getEncoder().getVelocity();
         if (Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
@@ -121,6 +124,7 @@ public class Drivetrain extends Subsystem {
         return true;
     }
 
+    //checkMotorCurrent() checks that each motor is drawing roughly the expected amount of current
     private boolean checkMotorCurrent(){
         for (int i = 0; i<3; i++){
             double dif = driveLeftMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
