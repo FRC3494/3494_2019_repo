@@ -39,6 +39,12 @@ public class Robot extends TimedRobot {
             SmartDashboard.setPersistent("Display navX data?");
         }
         Preferences.getInstance().putBoolean("Display navX data?", false);
+
+        if (!SmartDashboard.containsKey("Display Drivetrain motor data?")) {
+            SmartDashboard.putBoolean("Display Drivetrain motor data?", false);
+            SmartDashboard.setPersistent("Display Drivetrain motor data?");
+        }
+        Preferences.getInstance().putBoolean("Display Drivetrain motor data?", false);
     }
 
     /**

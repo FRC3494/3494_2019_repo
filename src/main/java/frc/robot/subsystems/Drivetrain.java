@@ -76,32 +76,53 @@ public class Drivetrain extends Subsystem {
     }
 
     //checkMotorSpeeds() checks to make sure each of the left and right motors are going the same direction they are supposed to be going
-    private boolean checkMotorSpeeds(double leftSpeed, double rightSpeed){
-        if (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
-        Math.signum(driveLeftMaster.getEncoder().getVelocity()) != Math.signum(driveLeftFollowTwo.getEncoder().getVelocity()))
+    private boolean updateMotorSpeeds(double leftSpeed, double rightSpeed){
+        boolean displayErrors = SmartDashboard.getBoolean("Display Drivetrain motor data?", false);
+
+        boolean isLeftMotorsOppositeDirection = (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
+                Math.signum(driveLeftMaster.getEncoder().getVelocity()) != Math.signum(driveLeftFollowTwo.getEncoder().getVelocity()));
+        boolean isLeftMasterInverted = Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(leftSpeed)
+        boolean isRightMasterInverted = Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(rightSpeed);
+        boolean isRightMotorsOppositeDirection = (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(driveRightFollowOne.getEncoder().getVelocity()) ||
+                Math.signum(driveRightMaster.getEncoder().getVelocity()) != Math.signum(driveRightFollowTwo.getEncoder().getVelocity()));
+
+        if (displayErrors)
+        {
+            SmartDashboard.putBoolean("Left motors different directions", isRightMotorsOppositeDirection);
+            SmartDashboard.putBoolean("LeftMotorInverted", isRightMasterInverted);
+            SmartDashboard.putBoolean("Right motors different directions", isRightMotorsOppositeDirection);
+            SmartDashboard.putBoolean("RightMotorInverted", isRightMasterInverted);
+        }
+
+        if(isLeftMasterInverted || isLeftMotorsOppositeDirection || isRightMasterInverted || isRightMotorsOppositeDirection)
+        {
+            return false;
+        }
+        return true;
+        /*
+
+        if (isLeftMotorsOppositeDirection)
         {
             System.out.println("One of the left motors is going the opposite direction that another left motor is going!");
             return false;
         }
-        if (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(leftSpeed))
+
+        if (isLeftMasterInverted)
         {
             System.out.println("The left master motor is going the opposite way it should be going.");
             return false;
         }
 
-        if (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(driveRightFollowOne.getEncoder().getVelocity()) ||
-                Math.signum(driveRightMaster.getEncoder().getVelocity()) != Math.signum(driveRightFollowTwo.getEncoder().getVelocity()))
-        {
+        if (isRightMotorsOppositeDirection){
             System.out.println("One of the right motors is going the opposite direction that another right motor is going!");
             return false;
         }
-        if (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(rightSpeed))
+
+        if (isRightMasterInverted)
         {
             System.out.println("The right master motor is going the opposite way it should be going.");
             return false;
-        }
-
-        return true;
+        } */
     }
 
     //checkMotorsEngaged() checks to make sure that each left motor is going roughly the same speed as the other left motors
