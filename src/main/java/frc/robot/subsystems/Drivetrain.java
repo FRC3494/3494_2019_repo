@@ -76,7 +76,7 @@ public class Drivetrain extends Subsystem {
     }
 
     //checkMotorSpeeds() checks to make sure each of the left and right motors are going the same direction they are supposed to be going
-    private boolean updateMotorSpeeds(double leftSpeed, double rightSpeed){
+    private boolean updateMotorSpeedsData(double leftSpeed, double rightSpeed){
         boolean displayErrors = SmartDashboard.getBoolean("Display Drivetrain motor data?", false);
 
         boolean isLeftMotorsOppositeDirection = (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
