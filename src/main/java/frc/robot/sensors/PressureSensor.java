@@ -9,7 +9,7 @@ public class PressureSensor {
      */
     private static final double VCC = 5.0;
 
-    private PressureSensor(int inputPin) {
+    public PressureSensor(int inputPin) {
         this.ai = new AnalogInput(inputPin);
     }
 
