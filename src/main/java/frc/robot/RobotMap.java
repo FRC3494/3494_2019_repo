@@ -33,6 +33,11 @@ public class RobotMap {
         public static final int rightFollower2Channel = 15;
     }
 
+    public class CLIMBER {
+        public static final int SHIFTER_FORWARD_CHANNEL = 0;
+        public static final int SHIFTER_REVERSE_CHANNEL = 1;
+    }
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
 }
