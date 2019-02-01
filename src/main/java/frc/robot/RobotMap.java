@@ -39,6 +39,7 @@ public class RobotMap {
         public static final int XBOX_CONTROLLER = 2;
     }
 
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
 

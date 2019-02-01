@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.drive.ExtendHatchManipulator;
 import frc.robot.commands.drive.RetractHatchManipulator;
 
-
 public class OI {
 
     private static OI INSTANCE = new OI();
@@ -28,6 +27,7 @@ public class OI {
 
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
+
         xboxController = new XboxController(RobotMap.OI.XBOX_CONTROLLER);
         extendHatchManipulatorButton = new JoystickButton(xboxController, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
         retractHatchManipulatorButton = new JoystickButton(xboxController, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
