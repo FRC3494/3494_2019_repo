@@ -81,7 +81,7 @@ public class Drivetrain extends Subsystem {
 
         boolean isLeftMotorsOppositeDirection = (Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(driveLeftFollowOne.getEncoder().getVelocity()) ||
                 Math.signum(driveLeftMaster.getEncoder().getVelocity()) != Math.signum(driveLeftFollowTwo.getEncoder().getVelocity()));
-        boolean isLeftMasterInverted = Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(leftSpeed)
+        boolean isLeftMasterInverted = Math.signum(driveLeftMaster.getEncoder().getVelocity())!=Math.signum(leftSpeed);
         boolean isRightMasterInverted = Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(rightSpeed);
         boolean isRightMotorsOppositeDirection = (Math.signum(driveRightMaster.getEncoder().getVelocity())!=Math.signum(driveRightFollowOne.getEncoder().getVelocity()) ||
                 Math.signum(driveRightMaster.getEncoder().getVelocity()) != Math.signum(driveRightFollowTwo.getEncoder().getVelocity()));
@@ -99,54 +99,34 @@ public class Drivetrain extends Subsystem {
             return false;
         }
         return true;
-        /*
-
-        if (isLeftMotorsOppositeDirection)
-        {
-            System.out.println("One of the left motors is going the opposite direction that another left motor is going!");
-            return false;
-        }
-
-        if (isLeftMasterInverted)
-        {
-            System.out.println("The left master motor is going the opposite way it should be going.");
-            return false;
-        }
-
-        if (isRightMotorsOppositeDirection){
-            System.out.println("One of the right motors is going the opposite direction that another right motor is going!");
-            return false;
-        }
-
-        if (isRightMasterInverted)
-        {
-            System.out.println("The right master motor is going the opposite way it should be going.");
-            return false;
-        } */
     }
 
     //checkMotorsEngaged() checks to make sure that each left motor is going roughly the same speed as the other left motors
     //same for right side
     private boolean checkMotorsEngaged(){
+        boolean displayErrors = SmartDashboard.getBoolean("Display Drivetrain motor data?", false);
+
         double dif = driveLeftMaster.getEncoder().getVelocity() - driveLeftFollowOne.getEncoder().getVelocity();
-        if (Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
-            System.out.println("The left master motor is going at a very different speed from the left follow one motor.");
-            return false;
-        }
+        boolean isMotorLeftFollowOneSpeedNotConsistent = Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE;
+
         dif = driveLeftMaster.getEncoder().getVelocity() - driveLeftFollowTwo.getEncoder().getVelocity();
-        if (Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
-            System.out.println("The left master motor is going at a very different speed from the left follow two motor.");
-            return false;
-        }
+        boolean isMotorLeftFollowTwoSpeedNotConsistent = Math.abs(dif / driveLeftMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE;
 
         dif = driveRightMaster.getEncoder().getVelocity() - driveRightFollowOne.getEncoder().getVelocity();
-        if (Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
-            System.out.println("The right master motor is going at a very different speed from the right follow one motor.");
-            return false;
-        }
+        boolean isMotorRightFollowOneSpeedNotConsistent = Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE;
+
         dif = driveRightMaster.getEncoder().getVelocity() - driveRightFollowTwo.getEncoder().getVelocity();
-        if (Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE){
-            System.out.println("The right master motor is going at a very different speed from the right follow two motor.");
+        boolean isMotorRightFollowTwoSpeedNotConsistent = Math.abs(dif / driveRightMaster.getEncoder().getVelocity()) > RobotMap.DRIVETRAIN.TOLERANCE_AXLE;
+
+        if(displayErrors){
+            SmartDashboard.putBoolean("Left master motor speed very different from follow one motor", isMotorLeftFollowOneSpeedNotConsistent);
+            SmartDashboard.putBoolean("Left master motor speed very different from follow two motor", isMotorLeftFollowTwoSpeedNotConsistent);
+            SmartDashboard.putBoolean("Right master motor speed very different from follow one motor", isMotorRightFollowOneSpeedNotConsistent);
+            SmartDashboard.putBoolean("Right master motor speed very different from follow two motor", isMotorRightFollowTwoSpeedNotConsistent);
+        }
+
+        if(isMotorLeftFollowOneSpeedNotConsistent || isMotorLeftFollowTwoSpeedNotConsistent || isMotorRightFollowOneSpeedNotConsistent || isMotorRightFollowTwoSpeedNotConsistent)
+        {
             return false;
         }
 
@@ -155,23 +135,29 @@ public class Drivetrain extends Subsystem {
 
     //checkMotorCurrent() checks that each motor is drawing roughly the expected amount of current
     private boolean checkMotorCurrent(){
+        boolean displayErrors = SmartDashboard.getBoolean("Display Drivetrain motor data?", false);
+        boolean errorsExist = false;
+
+
         for (int i = 0; i<3; i++){
             double dif = driveLeftMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
-            if(Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT){
-                System.out.println("The " + i + "left motor is drawing an unusual amount of current.");
-                return false;
+            boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
+            SmartDashboard.putBoolean("The " + i + "left motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
+            if(drawUnusualAmountsCurrent){
+                errorsExist = true;
             }
         }
 
         for (int i = 0; i<3; i++){
             double dif = driveRightMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
-            if(Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT){
-                System.out.println("The " + i + "right motor is drawing an unusual amount of current.");
-                return false;
+            boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
+            SmartDashboard.putBoolean("The " + i + "right motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
+            if(drawUnusualAmountsCurrent){
+                errorsExist = true;
             }
         }
 
-        return true;
+        return !errorsExist;
     }
 
     public void stop() {
