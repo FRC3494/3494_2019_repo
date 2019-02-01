@@ -32,15 +32,15 @@ public class RobotMap {
         public static final int rightFollower1Channel = 14;
         public static final int rightFollower2Channel = 15;
     }
-    public class CARGO_MANIPULATOR{
-        public static final int RIGHT_MOTOR_CHANNEL = 1;
-        public static final int LEFT_MOTOR_CHANNEL = 2;
-        public static final double INTAKE_SPEED = 1;
-        public static final double OUTAKE_SPEED = 1;
-    }
-    public class OI{
+
+    public class OI {
+        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3;
+        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 8;
         public static final int XBOX_CONTROLLER = 2;
     }
+
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
+
 }
