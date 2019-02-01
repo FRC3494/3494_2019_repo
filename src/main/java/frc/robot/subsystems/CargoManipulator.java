@@ -27,9 +27,9 @@ public class CargoManipulator extends Subsystem {
         this.rightMotor.set(speed);
     }
 
-
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    public void stop(){
+        this.drive(0);
+    }
 
 
     public void initDefaultCommand() {
