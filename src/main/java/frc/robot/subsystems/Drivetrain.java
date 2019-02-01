@@ -68,51 +68,27 @@ public class Drivetrain extends Subsystem {
     public void tankDrive(double leftSpeed, double rightSpeed) {
         this.driveLeftMaster.set(leftSpeed);
         this.driveRightMaster.set(rightSpeed);
-
-        if (!checkDriveMotorsGoCorrectDirection(leftSpeed, rightSpeed)) {
-            this.stop();
-        }
     }
 
-    /**
-     * checkDriveMotorsGoCorrectDirection sanity check
-     * this checks to make sure that if the robot is told to go forward, its actually traveling forward instead of backward
-     * <p>
-     * leftCounter uses Math.signum to get the signs of the three left motors.
-     * if the motor is traveling forward, leftCounter increments by 1. If backward, it decrements by 1.
-     * leftCounter  will have values of 3 or -3 if all motors travel in the same direction.
-     * the if statement makes sure all motors are going the same direction,
-     * and that they are traveling the same direction as the variable leftSpeed is telling them to go
-     * Ditto for right side.
-     *
-     * @param leftSpeed  Speed of left side.
-     * @param rightSpeed Speed of right side.
-     */
-    //find better system than printing errors
-    /*
-    private boolean checkDriveMotorsGoCorrectDirection(double leftSpeed, double rightSpeed) {
-        int leftCounter = 0;
-        leftCounter += Math.signum(this.getLeftMasterCurrent());
-        leftCounter += Math.signum(this.getLeftFollowOneCurrent());
-        leftCounter += Math.signum(this.getLeftFollowTwoCurrent());
-
-        if (Math.abs(leftCounter) != 3 || Math.signum(this.getLeftMasterCurrent()) != Math.signum(leftSpeed)) {
-            System.out.println("One of the left motors is jammed! RIP");
-            return false;
-        }
-
-        int rightCounter = 0;
-        rightCounter += Math.signum(this.getRightMasterCurrent());
-        rightCounter += Math.signum(this.getRightFollowOneCurrent());
-        rightCounter += Math.signum(this.getRightFollowTwoCurrent());
-
-        if (Math.abs(rightCounter) != 3 || Math.signum(this.getRightMasterCurrent()) != Math.signum(rightSpeed)) {
-            System.out.println("One of the left motors is jammed! RIP");
-            return false;
-        }
-        return true;
+    public double getLeftAverageVelocity(){
+        double sum = this.driveLeftMaster.getEncoder().getVelocity() + this.driveLeftFollowOne.getEncoder().getVelocity() + this.driveLeftFollowTwo.getEncoder().getVelocity();
+        return sum/3;
     }
-    */
+
+    public double getRightAverageVelocity(){
+        double sum = this.driveRightMaster.getEncoder().getVelocity() + this.driveRightFollowOne.getEncoder().getVelocity() + this.driveRightFollowTwo.getEncoder().getVelocity();
+        return sum/3;
+    }
+
+    public double getLeftAveragePosition(){
+        double sum = this.driveLeftMaster.getEncoder().getPosition() + this.driveLeftFollowOne.getEncoder().getPosition() + this.driveLeftFollowTwo.getEncoder().getPosition();
+        return sum/3;
+    }
+
+    public double getRightAveragePosition(){
+        double sum = this.driveRightMaster.getEncoder().getPosition() + this.driveRightFollowOne.getEncoder().getPosition() + this.driveRightFollowTwo.getEncoder().getPosition();
+        return sum/3;
+    }
 
     public double getLeftMasterCurrent() {
         return this.driveLeftMaster.getOutputCurrent();
