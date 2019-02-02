@@ -38,8 +38,15 @@ public class RobotMap {
     }
     //gear ratio is 7.58:12:15
 
+    public class CLIMBER {
+        public static final int SHIFTER_CHANNEL = 0;
+    }
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
+
+    public static final int SHIFT_ENGAGE_BUTTON = 5;
+    public static final int SHIFT_DISENGAGE_BUTTON = 11;
 
     public static final int PRESSURE_SENSOR_PORT = 0;
 }
