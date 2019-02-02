@@ -18,6 +18,10 @@ public class Climber extends Subsystem {
         this.shifter.set(engaged);
     }
 
+    public boolean isEngaged() {
+        return this.shifter.get();
+    }
+
     public static Climber getInstance() {
         return INSTANCE;
     }
