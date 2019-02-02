@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,17 +31,13 @@ public class Robot extends TimedRobot {
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 
-        if (!SmartDashboard.containsKey("Display Drivetrain data?")) {
-            SmartDashboard.putBoolean("Display Drivetrain data?", false);
-            SmartDashboard.setPersistent("Display Drivetrain data?");
+        String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?"};
+        for (String display : displays) {
+            if (!SmartDashboard.containsKey(display)) {
+                SmartDashboard.putBoolean(display, false);
+                SmartDashboard.setPersistent(display);
+            }
         }
-        Preferences.getInstance().putBoolean("Display Drivetrain data?", false);
-
-        if (!SmartDashboard.containsKey("Display navX data?")) {
-            SmartDashboard.putBoolean("Display navX data?", false);
-            SmartDashboard.setPersistent("Display navX data?");
-        }
-        Preferences.getInstance().putBoolean("Display navX data?", false);
     }
 
     /**
