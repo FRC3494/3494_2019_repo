@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -28,6 +29,8 @@ public class Robot extends TimedRobot {
         // HACK: Singletons don't like working unless they're grabbed before use.
         OI.getInstance();
         Drivetrain.getInstance();
+        // Start compressor
+        new Compressor().start();
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
