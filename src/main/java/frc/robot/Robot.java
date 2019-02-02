@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -31,7 +32,7 @@ public class Robot extends TimedRobot {
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 
-        String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?"};
+        String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?", "Display pressure?"};
         for (String display : displays) {
             if (!SmartDashboard.containsKey(display)) {
                 SmartDashboard.putBoolean(display, false);
@@ -50,6 +51,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        if (SmartDashboard.getBoolean("Display pressure?", false)) {
+            SmartDashboard.putNumber("Pnuematic pressure", PressureSensor.getInstance().getPressure());
+        }
     }
 
     /**
