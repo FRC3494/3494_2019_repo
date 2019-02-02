@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.climb.Shift;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -47,10 +49,18 @@ public class OI {
     private Joystick leftFlight;
     private Joystick rightFlight;
 
+    private JoystickButton engageButton;
+    private JoystickButton disengageButton;
+
     private OI() {
         // construct joysticks, buttons here and bind buttons to actions
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
+
+        engageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_ENGAGE_BUTTON);
+        engageButton.whenPressed(new Shift(true));
+        disengageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_DISENGAGE_BUTTON);
+        disengageButton.whenPressed(new Shift(false));
     }
 
     public double removeDeadband(double y) {
