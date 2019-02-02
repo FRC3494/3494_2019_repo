@@ -40,4 +40,6 @@ public class RobotMap {
 
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
+
+    public static final int PRESSURE_SENSOR_PORT = 0;
 }

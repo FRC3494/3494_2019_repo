@@ -1,8 +1,11 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import frc.robot.RobotMap;
 
 public class PressureSensor {
+    private static final PressureSensor INSTANCE = new PressureSensor(RobotMap.PRESSURE_SENSOR_PORT);
+
     private AnalogInput ai;
     /**
      * The voltage into the sensor.
@@ -25,5 +28,9 @@ public class PressureSensor {
      */
     public double getPressure() {
         return (250 * (this.getVoltageOut() / VCC)) - 25;
+    }
+
+    public static PressureSensor getInstance() {
+        return INSTANCE;
     }
 }
