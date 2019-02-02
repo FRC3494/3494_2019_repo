@@ -1,6 +1,5 @@
 package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Climber;
 
@@ -9,18 +8,11 @@ import frc.robot.subsystems.Climber;
  */
 public class Shift extends Command {
 
-    private DoubleSolenoid.Value value;
+    private boolean value;
 
-    /**
-     * Constructor. The direction is a {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value}.
-     * - {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kForward} corresponds to disengaged.
-     * - {@link edu.wpi.first.wpilibj.DoubleSolenoid.Value#kReverse} corresponds to engaged.
-     *
-     * @param direction The direction to shift in.
-     */
-    public Shift(DoubleSolenoid.Value direction) {
+    public Shift(boolean engaged) {
         requires(Climber.getInstance());
-        this.value = direction;
+        this.value = engaged;
     }
 
     @Override
