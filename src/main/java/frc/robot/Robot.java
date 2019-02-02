@@ -1,11 +1,12 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -28,21 +29,19 @@ public class Robot extends TimedRobot {
         // HACK: Singletons don't like working unless they're grabbed before use.
         OI.getInstance();
         Drivetrain.getInstance();
+        // Start compressor
+        new Compressor().start();
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
 
-        if (!SmartDashboard.containsKey("Display Drivetrain data?")) {
-            SmartDashboard.putBoolean("Display Drivetrain data?", false);
-            SmartDashboard.setPersistent("Display Drivetrain data?");
+        String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?", "Display pressure?"};
+        for (String display : displays) {
+            if (!SmartDashboard.containsKey(display)) {
+                SmartDashboard.putBoolean(display, false);
+                SmartDashboard.setPersistent(display);
+            }
         }
-        Preferences.getInstance().putBoolean("Display Drivetrain data?", false);
-
-        if (!SmartDashboard.containsKey("Display navX data?")) {
-            SmartDashboard.putBoolean("Display navX data?", false);
-            SmartDashboard.setPersistent("Display navX data?");
-        }
-        Preferences.getInstance().putBoolean("Display navX data?", false);
     }
 
     /**
@@ -55,6 +54,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        if (SmartDashboard.getBoolean("Display pressure?", false)) {
+            SmartDashboard.putNumber("Pnuematic pressure", PressureSensor.getInstance().getPressure());
+        }
     }
 
     /**

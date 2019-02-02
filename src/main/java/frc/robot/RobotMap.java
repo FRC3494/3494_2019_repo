@@ -25,13 +25,18 @@ public class RobotMap {
     // public static final int rangefinderModule = 1;
 
     public class DRIVETRAIN {
-        public static final int leftMasterChannel = 0;
-        public static final int leftFollower1Channel = 1;
-        public static final int leftFollower2Channel = 2;
-        public static final int rightMasterChannel = 13;
-        public static final int rightFollower1Channel = 14;
-        public static final int rightFollower2Channel = 15;
+        public static final int LEFT_MASTER_CHANNEL = 0;
+        public static final int LEFT_FOLLOWER_ONE_CHANNEL = 1;
+        public static final int LEFT_FOLLOWER_TWO_CHANNEL = 2;
+        public static final int RIGHT_MASTER_CHANNEL = 13;
+        public static final int RIGHT_FOLLOWER_ONE_CHANNEL = 14;
+        public static final int RIGHT_FOLLOWER_TWO_CHANNEL = 15;
+
+        public static final double GEAR_RATIO = 7.58 / 12 / 15;
+        public static final double WHEEL_RADIUS_FEET = .25;
+        public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
     }
+    //gear ratio is 7.58:12:15
 
     public class CLIMBER {
         public static final int SHIFTER_FORWARD_CHANNEL = 0;
@@ -40,4 +45,6 @@ public class RobotMap {
 
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
+
+    public static final int PRESSURE_SENSOR_PORT = 0;
 }
