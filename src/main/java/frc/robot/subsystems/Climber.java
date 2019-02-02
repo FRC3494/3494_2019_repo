@@ -14,6 +14,10 @@ public class Climber extends Subsystem {
         this.shifter = new DoubleSolenoid(RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
     }
 
+    public void setShifter(DoubleSolenoid.Value v) {
+        this.shifter.set(v);
+    }
+
     public static Climber getInstance() {
         return INSTANCE;
     }
