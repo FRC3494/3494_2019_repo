@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.Shift;
@@ -58,9 +59,9 @@ public class OI {
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
 
         engageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_ENGAGE_BUTTON);
-        engageButton.whenPressed(new Shift(true));
+        engageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
         disengageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_DISENGAGE_BUTTON);
-        disengageButton.whenPressed(new Shift(false));
+        disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
     }
 
     public double removeDeadband(double y) {
