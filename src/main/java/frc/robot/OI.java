@@ -59,9 +59,9 @@ public class OI {
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
 
         engageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_ENGAGE_BUTTON);
-        engageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
+        engageButton.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
         disengageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_DISENGAGE_BUTTON);
-        disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
+        disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
     }
 
     public double removeDeadband(double y) {

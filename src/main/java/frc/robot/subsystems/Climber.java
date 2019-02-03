@@ -6,20 +6,23 @@ import frc.robot.RobotMap;
 
 public class Climber extends Subsystem {
 
-    private DoubleSolenoid shifter;
+    private DoubleSolenoid shifterLeft;
+    private DoubleSolenoid shifterRight;
 
     private static Climber INSTANCE = new Climber();
 
     private Climber() {
-        this.shifter = new DoubleSolenoid(RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
+        this.shifterLeft = new DoubleSolenoid(RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL_LEFT, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL_LEFT);
+        this.shifterRight = new DoubleSolenoid(RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL_RIGHT, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL_RIGHT);
     }
 
     public void setShifter(DoubleSolenoid.Value value) {
-        this.shifter.set(value);
+        this.shifterLeft.set(value);
+        this.shifterRight.set(value);
     }
 
     public boolean isEngaged() {
-        return this.shifter.get().equals(DoubleSolenoid.Value.kReverse);
+        return this.shifterLeft.get().equals(DoubleSolenoid.Value.kReverse);
     }
 
     public static Climber getInstance() {
