@@ -1,5 +1,6 @@
 package frc.robot.commands.climb;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Climber;
 
@@ -8,11 +9,11 @@ import frc.robot.subsystems.Climber;
  */
 public class Shift extends Command {
 
-    private boolean value;
+    private DoubleSolenoid.Value value;
 
-    public Shift(boolean engaged) {
+    public Shift(DoubleSolenoid.Value set) {
         requires(Climber.getInstance());
-        this.value = engaged;
+        this.value = set;
     }
 
     @Override
