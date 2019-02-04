@@ -1,38 +1,42 @@
 package frc.robot.subsystems;
 
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
 
 public class CargoManipulatorArm extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-/*when you start on the arm don't forget that there's an encoder on it to help in positioning
-for now i just need you to implement methods for getting the number of counts and such, and we can worry about "go to x position" commands later
-the encoder is not integrated into the motor or anything so you'll need to make an actual Encoder object (or whatever WPI has potentially refactored it to)
-*/
     private CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
-    private Encoder e;
+    private TalonSRX armMotor;
 
-    private CargoManipulatorArm(){
-        e = new Encoder(RobotMap.CARGO_ARM.CHANNEL_ONE, RobotMap.CARGO_ARM.CHANNEL_TWO);
+    private CargoManipulatorArm() {
+        armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
+        armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     }
 
-    public int getCounts(){
-        return e.get();
+    /**
+     * Runs the arm motor at the specified power.
+     *
+     * @param power The power to run the lift at. Should be a {@code double}
+     *              between -1 and 1.
+     */
+    public void lift(double power) {
+        armMotor.set(ControlMode.PercentOutput, power);
     }
 
-    public double getDistance(){
-        return e.getDistance();
+    public int getCounts() {
+        return armMotor.getSelectedSensorPosition();
     }
 
-    public void resetEncoder(){
-        e.reset();
+    public void resetEncoder() {
+        armMotor.setSelectedSensorPosition(0);
     }
 
-    public CargoManipulatorArm getInstance(){
+    public CargoManipulatorArm getInstance() {
         return this.INSTANCE;
     }
 

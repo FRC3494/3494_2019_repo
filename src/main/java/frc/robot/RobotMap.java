@@ -48,6 +48,8 @@ public class RobotMap {
     public class CARGO_ARM {
         public static final int CHANNEL_ONE = 0;//I don't know what channels to input these numbers are filler
         public static final int CHANNEL_TWO = 1;
+
+        public static final int ARM_MOTOR_CHANNEL = 0;//also filler
     }
 
     public static final int LEFT_JOY = 0;
