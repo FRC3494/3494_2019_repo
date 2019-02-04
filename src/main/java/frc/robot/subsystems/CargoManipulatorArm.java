@@ -10,7 +10,7 @@ public class CargoManipulatorArm extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    private CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
+    private static final CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
     private TalonSRX armMotor;
 
     private CargoManipulatorArm() {
@@ -36,8 +36,8 @@ public class CargoManipulatorArm extends Subsystem {
         armMotor.setSelectedSensorPosition(0);
     }
 
-    public CargoManipulatorArm getInstance() {
-        return this.INSTANCE;
+    public static CargoManipulatorArm getInstance() {
+        return INSTANCE;
     }
 
     public void initDefaultCommand() {
