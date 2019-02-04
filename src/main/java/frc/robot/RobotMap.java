@@ -45,6 +45,11 @@ public class RobotMap {
         public static final int SHIFTER_REVERSE_CHANNEL_RIGHT = 3;
     }
 
+    public class CARGO_ARM {
+        public static final int CHANNEL_ONE = 0;//I don't know what channels to input these numbers are filler
+        public static final int CHANNEL_TWO = 1;
+    }
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
 
