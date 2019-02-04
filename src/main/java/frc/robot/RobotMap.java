@@ -45,6 +45,7 @@ public class RobotMap {
 
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
+    public static final int XBOX = 2;
 
     public static final int SHIFT_ENGAGE_BUTTON = 5;
     public static final int SHIFT_DISENGAGE_BUTTON = 11;
