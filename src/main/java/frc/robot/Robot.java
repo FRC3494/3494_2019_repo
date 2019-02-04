@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.PressureSensor;
+import frc.robot.subsystems.CargoManipulatorArm;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
         // HACK: Singletons don't like working unless they're grabbed before use.
         OI.getInstance();
         Drivetrain.getInstance();
+        CargoManipulatorArm.getInstance();
         // Start compressor
         new Compressor().start();
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
