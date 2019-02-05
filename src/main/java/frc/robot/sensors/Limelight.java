@@ -3,6 +3,14 @@ package frc.robot.sensors;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+ * Class to represent a Limelight vision system.
+ * Automatically retrieves values from {@link NetworkTable Network Tables} and contains wrapper methods
+ * for reading the data.
+ *
+ * @author The Quadrangles 3494
+ * @see "http://docs.limelightvision.io/en/latest/networktables_api.html"
+ */
 public class Limelight {
     /**
      * Constant for use with {@link Limelight#setLEDs(int) setLEDs(int)}.
