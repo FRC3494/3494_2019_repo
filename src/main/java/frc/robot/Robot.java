@@ -96,7 +96,6 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
-        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**
@@ -116,6 +115,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**
