@@ -38,8 +38,8 @@ public class Drivetrain extends Subsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
-    private CANSparkMax[] driveLeftMotors = {this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo};
-    private CANSparkMax[] driveRightMotors = {this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo};
+    private CANSparkMax[] driveLeftMotors;
+    private CANSparkMax[] driveRightMotors;
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
@@ -60,6 +60,8 @@ public class Drivetrain extends Subsystem {
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.rightFollower2Channel, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
 
+        this.driveLeftMotors = new CANSparkMax[]{this.driveLeftMaster, this.driveLeftFollowOne, this.driveLeftFollowTwo};
+        this.driveRightMotors = new CANSparkMax[]{this.driveRightMaster, this.driveRightFollowOne, this.driveRightFollowTwo};
     }
 
     /**
@@ -69,7 +71,6 @@ public class Drivetrain extends Subsystem {
      * @param rightSpeed Speed of right side.
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
-
         this.driveLeftMaster.set(leftSpeed);
         this.driveRightMaster.set(rightSpeed);
     }
@@ -138,7 +139,7 @@ public class Drivetrain extends Subsystem {
         for (int i = 0; i < 3; i++) {
             double dif = driveLeftMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
             boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
-            SmartDashboard.putBoolean("The " + i + "left motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
+            SmartDashboard.putBoolean("The " + i + " left motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
             if (drawUnusualAmountsCurrent) {
                 errorsExist = true;
             }
@@ -147,7 +148,7 @@ public class Drivetrain extends Subsystem {
         for (int i = 0; i < 3; i++) {
             double dif = driveRightMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
             boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
-            SmartDashboard.putBoolean("The " + i + "right motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
+            SmartDashboard.putBoolean("The " + i + " right motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
             if (drawUnusualAmountsCurrent) {
                 errorsExist = true;
             }
