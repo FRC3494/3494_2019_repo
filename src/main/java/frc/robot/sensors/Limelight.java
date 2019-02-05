@@ -52,10 +52,10 @@ public class Limelight {
     /**
      * Returns the number of the pipeline currently in use.
      *
-     * @return An int (0-9) id of the pipeline currently in use.
+     * @return int (0-9) id of the pipeline currently in use.
      */
     public int getPipeline() {
-        return this.table.getEntry("pipeline").getNumber(0).intValue();
+        return this.table.getEntry("getpipe").getNumber(0).intValue();
     }
 
     /**
