@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.Limelight;
 import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.CargoManipulatorArm;
 import frc.robot.subsystems.Drivetrain;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
     Command autonomousCommand;
     SendableChooser<Command> chooser = new SendableChooser<>();
+    private static Limelight limelight;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
         CargoManipulatorArm.getInstance();
         // Start compressor
         new Compressor().start();
+        // init limelight
+        limelight = new Limelight();
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
@@ -92,6 +96,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
+        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**
