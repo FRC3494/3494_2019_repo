@@ -139,18 +139,18 @@ public class Drivetrain extends Subsystem {
         for (int i = 0; i < 3; i++) {
             double dif = driveLeftMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
             boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
-            SmartDashboard.putBoolean("The " + i + " left motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
-            if (drawUnusualAmountsCurrent) {
-                errorsExist = true;
+            errorsExist = drawUnusualAmountsCurrent;
+            if(displayErrors){
+                SmartDashboard.putBoolean("The " + i + " left motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
             }
         }
 
         for (int i = 0; i < 3; i++) {
             double dif = driveRightMotors[i].getOutputCurrent() - RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT;
             boolean drawUnusualAmountsCurrent = Math.abs(dif / RobotMap.DRIVETRAIN.EXPECTED_FREE_CURRENT) < RobotMap.DRIVETRAIN.TOLERANCE_CURRENT;
-            SmartDashboard.putBoolean("The " + i + " right motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
-            if (drawUnusualAmountsCurrent) {
-                errorsExist = true;
+            errorsExist = drawUnusualAmountsCurrent;
+            if(displayErrors){
+                SmartDashboard.putBoolean("The " + i + " right motor is drawing an unusual amount of current.", drawUnusualAmountsCurrent);
             }
         }
 
