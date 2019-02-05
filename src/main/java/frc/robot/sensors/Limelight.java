@@ -30,12 +30,10 @@ public class Limelight {
      */
     private NetworkTable table;
 
-    private static final Limelight INSTANCE = new Limelight();
-
     /**
      * Constructor for a Limelight with the name {@code limelight}.
      */
-    private Limelight() {
+    public Limelight() {
         this("limelight");
     }
 
@@ -44,7 +42,7 @@ public class Limelight {
      *
      * @param name The name of the network table to use. By Limelight's default settings, this is {@code limelight}.
      */
-    private Limelight(String name) {
+    public Limelight(String name) {
         table = NetworkTableInstance.getDefault().getTable(name);
     }
 
@@ -115,9 +113,5 @@ public class Limelight {
      */
     public void tableRefresh() {
         table = NetworkTableInstance.getDefault().getTable(table.getPath());
-    }
-
-    public static Limelight getInstance() {
-        return INSTANCE;
     }
 }
