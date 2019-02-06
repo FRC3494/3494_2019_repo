@@ -4,29 +4,21 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.CargoManipulator;
 
-
 public class IntakeCargo extends Command {
 
     public IntakeCargo() {
         requires(CargoManipulator.getInstance());
     }
 
-
     @Override
-    protected void initialize()
-    {
+    protected void initialize() {
         CargoManipulator.getInstance().stop();
     }
 
-
-
     @Override
-    protected void execute()
-    {
+    protected void execute() {
         CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.INTAKE_SPEED);
     }
-
-
 
     @Override
     protected boolean isFinished() {
@@ -34,12 +26,10 @@ public class IntakeCargo extends Command {
         return false;
     }
 
-
     @Override
     protected void end() {
         CargoManipulator.getInstance().stop();
     }
-
 
     @Override
     protected void interrupted() {
