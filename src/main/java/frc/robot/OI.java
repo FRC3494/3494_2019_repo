@@ -29,7 +29,6 @@ public class OI {
     private JoystickButton disengageButton;
 
     private OI() {
-
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
         xbox = new XboxController(RobotMap.XBOX);
@@ -42,7 +41,7 @@ public class OI {
         disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
     }
 
-    public double removeDeadband(double y) {
+    public static double removeDeadband(double y) {
         if (Math.abs(y) <= .05) {
             return 0;
         } else {
@@ -52,12 +51,12 @@ public class OI {
 
 
     public double getLeftY() {
-        return -this.removeDeadband(leftFlight.getY());
+        return -removeDeadband(leftFlight.getY());
     }
 
 
     public double getRightY() {
-        return -this.removeDeadband(rightFlight.getY());
+        return -removeDeadband(rightFlight.getY());
     }
 
     public boolean getXboxLeftBumper() {
