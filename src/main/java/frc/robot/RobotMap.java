@@ -47,6 +47,10 @@ public class RobotMap {
         public static final int ARM_MOTOR_CHANNEL = 0;//also filler
     }
 
+    public class LIMELIGHT {
+        public static final int PIXEL_TO_FEET_RATIO = 15;//unknown constant
+    }
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
     public static final int XBOX = 2;
