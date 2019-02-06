@@ -18,19 +18,18 @@ public class OI {
     private static OI INSTANCE = new OI();
     private Joystick leftFlight;
     private Joystick rightFlight;
-    private XboxController xboxController;
-    private JoystickButton
-        extendHatchManipulatorButton,
-        retractHatchManipulatorButton;
+    private XboxController xbox;
+    private JoystickButton extendHatchManipulatorButton;
+    private JoystickButton retractHatchManipulatorButton;
 
     private OI() {
 
         leftFlight = new Joystick(RobotMap.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
 
-        xboxController = new XboxController(RobotMap.OI.XBOX_CONTROLLER);
-        extendHatchManipulatorButton = new JoystickButton(xboxController, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
-        retractHatchManipulatorButton = new JoystickButton(xboxController, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
+        xbox = new XboxController(RobotMap.OI.XBOX_CONTROLLER);
+        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
+        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
 
         extendHatchManipulatorButton.whenPressed(new ExtendHatchManipulator());
         retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
