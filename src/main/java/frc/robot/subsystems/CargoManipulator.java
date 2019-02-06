@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.cargo_manipulator.RunClaw;
 
 public class CargoManipulator extends Subsystem {
     private static final CargoManipulator INSTANCE = new CargoManipulator();
@@ -30,9 +31,7 @@ public class CargoManipulator extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        // TODO: Set the default command, if any, for a subsystem here. Example:
-        //    setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new RunClaw());
     }
-
 }
 

@@ -53,6 +53,13 @@ public class OI {
         return -this.removeDeadband(rightFlight.getY());
     }
 
+    public boolean getXboxA() {
+        return this.xbox.getAButton();
+    }
+
+    public boolean getXboxB() {
+        return this.xbox.getBButton();
+    }
 
     public static OI getInstance() {
         return INSTANCE;
