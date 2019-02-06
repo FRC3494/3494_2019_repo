@@ -1,11 +1,11 @@
-package frc.robot.commands.drive;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.HatchManipulator;
 
 
-public class ExtendHatchManipulator extends Command {
-    public ExtendHatchManipulator() {
+public class RetractHatchManipulator extends Command {
+    public RetractHatchManipulator() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(HatchManipulator.getInstance());
@@ -13,9 +13,8 @@ public class ExtendHatchManipulator extends Command {
 
 
     @Override
-    protected void initialize()
-    {
-        HatchManipulator.getInstance().extend();
+    protected void initialize() {
+        HatchManipulator.getInstance().retract();
     }
 
 
