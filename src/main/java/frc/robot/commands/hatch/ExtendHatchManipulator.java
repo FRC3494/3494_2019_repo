@@ -12,7 +12,7 @@ public class ExtendHatchManipulator extends Command {
 
     @Override
     protected void initialize() {
-        HatchManipulator.getInstance().extend();
+        HatchManipulator.getInstance().ejectHatch();
     }
 
     @Override

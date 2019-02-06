@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
-
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 public class HatchManipulator extends Subsystem {
     private static final HatchManipulator INSTANCE = new HatchManipulator();
-    private Solenoid PushHatchSolenoid1 = new Solenoid(1);
-    private Solenoid PushHatchSolenoid2 = new Solenoid(2);
+    private DoubleSolenoid pusher;
+    private DoubleSolenoid centerRod;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -16,25 +16,24 @@ public class HatchManipulator extends Subsystem {
     }
 
     private HatchManipulator() {
-        PushHatchSolenoid1.set(false);
-        PushHatchSolenoid2.set(false);
+        this.pusher = new DoubleSolenoid(RobotMap.HATCH_MANIPULATOR.PUSH_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.PUSH_REVERSE_CHANNEL);
+        this.pusher.set(DoubleSolenoid.Value.kReverse);
+
+        this.centerRod = new DoubleSolenoid(RobotMap.HATCH_MANIPULATOR.CENTER_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.CENTER_REVERSE_CHANNEL);
+        this.centerRod.set(DoubleSolenoid.Value.kReverse);
     }
 
-    public void extend() {
-        PushHatchSolenoid1.set(true);
-        PushHatchSolenoid2.set(true);
+    public void ejectHatch() {
+        this.pusher.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void retract() {
-        PushHatchSolenoid1.set(false);
-        PushHatchSolenoid2.set(false);
+    public void retractPusher() {
+        this.pusher.set(DoubleSolenoid.Value.kReverse);
     }
-
 
     public void initDefaultCommand() {
         // TODO: Set the default command, if any, for a subsystem here. Example:
         //    setDefaultCommand(new MySpecialCommand());
     }
-
 }
 

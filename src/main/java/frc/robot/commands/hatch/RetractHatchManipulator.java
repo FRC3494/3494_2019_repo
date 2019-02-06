@@ -12,7 +12,7 @@ public class RetractHatchManipulator extends Command {
 
     @Override
     protected void initialize() {
-        HatchManipulator.getInstance().retract();
+        HatchManipulator.getInstance().retractPusher();
     }
 
     @Override
