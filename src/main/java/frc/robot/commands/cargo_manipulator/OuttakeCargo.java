@@ -13,13 +13,11 @@ public class OuttakeCargo extends Command {
     }
 
 
-
     @Override
     protected void initialize() {
         CargoManipulator.getInstance().stop();
 
     }
-
 
 
     protected void execute() {
@@ -28,12 +26,10 @@ public class OuttakeCargo extends Command {
     }
 
 
-
     @Override
     protected boolean isFinished() {
         return false;
     }
-
 
 
     @Override

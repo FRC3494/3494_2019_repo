@@ -11,24 +11,21 @@ public class HatchManipulator extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    public static HatchManipulator getInstance(){
+    public static HatchManipulator getInstance() {
         return INSTANCE;
     }
 
-    private HatchManipulator()
-    {
+    private HatchManipulator() {
         PushHatchSolenoid1.set(false);
         PushHatchSolenoid2.set(false);
     }
 
-    public void extend()
-    {
+    public void extend() {
         PushHatchSolenoid1.set(true);
         PushHatchSolenoid2.set(true);
     }
 
-    public void retract()
-    {
+    public void retract() {
         PushHatchSolenoid1.set(false);
         PushHatchSolenoid2.set(false);
     }
