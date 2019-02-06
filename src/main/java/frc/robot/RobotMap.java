@@ -33,6 +33,14 @@ public class RobotMap {
         public static final int rightFollower2Channel = 15;
     }
 
+    public class HATCH_MANIPULATOR {
+        public static final int PUSH_FORWARD_CHANNEL = 2;
+        public static final int PUSH_REVERSE_CHANNEL = 3;
+
+        public static final int CENTER_FORWARD_CHANNEL = 4;
+        public static final int CENTER_REVERSE_CHANNEL = 5;
+    }
+
     public class OI {
         public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3;
         public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 8;
