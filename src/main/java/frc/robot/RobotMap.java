@@ -41,6 +41,13 @@ public class RobotMap {
         public static final int CENTER_REVERSE_CHANNEL = 5;
     }
 
+    public class CARGO_MANIPULATOR {
+        public static final int LEFT_MOTOR_CHANNEL = 0;
+        public static final int RIGHT_MOTOR_CHANNEL = 1;
+
+        public static final double INTAKE_SPEED = 0.5;
+    }
+
     public class OI {
         public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3;
         public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 8;
