@@ -46,6 +46,7 @@ public class RobotMap {
         public static final int RIGHT_MOTOR_CHANNEL = 1;
 
         public static final double INTAKE_SPEED = 0.5;
+        public static final double OUTAKE_SPEED = -INTAKE_SPEED;
     }
 
     public class OI {
