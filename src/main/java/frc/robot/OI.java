@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.climb.Shift;
 import frc.robot.commands.hatch.ExtendHatchManipulator;
 import frc.robot.commands.hatch.RetractHatchManipulator;
-import frc.robot.commands.climb.Shift;
 
 public class OI {
 
@@ -34,12 +34,12 @@ public class OI {
         rightFlight = new Joystick(RobotMap.RIGHT_JOY);
         xbox = new XboxController(RobotMap.XBOX);
 
+        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
         extendHatchManipulatorButton.whenPressed(new ExtendHatchManipulator());
+        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
         retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
         disengageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_DISENGAGE_BUTTON);
         disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
-        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
-        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
     }
 
     public double removeDeadband(double y) {
