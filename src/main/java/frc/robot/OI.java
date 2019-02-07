@@ -39,6 +39,8 @@ public class OI {
         retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
         disengageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_DISENGAGE_BUTTON);
         disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
+        engageButton = new JoystickButton(leftFlight, RobotMap.SHIFT_ENGAGE_BUTTON);
+        engageButton.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
     }
 
     public static double removeDeadband(double y) {
@@ -48,7 +50,6 @@ public class OI {
             return y;
         }
     }
-
 
     public double getLeftY() {
         return -removeDeadband(leftFlight.getY());
