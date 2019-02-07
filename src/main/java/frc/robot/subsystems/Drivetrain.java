@@ -38,17 +38,19 @@ public class Drivetrain extends Subsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
-
     private static Drivetrain INSTANCE = new Drivetrain();
 
     private Drivetrain() {
         this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.driveLeftMaster.setInverted(true);
 
         this.driveLeftFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowOne.follow(driveLeftMaster);
+        this.driveLeftFollowOne.setInverted(true);
 
         this.driveLeftFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowTwo.follow(driveLeftMaster);
+        this.driveLeftFollowTwo.setInverted(true);
 
         this.driveRightMaster = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
 
