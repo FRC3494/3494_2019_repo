@@ -37,6 +37,28 @@ public class RobotMap {
         public static final double TOLERANCE_CURRENT = .05;
     }
 
+    public class HATCH_MANIPULATOR {
+        public static final int PUSH_FORWARD_CHANNEL = 2;
+        public static final int PUSH_REVERSE_CHANNEL = 3;
+
+        public static final int CENTER_FORWARD_CHANNEL = 4;
+        public static final int CENTER_REVERSE_CHANNEL = 5;
+    }
+
+    public class CARGO_MANIPULATOR {
+        public static final int LEFT_MOTOR_CHANNEL = 0;
+        public static final int RIGHT_MOTOR_CHANNEL = 1;
+
+        public static final double INTAKE_SPEED = 0.5;
+        public static final double OUTAKE_SPEED = -INTAKE_SPEED;
+    }
+
+    public class OI {
+        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3;
+        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 4;
+        public static final int XBOX_CONTROLLER = 2;
+    }
+
     public static final int LEFT_JOY = 0;
     public static final int RIGHT_JOY = 1;
 }
