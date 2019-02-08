@@ -2,13 +2,15 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.Drive;
+import frc.robot.sensors.NavX;
 import frc.robot.sensors.PDP;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -38,10 +40,18 @@ public class Drivetrain extends Subsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
+    private double PIDOutput = 0;
+
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
     private Drivetrain() {
+        super(1, 0, 0);
+        this.setOutputRange(-1, 1);
+        this.setPercentTolerance(RobotMap.DRIVETRAIN.PID_PERCENT_TOLERANCE);
+        this.getPIDController().setContinuous(true);
+        this.setInputRange(0, 360);
+
         this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         this.driveLeftFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -145,8 +155,22 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new Drive());
     }
 
+    public double getPIDOutput() {
+        return this.PIDOutput;
+    }
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return NavX.getInstance().getFusedHeading();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.PIDOutput = output;
     }
 }

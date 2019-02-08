@@ -1,12 +1,17 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.sensors.Limelight;
+import frc.robot.subsystems.Drivetrain;
 
 
 public class CurveDrive extends Command {
     private double x;
     private double y;
     private double hypotenuse;
+    private double robotSpeed;
 
     public CurveDrive() {
         // Use requires() here to declare subsystem dependencies
@@ -24,24 +29,22 @@ public class CurveDrive extends Command {
     }
 
     /*pseudocode
-    3 total arcs: one straight, one curve, one straight
+    overturn, turn into it
     method solve right triangle and determine x and y
     first arc continues until x = y
     third arc is a fraction of y
     method to compute circle to use for 2 segment
     method to calculate radius
-    method to find intial angle to turn to
-
+    method to find initial angle to turn to
      */
 
-    private void calculateHypotenuse(){
-        //multiply x-size of pixels, multiply by pixel ratio,
-        // //multiply by the cos of the difference between the robot angle and set angle of cargo
-        double hypo = 1;
+    private void setRobotSpeed(){
+        double rotation = Drivetrain.getInstance().getPIDOutput();
+        Drivetrain.getInstance().tankDrive(robotSpeed + rotation, robotSpeed - rotation);
     }
 
-    private void calculateXandY(){
-
+    private double getRequestedTurningAngle(){
+        
     }
 
 

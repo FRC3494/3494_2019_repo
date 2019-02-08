@@ -81,7 +81,7 @@ public class Limelight {
      *
      * @return The horizontal distance from image center to object center in degrees.
      */
-    public double getXDistance() {
+    public double getXAngle() {
         return this.table.getEntry("tx").getDouble(0);
     }
 
@@ -89,10 +89,19 @@ public class Limelight {
      * Gets the vertical distance from the center of the image
      * to the center of the detected object, in degrees.
      *
-     * @return The vertical distance from image center to object center in degrees.
+     * @return The vertical d
+     * istance from image center to object center in degrees.
      */
-    public double getYDistance() {
+    public double getYAngle() {
         return this.table.getEntry("ty").getDouble(0);
+    }
+
+    public double getBoundingBoxWidth() {
+        return this.table.getEntry("thor").getDouble(0);
+    }
+
+    public double getBoundingBoxHeight() {
+        return this.table.getEntry("tvert").getDouble(0);
     }
 
     public boolean hasValidTarget() {

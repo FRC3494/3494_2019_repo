@@ -35,6 +35,10 @@ public class RobotMap {
         public static final double GEAR_RATIO = 7.58 / 12 / 15;
         public static final double WHEEL_RADIUS_FEET = .25;
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
+
+        public static final double PID_PERCENT_TOLERANCE = 1;
+
+        public static final double AUTO_DRIVE_TURNING_MULTIPLIER = 1.25;
     }
     //gear ratio is 7.58:12:15
 
