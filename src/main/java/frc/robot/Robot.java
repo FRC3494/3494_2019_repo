@@ -133,7 +133,7 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
     }
 
-    public Limelight getLimelight(){
+    public static Limelight getLimelight(){
         return limelight;
     }
 }
