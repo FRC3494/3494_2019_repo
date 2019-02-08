@@ -1,12 +1,26 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.sensors.NavX;
+import frc.robot.subsystems.Drivetrain;
 
 
 public class InitCurveDrive extends Command {
+    private double initialTurn;
+    private Timer timer;
+
     public InitCurveDrive() {
+        requires(Drivetrain.getInstance());
+        this.timer = new Timer();
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    }
+
+    private void setInitialTurn() {
+        this.initialTurn = Robot.getLimelight().getXAngle() * RobotMap.DRIVETRAIN.AUTO_DRIVE_TURNING_MULTIPLIER;
     }
 
 
@@ -16,7 +30,9 @@ public class InitCurveDrive extends Command {
      */
     @Override
     protected void initialize() {
-
+        this.setInitialTurn();
+        Drivetrain.getInstance().setSetpoint(NavX.getInstance().getFusedHeading() + this.initialTurn);
+        this.timer.start();
     }
 
 
@@ -26,7 +42,8 @@ public class InitCurveDrive extends Command {
      */
     @Override
     protected void execute() {
-
+        double requestedRotationAmount = Drivetrain.getInstance().getPIDOutput();
+        Drivetrain.getInstance().tankDrive(requestedRotationAmount, -requestedRotationAmount);
     }
 
 
@@ -49,8 +66,7 @@ public class InitCurveDrive extends Command {
      */
     @Override
     protected boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return (Drivetrain.getInstance().onTarget() || timer.get() < 5;
     }
 
 
@@ -62,7 +78,7 @@ public class InitCurveDrive extends Command {
      */
     @Override
     protected void end() {
-
+        Drivetrain.getInstance().stop();
     }
 
 
@@ -82,6 +98,5 @@ public class InitCurveDrive extends Command {
      */
     @Override
     protected void interrupted() {
-        super.interrupted();
     }
 }
