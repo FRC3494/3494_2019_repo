@@ -72,25 +72,41 @@ public class Drivetrain extends Subsystem {
         this.driveRightMaster.set(rightSpeed);
     }
 
-    //returns feet per sec velocity
+    /**
+     * Returns the average speed of the left side encoders, in feet/second.
+     *
+     * @return The left side average velocity.
+     */
     public double getLeftAverageVelocity() {
         double sum = this.driveLeftMaster.getEncoder().getVelocity() + this.driveLeftFollowOne.getEncoder().getVelocity() + this.driveLeftFollowTwo.getEncoder().getVelocity();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE / 60;
     }
 
-    //returns feet per sec velocity
+    /**
+     * Returns the average speed of the right side encoders, in feet/second.
+     *
+     * @return The right side average velocity.
+     */
     public double getRightAverageVelocity() {
         double sum = this.driveRightMaster.getEncoder().getVelocity() + this.driveRightFollowOne.getEncoder().getVelocity() + this.driveRightFollowTwo.getEncoder().getVelocity();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE / 60;
     }
 
-    //returns in feet
+    /**
+     * Returns the average position of the left side encoders, in feet.
+     *
+     * @return The left side average position.
+     */
     public double getLeftAveragePosition() {
         double sum = this.driveLeftMaster.getEncoder().getPosition() + this.driveLeftFollowOne.getEncoder().getPosition() + this.driveLeftFollowTwo.getEncoder().getPosition();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE;
     }
 
-    //returns in feet
+    /**
+     * Returns the average position of the right side encoders, in feet.
+     *
+     * @return The right side average position.
+     */
     public double getRightAveragePosition() {
         double sum = this.driveRightMaster.getEncoder().getPosition() + this.driveRightFollowOne.getEncoder().getPosition() + this.driveRightFollowTwo.getEncoder().getPosition();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE;
