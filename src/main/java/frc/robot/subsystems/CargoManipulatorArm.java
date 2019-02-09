@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
@@ -13,10 +14,13 @@ public class CargoManipulatorArm extends Subsystem {
     // here. Call these from Commands.
     private static final CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
     private TalonSRX armMotor;
+    private Solenoid diskBrake;
 
     private CargoManipulatorArm() {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+        diskBrake = new Solenoid(RobotMap.CARGO_ARM.DISK_BRAKE);
     }
 
     /**
@@ -35,6 +39,10 @@ public class CargoManipulatorArm extends Subsystem {
 
     public void resetEncoder() {
         armMotor.setSelectedSensorPosition(0);
+    }
+
+    public void setBrake(boolean brake) {
+        diskBrake.set(brake);
     }
 
     public static CargoManipulatorArm getInstance() {

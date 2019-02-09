@@ -45,6 +45,8 @@ public class RobotMap {
 
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 0;//also filler
+
+        public static final int DISK_BRAKE = 2;
     }
 
     public class HATCH_MANIPULATOR {
@@ -64,17 +66,18 @@ public class RobotMap {
     }
 
     public class OI {
-        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3;
-        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 4;
-        public static final int XBOX_CONTROLLER = 2;
+        public static final int LEFT_JOY = 0;
+        public static final int RIGHT_JOY = 1;
+        public static final int XBOX = 2;
+
+        public static final int SHIFT_ENGAGE_BUTTON = 5;
+        public static final int SHIFT_DISENGAGE_BUTTON = 11;
+
+        public static final int ENGAGE_DISK_BRAKE = 1; // A
+        public static final int DISENGAGE_DISK_BRAKE = 2; // B
+        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3; // X
+        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 4; // Y
     }
-
-    public static final int LEFT_JOY = 0;
-    public static final int RIGHT_JOY = 1;
-    public static final int XBOX = 2;
-
-    public static final int SHIFT_ENGAGE_BUTTON = 5;
-    public static final int SHIFT_DISENGAGE_BUTTON = 11;
 
     public static final int PRESSURE_SENSOR_PORT = 0;
 }
