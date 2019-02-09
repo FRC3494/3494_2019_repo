@@ -19,10 +19,10 @@ public class EquidistantDrive extends Command {
     private CANEncoder leftEncoder;
     private CANEncoder rightEncoder;
 
-    public EquidistantDrive(double d) {
+    public EquidistantDrive(double feet) {
         requires(Drivetrain.getInstance());
-        // Convert d (feet) to motor revolutions
-        this.distance = d * (1.0d / RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE) * (1.0d / RobotMap.DRIVETRAIN.GEAR_RATIO);
+        // Convert feet to motor revolutions
+        this.distance = feet * (1.0d / RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE) * (1.0d / RobotMap.DRIVETRAIN.GEAR_RATIO);
     }
 
     @Override
