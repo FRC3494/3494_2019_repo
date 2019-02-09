@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.arm.Brake;
 import frc.robot.commands.climb.Shift;
 import frc.robot.commands.hatch.ExtendHatchManipulator;
 import frc.robot.commands.hatch.RetractHatchManipulator;
@@ -41,6 +42,8 @@ public class OI {
         retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
         diskBrakeEngage = new JoystickButton(xbox, RobotMap.OI.ENGAGE_DISK_BRAKE);
         diskBrakeDisengage = new JoystickButton(xbox, RobotMap.OI.DISENGAGE_DISK_BRAKE);
+        diskBrakeEngage.whenPressed(new Brake(true));
+        diskBrakeDisengage.whenPressed(new Brake(false));
         extendHatchManipulatorButton.whenPressed(new ExtendHatchManipulator());
         retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
         // Driver joystick binds
