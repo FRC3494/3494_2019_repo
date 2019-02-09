@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -79,6 +80,14 @@ public class Drivetrain extends Subsystem {
 
     public CANPIDController getRightPID() {
         return this.driveRightMaster.getPIDController();
+    }
+
+    public CANEncoder getLeftEncoder() {
+        return this.driveLeftMaster.getEncoder();
+    }
+
+    public CANEncoder getRightEncoder() {
+        return this.driveRightMaster.getEncoder();
     }
 
     /**
