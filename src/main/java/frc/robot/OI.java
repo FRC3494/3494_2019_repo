@@ -65,7 +65,6 @@ public class OI {
         return -removeDeadband(leftFlight.getY());
     }
 
-
     public double getRightY() {
         return -removeDeadband(rightFlight.getY());
     }
