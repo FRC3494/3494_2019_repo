@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.auto.climb.EquidistantDrive;
 import frc.robot.sensors.Limelight;
 import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.CargoManipulatorArm;
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
         limelight = new Limelight();
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
+        chooser.addOption("[TEST] Equal distance drive", new EquidistantDrive(5.0));
         SmartDashboard.putData("Auto mode", chooser);
 
         String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?", "Display pressure?"};
