@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.Limelight;
 import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.CargoManipulatorArm;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.HatchManipulator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,7 +34,9 @@ public class Robot extends TimedRobot {
         // HACK: Singletons don't like working unless they're grabbed before use.
         OI.getInstance();
         Drivetrain.getInstance();
+        Climber.getInstance();
         CargoManipulatorArm.getInstance();
+        HatchManipulator.getInstance();
         // Start compressor
         new Compressor().start();
         // init limelight

@@ -44,22 +44,22 @@ public class RobotMap {
     }
 
     public class CARGO_ARM {
-        public static final int ARM_MOTOR_CHANNEL = 0;//also filler
+        public static final int ARM_MOTOR_CHANNEL = 6;
 
         public static final int DISK_BRAKE = 2;
     }
 
     public class HATCH_MANIPULATOR {
-        public static final int PUSH_FORWARD_CHANNEL = 2;
-        public static final int PUSH_REVERSE_CHANNEL = 3;
+        public static final int PUSH_FORWARD_CHANNEL = 3;
+        public static final int PUSH_REVERSE_CHANNEL = 4;
 
-        public static final int CENTER_FORWARD_CHANNEL = 4;
-        public static final int CENTER_REVERSE_CHANNEL = 5;
+        public static final int CENTER_FORWARD_CHANNEL = 5;
+        public static final int CENTER_REVERSE_CHANNEL = 6;
     }
 
     public class CARGO_MANIPULATOR {
-        public static final int LEFT_MOTOR_CHANNEL = 0;
-        public static final int RIGHT_MOTOR_CHANNEL = 1;
+        public static final int LEFT_MOTOR_CHANNEL = 4;
+        public static final int RIGHT_MOTOR_CHANNEL = 5;
 
         public static final double INTAKE_SPEED = 0.5;
         public static final double OUTAKE_SPEED = -INTAKE_SPEED;
