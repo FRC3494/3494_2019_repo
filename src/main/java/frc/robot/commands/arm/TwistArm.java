@@ -15,11 +15,14 @@ public class TwistArm extends Command {
         boolean lBump = OI.getInstance().getXboxLeftBumper();
         boolean rBump = OI.getInstance().getXboxRightBumper();
         if (lBump) {
-            CargoManipulatorArm.getInstance().lift(-0.5);
-        } else if (rBump) {
-            CargoManipulatorArm.getInstance().lift(-0.5);
-        } else {
             CargoManipulatorArm.getInstance().setBrake(true);
+            CargoManipulatorArm.getInstance().lift(0.75);
+        } else if (rBump) {
+            CargoManipulatorArm.getInstance().setBrake(true);
+            CargoManipulatorArm.getInstance().lift(-0.75);
+        } else {
+            CargoManipulatorArm.getInstance().lift(0);
+            CargoManipulatorArm.getInstance().setBrake(false);
         }
     }
 
