@@ -46,8 +46,7 @@ public class RobotMap {
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE_FORWARD = 2;
-        public static final int DISK_BRAKE_REVERSE = 7;
+        public static final int DISK_BRAKE = 2;
     }
 
     public class HATCH_MANIPULATOR {
