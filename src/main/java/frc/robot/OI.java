@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.arm.Brake;
 import frc.robot.commands.climb.Shift;
 import frc.robot.commands.hatch.ExtendHatchManipulator;
 import frc.robot.commands.hatch.RetractHatchManipulator;
+import frc.robot.commands.hatch.SetHatchExtender;
 
 public class OI {
 
@@ -26,8 +26,8 @@ public class OI {
 
     private JoystickButton extendHatchManipulatorButton;
     private JoystickButton retractHatchManipulatorButton;
-    private JoystickButton diskBrakeEngage;
-    private JoystickButton diskBrakeDisengage;
+    private JoystickButton extendHatcher;
+    private JoystickButton retractHatcher;
 
     private JoystickButton engageButton;
     private JoystickButton disengageButton;
@@ -38,14 +38,14 @@ public class OI {
         xbox = new XboxController(RobotMap.OI.XBOX);
 
         // Xbox binds
-        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCH_MANIPULATOR_BUTTON);
-        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCH_MANIPULATOR_BUTTON);
-        diskBrakeEngage = new JoystickButton(xbox, RobotMap.OI.ENGAGE_DISK_BRAKE);
-        diskBrakeDisengage = new JoystickButton(xbox, RobotMap.OI.DISENGAGE_DISK_BRAKE);
-        diskBrakeEngage.whenPressed(new Brake(true));
-        diskBrakeDisengage.whenPressed(new Brake(false));
+        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
+        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
+        extendHatcher = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
+        retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
         extendHatchManipulatorButton.whenPressed(new ExtendHatchManipulator());
         retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
+        extendHatcher.whenPressed(new SetHatchExtender(true));
+        retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds
         disengageButton = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_DISENGAGE_BUTTON);
         engageButton = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_ENGAGE_BUTTON);

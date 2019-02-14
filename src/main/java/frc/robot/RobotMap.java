@@ -55,6 +55,8 @@ public class RobotMap {
 
         public static final int CENTER_FORWARD_CHANNEL = 5;
         public static final int CENTER_REVERSE_CHANNEL = 6;
+
+        public static final int EXTENDER = 7;
     }
 
     public class CARGO_MANIPULATOR {
@@ -73,10 +75,10 @@ public class RobotMap {
         public static final int SHIFT_ENGAGE_BUTTON = 5;
         public static final int SHIFT_DISENGAGE_BUTTON = 11;
 
-        public static final int ENGAGE_DISK_BRAKE = 1; // A
-        public static final int DISENGAGE_DISK_BRAKE = 2; // B
-        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3; // X
-        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 4; // Y
+        public static final int EXTEND_HATCHER = 1; // A
+        public static final int RETRACT_HATCHER = 2; // B
+        public static final int EJECT_HATCH = 3; // X
+        public static final int RESET_EJECTOR = 4; // Y
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;
