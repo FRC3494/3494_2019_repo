@@ -14,7 +14,7 @@ public class NavX {
         resetValue = 0;
     }
 
-    public NavX getInstance() {
+    public static NavX getInstance() {
         return INSTANCE;
     }
 

@@ -36,6 +36,16 @@ public class RobotMap {
         public static final double WHEEL_RADIUS_FEET = .25;
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
     }
+
+    public class TURN_DRIVE{
+        public static final double
+                kP = 0.0,
+                kI = 0.0,
+                kD = 0.0,
+                kF = 0.0;
+        public static final double TIMEOUT = 5.0;
+        public static final double TOLERANCE_RANGE_PID = 1.0;
+    }
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
