@@ -25,6 +25,11 @@ public class Robot extends TimedRobot {
     SendableChooser<Command> chooser = new SendableChooser<>();
     private static Limelight limelight;
 
+    public static Limelight getFrontLimelightInstance() {//blame drason for weird function name
+        return limelight;
+    }
+
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.

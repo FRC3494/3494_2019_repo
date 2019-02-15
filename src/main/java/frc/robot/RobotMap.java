@@ -37,6 +37,16 @@ public class RobotMap {
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
     }
 
+    public class LIMELIGHT{
+        public static final double FOV_DEG = 54;
+    }
+
+    public class ARC_DRIVE{
+        public static final double TIMEOUT = 15;
+        public static final double CARGO_HATCH_TAPE_WIDTH_FEET = 14.63 / 12;
+        public static final double CARGO_HATCH_TAPE_HEIGHT_FEET = 5.83 / 12;
+    }
+
     public class TURN_DRIVE{
         public static final double
                 kP = 0.0,

@@ -64,6 +64,8 @@ public class Limelight {
         return this.table.getEntry("getpipe").getNumber(0).intValue();
     }
 
+
+
     /**
      * Sets the LED mode on the Limelight.
      * {@code final static int}s are available as part of this class
@@ -93,6 +95,10 @@ public class Limelight {
      */
     public double getYDistance() {
         return this.table.getEntry("ty").getDouble(0);
+    }
+
+    public double[] getCameraTransform(){
+        return this.table.getEntry("camtran").getDoubleArray();
     }
 
     public boolean hasValidTarget() {

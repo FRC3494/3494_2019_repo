@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class NavX {
 
-    private NavX INSTANCE = new NavX();
+    private static NavX INSTANCE = new NavX();
     private AHRS ahrs;
     private double resetValue;
 
