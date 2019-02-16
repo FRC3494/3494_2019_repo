@@ -81,5 +81,11 @@ public class RobotMap {
         public static final int RESET_EJECTOR = 4; // Y
     }
 
-    public static final int PRESSURE_SENSOR_PORT = 0;
+    // "This one does not spark joy"
+    public class PNUEMATICS {
+        public static final int PRESSURE_SENSOR_PORT = 0;
+
+        public static final int PCM_MAIN = 0;
+        public static final int PCM_SECONDARY = 1;
+    }
 }
