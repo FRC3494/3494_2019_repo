@@ -21,13 +21,12 @@ public class PressureSensor {
     }
 
     /**
-     * Return the pressure, in PSI. Has a tolerance of 1.5% according to REV.
+     * Return the pressure, in PSI. This function was made by a really confident linear regression.
      *
      * @return Measured pressure, in PSI.
-     * @see "http://www.revrobotics.com/content/docs/REV-11-1107-DS.pdf"
      */
     public double getPressure() {
-        return (250 * (this.getVoltageOut() / VCC)) - 25;
+        return 31.8 * this.getVoltageOut() - 8.07;
     }
 
     public static PressureSensor getInstance() {
