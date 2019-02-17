@@ -25,7 +25,7 @@ public class RobotMap {
     // public static final int rangefinderModule = 1;
 
     public class DRIVETRAIN {
-        public static final int LEFT_MASTER_CHANNEL = 0;
+        public static final int LEFT_MASTER_CHANNEL = 17;
         public static final int LEFT_FOLLOWER_ONE_CHANNEL = 1;
         public static final int LEFT_FOLLOWER_TWO_CHANNEL = 2;
         public static final int RIGHT_MASTER_CHANNEL = 13;
