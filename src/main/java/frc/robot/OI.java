@@ -85,6 +85,12 @@ public class OI {
         return this.xbox.getBButton();
     }
 
+    public boolean cruiseControlCancel() {
+        return (this.getLeftY() != 0 || this.getRightY() != 0) ||
+                (this.getXboxA() || this.getXboxB()) ||
+                (this.getXboxLeftBumper() || this.getXboxRightBumper());
+    }
+
     public static OI getInstance() {
         return INSTANCE;
     }
