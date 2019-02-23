@@ -46,15 +46,15 @@ public class RobotMap {
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE = 2;
+        public static final int DISK_BRAKE = 1;
     }
 
     public class HATCH_MANIPULATOR {
-        public static final int PUSH_FORWARD_CHANNEL = 3;
+        public static final int PUSH_FORWARD_CHANNEL = 0;
         public static final int PUSH_REVERSE_CHANNEL = 4;
 
-        public static final int CENTER_FORWARD_CHANNEL = 5;
-        public static final int CENTER_REVERSE_CHANNEL = 6;
+        public static final int CENTER_FORWARD_CHANNEL = 2;
+        public static final int CENTER_REVERSE_CHANNEL = 3;
 
         public static final int EXTENDER = 7;
     }
@@ -81,11 +81,8 @@ public class RobotMap {
         public static final int RESET_EJECTOR = 4; // Y
     }
 
-    // "This one does not spark joy"
-    public class PNUEMATICS {
-        public static final int PRESSURE_SENSOR_PORT = 0;
+    public static final int PRESSURE_SENSOR_PORT = 0;
 
-        public static final int PCM_MAIN = 0;
-        public static final int PCM_SECONDARY = 1;
-    }
+    public static final int PCM_A = 0;
+    public static final int PCM_B = 1;
 }
