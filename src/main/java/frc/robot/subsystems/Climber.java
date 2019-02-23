@@ -11,7 +11,7 @@ public class Climber extends Subsystem {
     private static Climber INSTANCE = new Climber();
 
     private Climber() {
-        this.shifter = new DoubleSolenoid(RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
+        this.shifter = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
     }
 
     public void setShifter(DoubleSolenoid.Value value) {
