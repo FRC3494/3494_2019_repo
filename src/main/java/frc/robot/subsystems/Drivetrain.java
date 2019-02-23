@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -123,6 +124,14 @@ public class Drivetrain extends PIDSubsystem {
 
     public double getRightFollowTwoCurrent() {
         return this.driveRightFollowTwo.getOutputCurrent();
+    }
+
+    public CANEncoder getLeftEncoder() {
+        return this.driveLeftMaster.getEncoder();
+    }
+
+    public CANEncoder getRightEncoder() {
+        return this.driveLeftMaster.getEncoder();
     }
 
     public void stop() {
