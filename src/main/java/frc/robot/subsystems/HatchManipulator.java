@@ -18,10 +18,10 @@ public class HatchManipulator extends Subsystem {
     }
 
     private HatchManipulator() {
-        this.pusher = new DoubleSolenoid(RobotMap.HATCH_MANIPULATOR.PUSH_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.PUSH_REVERSE_CHANNEL);
+        this.pusher = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.PUSH_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.PUSH_REVERSE_CHANNEL);
         this.pusher.set(DoubleSolenoid.Value.kReverse);
 
-        this.centerRod = new DoubleSolenoid(RobotMap.HATCH_MANIPULATOR.CENTER_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.CENTER_REVERSE_CHANNEL);
+        this.centerRod = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.CENTER_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.CENTER_REVERSE_CHANNEL);
         this.centerRod.set(DoubleSolenoid.Value.kReverse);
 
         extender = new Solenoid(RobotMap.HATCH_MANIPULATOR.EXTENDER);

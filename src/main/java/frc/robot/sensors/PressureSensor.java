@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import frc.robot.RobotMap;
 
 public class PressureSensor {
-    private static final PressureSensor INSTANCE = new PressureSensor(RobotMap.PRESSURE_SENSOR_PORT);
+    private static final PressureSensor INSTANCE = new PressureSensor(RobotMap.PNUEMATICS.PRESSURE_SENSOR_PORT);
 
     private AnalogInput ai;
     /**
