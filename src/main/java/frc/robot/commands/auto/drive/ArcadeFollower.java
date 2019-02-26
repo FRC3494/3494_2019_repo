@@ -34,6 +34,6 @@ public class ArcadeFollower extends Command {
 
     @Override
     protected boolean isFinished() {
-        return !OI.getInstance().cruiseControlCancel();
+        return (!OI.getInstance().cruiseControlCancel()) || Drivetrain.getInstance().getUltrasonicDistance() < 254.0;
     }
 }
