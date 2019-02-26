@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.Drive;
+import frc.robot.sensors.HRLVMaxSonar;
 import frc.robot.sensors.NavX;
 import frc.robot.sensors.PDP;
 
@@ -40,9 +41,12 @@ public class Drivetrain extends PIDSubsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
+    private double pidOutput = 0;
+
+    private HRLVMaxSonar ultrasonic;
+
     private static Drivetrain INSTANCE = new Drivetrain();
 
-    private double pidOutput = 0;
 
     private Drivetrain() {
         super("Drivetrain", 1.0, 0, 0);
@@ -65,6 +69,8 @@ public class Drivetrain extends PIDSubsystem {
 
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
+
+        this.ultrasonic = new HRLVMaxSonar(1);
     }
 
     /**
@@ -132,6 +138,10 @@ public class Drivetrain extends PIDSubsystem {
 
     public CANEncoder getRightEncoder() {
         return this.driveLeftMaster.getEncoder();
+    }
+
+    public double getUltrasonicDistance() {
+        return this.ultrasonic.getDistance();
     }
 
     public void stop() {
