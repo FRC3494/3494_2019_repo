@@ -7,12 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climb.Shift;
+import frc.robot.commands.climb.groups.LevelThree;
 import frc.robot.commands.hatch.ExtendHatchManipulator;
 import frc.robot.commands.hatch.RetractHatchManipulator;
 import frc.robot.commands.hatch.SetHatchExtender;
@@ -24,13 +23,13 @@ public class OI {
     private Joystick rightFlight;
     private XboxController xbox;
 
-    private JoystickButton extendHatchManipulatorButton;
-    private JoystickButton retractHatchManipulatorButton;
+    private JoystickButton extendHatchManipulator;
+    private JoystickButton retractHatchManipulator;
     private JoystickButton extendHatcher;
     private JoystickButton retractHatcher;
 
-    private JoystickButton engageButton;
-    private JoystickButton disengageButton;
+    private JoystickButton engageZbar;
+    private JoystickButton disengageZbar;
 
     private OI() {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
@@ -38,19 +37,19 @@ public class OI {
         xbox = new XboxController(RobotMap.OI.XBOX);
 
         // Xbox binds
-        extendHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
-        retractHatchManipulatorButton = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
+        extendHatchManipulator = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
+        retractHatchManipulator = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
         extendHatcher = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
         retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
-        extendHatchManipulatorButton.whenPressed(new ExtendHatchManipulator());
-        retractHatchManipulatorButton.whenPressed(new RetractHatchManipulator());
+        extendHatchManipulator.whenPressed(new ExtendHatchManipulator());
+        retractHatchManipulator.whenPressed(new RetractHatchManipulator());
         extendHatcher.whenPressed(new SetHatchExtender(true));
         retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds
-        disengageButton = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_DISENGAGE_BUTTON);
-        engageButton = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_ENGAGE_BUTTON);
-        disengageButton.whenPressed(new Shift(DoubleSolenoid.Value.kForward));
-        engageButton.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
+        disengageZbar = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_DISENGAGE_BUTTON);
+        engageZbar = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_ENGAGE_BUTTON);
+        disengageZbar.whenPressed(new LevelThree.UNREADY());
+        engageZbar.whenPressed(new LevelThree.READY());
     }
 
     public static double removeDeadband(double y) {
