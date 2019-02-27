@@ -39,6 +39,12 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
+        public static final int FRONT_FOOT_FORWARD = 4;
+        public static final int FRONT_FOOT_REVERSE = 5;
+
+        public static final int REAR_FEET_FORWARD = 2;
+        public static final int REAR_FEET_REVERSE = 3;
+
         public static final int SHIFTER_FORWARD_CHANNEL = 0;
         public static final int SHIFTER_REVERSE_CHANNEL = 1;
     }
