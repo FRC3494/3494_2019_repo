@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -38,27 +39,41 @@ public class Drivetrain extends Subsystem {
      */
     private CANSparkMax driveRightFollowTwo;
 
+    private CANEncoder encLeftMaster;
+    private CANEncoder encLeftFollowOne;
+    private CANEncoder encLeftFollowTwo;
+
+    private CANEncoder encRightMaster;
+    private CANEncoder encRightFollowOne;
+    private CANEncoder encRightFollowTwo;
+
     private static Drivetrain INSTANCE = new Drivetrain();
 
     private Drivetrain() {
         this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftMaster.setInverted(true);
+        this.encLeftMaster = this.driveLeftMaster.getEncoder();
 
         this.driveLeftFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowOne.follow(driveLeftMaster);
         this.driveLeftFollowOne.setInverted(true);
+        this.encLeftFollowOne = this.driveLeftFollowOne.getEncoder();
 
         this.driveLeftFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowTwo.follow(driveLeftMaster);
         this.driveLeftFollowTwo.setInverted(true);
+        this.encLeftFollowTwo = this.driveLeftFollowTwo.getEncoder();
 
         this.driveRightMaster = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
+        this.encRightMaster = this.driveRightMaster.getEncoder();
 
         this.driveRightFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowOne.follow(driveRightMaster);
+        this.encRightFollowOne = this.driveRightFollowOne.getEncoder();
 
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
+        this.encRightFollowTwo = this.driveRightFollowTwo.getEncoder();
     }
 
     /**
@@ -74,25 +89,25 @@ public class Drivetrain extends Subsystem {
 
     //returns feet per sec velocity
     public double getLeftAverageVelocity() {
-        double sum = this.driveLeftMaster.getEncoder().getVelocity() + this.driveLeftFollowOne.getEncoder().getVelocity() + this.driveLeftFollowTwo.getEncoder().getVelocity();
+        double sum = this.encLeftMaster.getVelocity() + this.encLeftFollowOne.getVelocity() + this.encLeftFollowTwo.getVelocity();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE / 60;
     }
 
     //returns feet per sec velocity
     public double getRightAverageVelocity() {
-        double sum = this.driveRightMaster.getEncoder().getVelocity() + this.driveRightFollowOne.getEncoder().getVelocity() + this.driveRightFollowTwo.getEncoder().getVelocity();
+        double sum = this.encRightMaster.getVelocity() + this.encRightFollowOne.getVelocity() + this.encRightFollowTwo.getVelocity();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE / 60;
     }
 
     //returns in feet
     public double getLeftAveragePosition() {
-        double sum = this.driveLeftMaster.getEncoder().getPosition() + this.driveLeftFollowOne.getEncoder().getPosition() + this.driveLeftFollowTwo.getEncoder().getPosition();
+        double sum = this.encLeftMaster.getPosition() + this.encLeftFollowOne.getPosition() + this.encLeftFollowTwo.getPosition();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE;
     }
 
     //returns in feet
     public double getRightAveragePosition() {
-        double sum = this.driveRightMaster.getEncoder().getPosition() + this.driveRightFollowOne.getEncoder().getPosition() + this.driveRightFollowTwo.getEncoder().getPosition();
+        double sum = this.encRightMaster.getPosition() + this.encRightFollowOne.getPosition() + this.encRightFollowTwo.getPosition();
         return sum / 3 * RobotMap.DRIVETRAIN.GEAR_RATIO * RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE;
     }
 
