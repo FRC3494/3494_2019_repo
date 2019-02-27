@@ -7,9 +7,9 @@ import frc.robot.RobotMap;
 
 public class HatchManipulator extends Subsystem {
     private static final HatchManipulator INSTANCE = new HatchManipulator();
-    private DoubleSolenoid pusher;
-    private DoubleSolenoid centerRod;
-    private Solenoid extender;
+    private Solenoid pusher;
+    private Solenoid centerRod;
+    private DoubleSolenoid extender;
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -18,25 +18,25 @@ public class HatchManipulator extends Subsystem {
     }
 
     private HatchManipulator() {
-        this.pusher = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.PUSH_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.PUSH_REVERSE_CHANNEL);
-        this.pusher.set(DoubleSolenoid.Value.kReverse);
+        this.pusher = new Solenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.PUSH_FORWARD_CHANNEL);
+        this.pusher.set(false);
 
-        this.centerRod = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.CENTER_FORWARD_CHANNEL, RobotMap.HATCH_MANIPULATOR.CENTER_REVERSE_CHANNEL);
-        this.centerRod.set(DoubleSolenoid.Value.kReverse);
+        this.centerRod = new Solenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.CENTER_FORWARD_CHANNEL);
+        this.centerRod.set(false);
 
-        extender = new Solenoid(RobotMap.HATCH_MANIPULATOR.EXTENDER);
+        extender = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.HATCH_MANIPULATOR.EXTENDER_FORWARD, RobotMap.HATCH_MANIPULATOR.EXTENDER_REVERSE);
     }
 
     public void ejectHatch() {
-        this.pusher.set(DoubleSolenoid.Value.kForward);
+        this.pusher.set(true);
     }
 
     public void retractPusher() {
-        this.pusher.set(DoubleSolenoid.Value.kReverse);
+        this.pusher.set(false);
     }
 
-    public void setExtended(boolean extended) {
-        this.extender.set(extended);
+    public void setExtended(DoubleSolenoid.Value value) {
+        this.extender.set(value);
     }
 
     public void initDefaultCommand() {
