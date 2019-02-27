@@ -11,7 +11,7 @@ public class NavX {
 
     private NavX() {
         this.ahrs = new AHRS(SerialPort.Port.kMXP);
-        resetValue = 0;
+        this.resetFusedHeading();
     }
 
     public static NavX getInstance() {
