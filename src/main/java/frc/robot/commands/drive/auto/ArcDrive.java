@@ -3,13 +3,23 @@ package frc.robot.commands.drive.auto;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 
 
 public class ArcDrive extends TimedCommand {
     private Timer timer;
-
+    private double arcRadius;
+    private double initialAngleToTargetCenter;
+    private double initialAngleToTargetEdge;
+    private double initialDistToTargetCenter;
+    private double initialDistToTargetEdge;
+    private double angleBetweenCenterAndEdge;
+    private double kiteLegLength;
+    private double cornerToTargetDistance;
+    private double initialDrivingDistance;
+    private double angleToCenterRobotToTarget;
 
     public ArcDrive() {
         super(RobotMap.ARC_DRIVE.TIMEOUT);
@@ -20,6 +30,31 @@ public class ArcDrive extends TimedCommand {
     }
 
 
+    private void setInitialDrivingDistance(){
+        this.initialDrivingDistance = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
+            - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
+    }
+
+    private void setKiteLegLength(){
+
+    }
+
+    private boolean isPathPossible(){
+        return (this.cornerToTargetDistance > this.kiteLegLength);
+    }
+
+    private double setInitialDistanceToTargetCenter(){
+        return 0;
+    }
+
+    private void setInitialAngleToTargetEdge(){
+        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
+                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
+                - Math.pow(this.initialDistToTargetCenter, 2)
+                + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
+    }
+
+
     /**
      * The initialize method is called just before the first time
      * this Command is run after being started.
@@ -27,7 +62,7 @@ public class ArcDrive extends TimedCommand {
     @Override
     protected void initialize() {
         this.timer.start();
-
+        this.initialAngleToTargetCenter = Robot.getFrontLimelightInstance().getXDistance();
     }
 
 

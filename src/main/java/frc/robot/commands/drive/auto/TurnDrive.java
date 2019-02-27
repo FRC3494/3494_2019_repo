@@ -20,7 +20,8 @@ public class TurnDrive extends TimedCommand {
         super(RobotMap.TURN_DRIVE.TIMEOUT);
         requires(Drivetrain.getInstance());
 
-        this.pidController = new SynchronousPIDF(RobotMap.TURN_DRIVE.kP,
+        this.pidController = new SynchronousPIDF(
+                RobotMap.TURN_DRIVE.kP,
                 RobotMap.TURN_DRIVE.kI,
                 RobotMap.TURN_DRIVE.kD,
                 RobotMap.TURN_DRIVE.kF);

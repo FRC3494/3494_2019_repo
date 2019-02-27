@@ -39,12 +39,18 @@ public class RobotMap {
 
     public class LIMELIGHT{
         public static final double FOV_DEG = 54;
+        public static final double FOV_RAD = 5 * Math.PI / 72;
     }
 
     public class ARC_DRIVE{
         public static final double TIMEOUT = 15;
         public static final double CARGO_HATCH_TAPE_WIDTH_FEET = 14.63 / 12;
         public static final double CARGO_HATCH_TAPE_HEIGHT_FEET = 5.83 / 12;
+        public static final double WIDTH_BETWEEN_ROBOT_WHEELS_FEET = 15; //find number
+        public static final double SURFACE_ANGLE = 5; //find number
+        public static final double NORMAL_LOWER = 0;//find
+        public static final double NORMAL_CENTER = 0;//find
+        public static final double NORMAL_UPPER = 0;//find
     }
 
     public class TURN_DRIVE{
