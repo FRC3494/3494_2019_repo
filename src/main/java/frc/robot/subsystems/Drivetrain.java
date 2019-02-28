@@ -3,13 +3,15 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.Drive;
+import frc.robot.sensors.HRLVMaxSonar;
+import frc.robot.sensors.NavX;
 import frc.robot.sensors.PDP;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends PIDSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -47,9 +49,16 @@ public class Drivetrain extends Subsystem {
     private CANEncoder encRightFollowOne;
     private CANEncoder encRightFollowTwo;
 
+    private double pidOutput = 0;
+
+    private HRLVMaxSonar ultrasonic;
+
     private static Drivetrain INSTANCE = new Drivetrain();
 
+
     private Drivetrain() {
+        super("Drivetrain", 1.0, 0, 0);
+
         this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftMaster.setInverted(true);
         this.encLeftMaster = this.driveLeftMaster.getEncoder();
@@ -74,6 +83,8 @@ public class Drivetrain extends Subsystem {
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
         this.encRightFollowTwo = this.driveRightFollowTwo.getEncoder();
+
+        this.ultrasonic = new HRLVMaxSonar(1);
     }
 
     /**
@@ -135,6 +146,18 @@ public class Drivetrain extends Subsystem {
         return this.driveRightFollowTwo.getOutputCurrent();
     }
 
+    public CANEncoder getLeftEncoder() {
+        return this.driveLeftMaster.getEncoder();
+    }
+
+    public CANEncoder getRightEncoder() {
+        return this.driveLeftMaster.getEncoder();
+    }
+
+    public double getUltrasonicDistance() {
+        return this.ultrasonic.getDistance();
+    }
+
     public void stop() {
         this.tankDrive(0, 0);
     }
@@ -165,5 +188,19 @@ public class Drivetrain extends Subsystem {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return NavX.getInstance().getFusedHeading();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.pidOutput = output;
+    }
+
+    public double getPidOutput() {
+        return this.pidOutput;
     }
 }

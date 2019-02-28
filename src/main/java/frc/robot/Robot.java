@@ -136,4 +136,8 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
     }
+
+    public static Limelight getLimelight() {
+        return limelight;
+    }
 }
