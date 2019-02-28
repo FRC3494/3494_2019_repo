@@ -34,6 +34,7 @@ public class OI {
     private JoystickButton engageZbar;
     private JoystickButton disengageZbar;
     private JoystickButton retractAllFeet;
+    private JoystickButton engageRearFeet;
 
     private OI() {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
@@ -52,8 +53,10 @@ public class OI {
         // Driver joystick binds
         disengageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_DISENGAGE_BUTTON);
         engageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
+        engageRearFeet = new JoystickButton(leftFlight, RobotMap.OI.ENGAGE_REAR_FEET);
         retractAllFeet = new JoystickButton(leftFlight, RobotMap.OI.DISENGAGE_ALL_FEET);
 
+        engageRearFeet.whenPressed(new SetRearFeet(DoubleSolenoid.Value.kForward));
         retractAllFeet.whenPressed(new SetFrontFoot(DoubleSolenoid.Value.kReverse));
         retractAllFeet.whenPressed(new SetRearFeet(DoubleSolenoid.Value.kReverse));
 
