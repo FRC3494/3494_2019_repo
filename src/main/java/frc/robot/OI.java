@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.feet.SetFrontFoot;
 import frc.robot.commands.climb.feet.SetRearFeet;
 import frc.robot.commands.climb.groups.LevelThree;
-import frc.robot.commands.hatch.ExtendHatchManipulator;
-import frc.robot.commands.hatch.RetractHatchManipulator;
+import frc.robot.commands.hatch.EjectHatch;
+import frc.robot.commands.hatch.RetractHatchEjector;
 import frc.robot.commands.hatch.SetHatchExtender;
 
 public class OI {
@@ -26,8 +26,8 @@ public class OI {
     private Joystick rightFlight;
     private XboxController xbox;
 
-    private JoystickButton extendHatchManipulator;
-    private JoystickButton retractHatchManipulator;
+    private JoystickButton ejectHatch;
+    private JoystickButton retractEjector;
     private JoystickButton extendHatcher;
     private JoystickButton retractHatcher;
 
@@ -42,12 +42,12 @@ public class OI {
         xbox = new XboxController(RobotMap.OI.XBOX);
 
         // Xbox binds
-        extendHatchManipulator = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
-        retractHatchManipulator = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
+        ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
+        retractEjector = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
         extendHatcher = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
         retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
-        extendHatchManipulator.whenPressed(new ExtendHatchManipulator());
-        retractHatchManipulator.whenPressed(new RetractHatchManipulator());
+        ejectHatch.whenPressed(new EjectHatch());
+        retractEjector.whenPressed(new RetractHatchEjector());
         extendHatcher.whenPressed(new SetHatchExtender(true));
         retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds
