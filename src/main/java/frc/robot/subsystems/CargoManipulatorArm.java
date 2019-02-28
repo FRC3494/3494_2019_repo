@@ -42,7 +42,7 @@ public class CargoManipulatorArm extends Subsystem {
     }
 
     public void setBrake(boolean brake) {
-        diskBrake.set(brake);
+        diskBrake.set(!brake);
     }
 
     public static CargoManipulatorArm getInstance() {
