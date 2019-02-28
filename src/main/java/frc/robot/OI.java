@@ -7,10 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.climb.feet.SetFrontFoot;
+import frc.robot.commands.climb.feet.SetRearFeet;
 import frc.robot.commands.climb.groups.LevelThree;
 import frc.robot.commands.hatch.ExtendHatchManipulator;
 import frc.robot.commands.hatch.RetractHatchManipulator;
@@ -30,6 +33,7 @@ public class OI {
 
     private JoystickButton engageZbar;
     private JoystickButton disengageZbar;
+    private JoystickButton retractAllFeet;
 
     private OI() {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
@@ -46,8 +50,13 @@ public class OI {
         extendHatcher.whenPressed(new SetHatchExtender(true));
         retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds
-        disengageZbar = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_DISENGAGE_BUTTON);
-        engageZbar = new JoystickButton(leftFlight, RobotMap.OI.SHIFT_ENGAGE_BUTTON);
+        disengageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_DISENGAGE_BUTTON);
+        engageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
+        retractAllFeet = new JoystickButton(leftFlight, RobotMap.OI.DISENGAGE_ALL_FEET);
+
+        retractAllFeet.whenPressed(new SetFrontFoot(DoubleSolenoid.Value.kReverse));
+        retractAllFeet.whenPressed(new SetRearFeet(DoubleSolenoid.Value.kReverse));
+
         disengageZbar.whenPressed(new LevelThree.UNREADY());
         engageZbar.whenPressed(new LevelThree.READY());
     }

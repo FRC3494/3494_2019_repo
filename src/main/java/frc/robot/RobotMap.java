@@ -77,8 +77,11 @@ public class RobotMap {
         public static final int RIGHT_JOY = 1;
         public static final int XBOX = 2;
 
-        public static final int SHIFT_ENGAGE_BUTTON = 5;
-        public static final int SHIFT_DISENGAGE_BUTTON = 11;
+        public static final int ZBAR_ENGAGE_BUTTON = 5;
+        public static final int ZBAR_DISENGAGE_BUTTON = 11;
+
+        public static final int ENGAGE_REAR_FEET = 2;
+        public static final int DISENGAGE_ALL_FEET = 3;
 
         public static final int EXTEND_HATCHER = 1; // A
         public static final int RETRACT_HATCHER = 2; // B
