@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.climb.feet.SetFrontFoot;
 import frc.robot.commands.climb.feet.SetRearFeet;
 import frc.robot.commands.climb.groups.LevelThree;
 import frc.robot.commands.hatch.EjectHatch;
 import frc.robot.commands.hatch.RetractHatchEjector;
 import frc.robot.commands.hatch.SetHatchExtender;
+import frc.robot.subsystems.HatchManipulator;
 
 public class OI {
 
@@ -27,7 +29,7 @@ public class OI {
     private XboxController xbox;
 
     private JoystickButton ejectHatch;
-    private JoystickButton retractEjector;
+    private JoystickButton extendCenter;
     private JoystickButton extendHatcher;
     private JoystickButton retractHatcher;
 
@@ -43,11 +45,17 @@ public class OI {
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
-        retractEjector = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
+        extendCenter = new JoystickButton(xbox, RobotMap.OI.EXTEND_CENTER);
         extendHatcher = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
         retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
         ejectHatch.whenPressed(new EjectHatch());
-        retractEjector.whenPressed(new RetractHatchEjector());
+        ejectHatch.whenReleased(new RetractHatchEjector());
+        extendCenter.whenReleased(
+                new InstantCommand(HatchManipulator.getInstance(),
+                        () -> HatchManipulator.getInstance().setCenterRod(true)));
+        extendCenter.whenReleased(
+                new InstantCommand(HatchManipulator.getInstance(),
+                        () -> HatchManipulator.getInstance().setCenterRod(false)));
         extendHatcher.whenPressed(new SetHatchExtender(true));
         retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds

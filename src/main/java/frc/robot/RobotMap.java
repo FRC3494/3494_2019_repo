@@ -53,10 +53,12 @@ public class RobotMap {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
         public static final int DISK_BRAKE = 5;
+        public static final int DISK_BRAKE_REVERSE = 6;
     }
 
     public class HATCH_MANIPULATOR {
         public static final int PUSH_FORWARD_CHANNEL = 0;
+        public static final int PUSH_REVERSE_CHANNEL = 4;
 
         public static final int CENTER_FORWARD_CHANNEL = 1;
 
@@ -86,7 +88,7 @@ public class RobotMap {
         public static final int EXTEND_HATCHER = 1; // A
         public static final int RETRACT_HATCHER = 2; // B
         public static final int EJECT_HATCH = 3; // X
-        public static final int RESET_EJECTOR = 4; // Y
+        public static final int EXTEND_CENTER = 4; // Y
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;

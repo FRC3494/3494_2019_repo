@@ -35,6 +35,10 @@ public class HatchManipulator extends Subsystem {
         this.pusher.set(false);
     }
 
+    public void setCenterRod(boolean b) {
+        this.centerRod.set(b);
+    }
+
     public void setExtended(DoubleSolenoid.Value value) {
         this.extender.set(value);
     }
