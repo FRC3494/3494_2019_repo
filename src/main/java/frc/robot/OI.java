@@ -88,6 +88,10 @@ public class OI {
         return -removeDeadband(rightFlight.getY());
     }
 
+    public double getXboxRightX() {
+        return removeDeadband(xbox.getX(GenericHID.Hand.kRight));
+    }
+
     public boolean getXboxLeftBumper() {
         return this.xbox.getBumper(GenericHID.Hand.kLeft);
     }
