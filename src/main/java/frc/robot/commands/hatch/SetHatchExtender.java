@@ -15,6 +15,10 @@ public class SetHatchExtender extends Command {
 
     @Override
     protected void execute() {
+        if (extended) {
+            HatchManipulator.getInstance().retractPusher();
+            HatchManipulator.getInstance().setCenterRod(false);
+        }
         HatchManipulator.getInstance().setExtended(extended ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
