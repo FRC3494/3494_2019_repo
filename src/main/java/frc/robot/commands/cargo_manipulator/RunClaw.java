@@ -2,7 +2,6 @@ package frc.robot.commands.cargo_manipulator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.CargoManipulator;
 
 public class RunClaw extends Command {
@@ -13,11 +12,12 @@ public class RunClaw extends Command {
 
     @Override
     protected void execute() {
-        if (OI.getInstance().getXboxA()) {
-            CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.INTAKE_SPEED);
-        } else if (OI.getInstance().getXboxB()) {
-            CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.OUTAKE_SPEED);
-        }
+        CargoManipulator.getInstance().drive(OI.getInstance().getXboxLeftTrigger() - OI.getInstance().getXboxRightTrigger());
+        // if (OI.getInstance().getXboxLeftBumper()) {
+        //    CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.INTAKE_SPEED);
+        // } else if (OI.getInstance().getXboxRightBumper()) {
+        //     CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.OUTAKE_SPEED);
+        // }
     }
 
     @Override
