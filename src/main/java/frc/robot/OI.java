@@ -50,12 +50,9 @@ public class OI {
         retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
         ejectHatch.whenPressed(new EjectHatch());
         ejectHatch.whenReleased(new RetractHatchEjector());
-        extendCenter.whenReleased(
+        extendCenter.whenPressed(
                 new InstantCommand(HatchManipulator.getInstance(),
-                        () -> HatchManipulator.getInstance().setCenterRod(true)));
-        extendCenter.whenReleased(
-                new InstantCommand(HatchManipulator.getInstance(),
-                        () -> HatchManipulator.getInstance().setCenterRod(false)));
+                        () -> HatchManipulator.getInstance().toggleCenter()));
         extendHatcher.whenPressed(new SetHatchExtender(true));
         retractHatcher.whenPressed(new SetHatchExtender(false));
         // Driver joystick binds
@@ -98,6 +95,14 @@ public class OI {
 
     public boolean getXboxRightBumper() {
         return this.xbox.getBumper(GenericHID.Hand.kRight);
+    }
+
+    public double getXboxLeftTrigger() {
+        return this.xbox.getTriggerAxis(GenericHID.Hand.kLeft);
+    }
+
+    public double getXboxRightTrigger() {
+        return this.xbox.getTriggerAxis(GenericHID.Hand.kRight);
     }
 
     public boolean getXboxA() {
