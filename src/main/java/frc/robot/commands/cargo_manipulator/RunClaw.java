@@ -12,7 +12,7 @@ public class RunClaw extends Command {
 
     @Override
     protected void execute() {
-        CargoManipulator.getInstance().drive(OI.getInstance().getXboxLeftTrigger() - OI.getInstance().getXboxRightTrigger());
+        CargoManipulator.getInstance().drive((OI.getInstance().getXboxLeftTrigger() / 2.0) - OI.getInstance().getXboxRightTrigger());
         // if (OI.getInstance().getXboxLeftBumper()) {
         //    CargoManipulator.getInstance().drive(RobotMap.CARGO_MANIPULATOR.INTAKE_SPEED);
         // } else if (OI.getInstance().getXboxRightBumper()) {

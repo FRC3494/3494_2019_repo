@@ -35,6 +35,10 @@ public class Climber extends Subsystem {
         this.rearFeet.set(value);
     }
 
+    public DoubleSolenoid.Value getRearFeet() {
+        return this.rearFeet.get();
+    }
+
     public boolean isEngaged() {
         return this.shifter.get().equals(DoubleSolenoid.Value.kReverse);
     }

@@ -47,6 +47,10 @@ public class HatchManipulator extends Subsystem {
         this.extender.set(value);
     }
 
+    public boolean isExtended() {
+        return this.extender.get().equals(DoubleSolenoid.Value.kForward);
+    }
+
     public void initDefaultCommand() {
         // TODO: Set the default command, if any, for a subsystem here. Example:
         //    setDefaultCommand(new MySpecialCommand());
