@@ -21,6 +21,7 @@ public class CargoManipulatorArm extends Subsystem {
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
         diskBrake = new Solenoid(RobotMap.PCM_B, RobotMap.CARGO_ARM.DISK_BRAKE);
+        diskBrake.set(true);
     }
 
     /**
