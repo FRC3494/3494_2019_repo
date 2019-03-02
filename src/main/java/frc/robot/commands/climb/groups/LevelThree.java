@@ -11,7 +11,7 @@ public class LevelThree {
         public READY() {
             addSequential(new Shift(DoubleSolenoid.Value.kReverse));
             addSequential(new SetFrontFoot(DoubleSolenoid.Value.kForward));
-            addSequential(new SetRearFeet(DoubleSolenoid.Value.kForward));
+            addSequential(new SetRearFeet(DoubleSolenoid.Value.kReverse));
         }
     }
 
@@ -19,7 +19,7 @@ public class LevelThree {
         public UNREADY() {
             addSequential(new Shift(DoubleSolenoid.Value.kForward));
             addSequential(new SetFrontFoot(DoubleSolenoid.Value.kReverse));
-            addSequential(new SetRearFeet(DoubleSolenoid.Value.kReverse));
+            addSequential(new SetRearFeet(DoubleSolenoid.Value.kForward));
         }
     }
 }

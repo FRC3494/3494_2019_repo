@@ -18,7 +18,9 @@ public class Climber extends Subsystem {
         this.shifter.set(DoubleSolenoid.Value.kForward);
 
         this.frontFoot = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.FRONT_FOOT_FORWARD, RobotMap.CLIMBER.FRONT_FOOT_REVERSE);
+        this.frontFoot.set(DoubleSolenoid.Value.kReverse);
         this.rearFeet = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.REAR_FEET_FORWARD, RobotMap.CLIMBER.REAR_FEET_REVERSE);
+        this.rearFeet.set(DoubleSolenoid.Value.kForward);
     }
 
     public void setShifter(DoubleSolenoid.Value value) {
