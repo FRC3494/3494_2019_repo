@@ -36,6 +36,14 @@ public class ComboManipulator extends Subsystem {
         this.pistons.set(!open);
     }
 
+    public boolean isOpen() {
+        return !this.pistons.get();
+    }
+
+    public void toggleOpen() {
+        this.setOpen(!this.isOpen());
+    }
+
     public static ComboManipulator getInstance() {
         return INSTANCE;
     }

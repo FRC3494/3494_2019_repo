@@ -16,8 +16,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.climb.TogglePreclimb;
 import frc.robot.commands.climb.ToggleShifter;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
-import frc.robot.commands.hatch.EjectHatch;
-import frc.robot.commands.hatch.RetractHatchEjector;
+import frc.robot.subsystems.ComboManipulator;
 import frc.robot.subsystems.HatchManipulator;
 
 public class OI {
@@ -50,8 +49,9 @@ public class OI {
         secondLevel = new JoystickButton(xbox, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         preclimb = new JoystickButton(xbox, 2);
 
-        ejectHatch.whenPressed(new EjectHatch());
-        ejectHatch.whenReleased(new RetractHatchEjector());
+        ejectHatch.whenPressed(
+                new InstantCommand(ComboManipulator.getInstance(),
+                        () -> ComboManipulator.getInstance().toggleOpen()));
         secondLevel.whenPressed(new ToggleRearFeet());
         extendCenter.whenPressed(
                 new InstantCommand(HatchManipulator.getInstance(),
