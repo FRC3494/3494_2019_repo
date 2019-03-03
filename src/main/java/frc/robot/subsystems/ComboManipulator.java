@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.combo_manipulator.RunWheels;
 
 /**
  * Combination cargo/hatch manipulator.
@@ -41,5 +42,6 @@ public class ComboManipulator extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new RunWheels());
     }
 }
