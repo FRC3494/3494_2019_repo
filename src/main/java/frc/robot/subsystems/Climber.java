@@ -14,7 +14,7 @@ public class Climber extends Subsystem {
     private static Climber INSTANCE = new Climber();
 
     private Climber() {
-        this.shifter = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
+        this.shifter = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
         this.shifter.set(DoubleSolenoid.Value.kForward);
 
         this.frontFoot = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.FRONT_FOOT_FORWARD, RobotMap.CLIMBER.FRONT_FOOT_REVERSE);
@@ -35,8 +35,8 @@ public class Climber extends Subsystem {
         this.rearFeet.set(value);
     }
 
-    public DoubleSolenoid.Value getRearFeet() {
-        return this.rearFeet.get();
+    public DoubleSolenoid.Value getFrontFoot() {
+        return this.frontFoot.get();
     }
 
     public boolean isEngaged() {
