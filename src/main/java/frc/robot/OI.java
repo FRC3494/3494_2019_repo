@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.climb.Shift;
+import frc.robot.commands.climb.TogglePreclimb;
+import frc.robot.commands.climb.ToggleShifter;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.hatch.EjectHatch;
 import frc.robot.commands.hatch.RetractHatchEjector;
@@ -56,12 +57,13 @@ public class OI {
                 new InstantCommand(HatchManipulator.getInstance(),
                         () -> HatchManipulator.getInstance().toggleCenter()));
         toggleHatcherExtended.whenPressed(new InstantCommand(HatchManipulator.getInstance(), extendHatcher));
+        preclimb.whenPressed(new TogglePreclimb());
         // Driver joystick binds
         floorGet = new JoystickButton(leftFlight, 1);
         engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
 
         floorGet.whenPressed(new InstantCommand(HatchManipulator.getInstance(), extendHatcher));
-        engageZbar.whenPressed(new Shift(DoubleSolenoid.Value.kReverse));
+        engageZbar.whenPressed(new ToggleShifter());
     }
 
     public static double removeDeadband(double y) {
