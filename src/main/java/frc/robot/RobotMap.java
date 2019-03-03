@@ -39,24 +39,25 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
-        public static final int FRONT_FOOT_FORWARD = 4;
-        public static final int FRONT_FOOT_REVERSE = 5;
+        public static final int FRONT_FOOT_FORWARD = 5;
+        public static final int FRONT_FOOT_REVERSE = 4;
 
-        public static final int REAR_FEET_FORWARD = 2;
-        public static final int REAR_FEET_REVERSE = 3;
+        public static final int REAR_FEET_FORWARD = 3;
+        public static final int REAR_FEET_REVERSE = 2;
 
-        public static final int SHIFTER_FORWARD_CHANNEL = 0;
-        public static final int SHIFTER_REVERSE_CHANNEL = 1;
+        public static final int SHIFTER_FORWARD_CHANNEL = 5;
+        public static final int SHIFTER_REVERSE_CHANNEL = 6;
     }
 
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE = 5;
+        public static final int DISK_BRAKE = 1;
     }
 
     public class HATCH_MANIPULATOR {
         public static final int PUSH_FORWARD_CHANNEL = 0;
+        public static final int PUSH_REVERSE_CHANNEL = 4;
 
         public static final int CENTER_FORWARD_CHANNEL = 1;
 
@@ -77,16 +78,12 @@ public class RobotMap {
         public static final int RIGHT_JOY = 1;
         public static final int XBOX = 2;
 
-        public static final int ZBAR_ENGAGE_BUTTON = 5;
-        public static final int ZBAR_DISENGAGE_BUTTON = 11;
+        public static final int ZBAR_ENGAGE_BUTTON = 1;
 
-        public static final int ENGAGE_REAR_FEET = 6;
-        public static final int DISENGAGE_ALL_FEET = 7;
-
-        public static final int EXTEND_HATCHER = 1; // A
-        public static final int RETRACT_HATCHER = 2; // B
-        public static final int EJECT_HATCH = 3; // X
-        public static final int RESET_EJECTOR = 4; // Y
+        public static final int EXTEND_HATCHER = 4; // Y
+        public static final int EJECT_HATCH = 6; // right bumper
+        public static final int EXTEND_CENTER = 1; // A
+        public static final int SECOND_LEVEL_CLIMBER = 3; // X
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;

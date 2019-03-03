@@ -15,6 +15,7 @@ public class SetRearFeet extends Command {
 
     @Override
     protected void execute() {
+        System.out.println(v.name());
         Climber.getInstance().setRearFeet(v);
     }
 

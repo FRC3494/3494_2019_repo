@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climb.feet.SetFrontFoot;
-import frc.robot.commands.climb.feet.SetRearFeet;
-import frc.robot.commands.climb.groups.LevelThree;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.climb.TogglePreclimb;
+import frc.robot.commands.climb.ToggleShifter;
+import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.hatch.EjectHatch;
 import frc.robot.commands.hatch.RetractHatchEjector;
-import frc.robot.commands.hatch.SetHatchExtender;
+import frc.robot.subsystems.HatchManipulator;
 
 public class OI {
 
@@ -27,41 +28,42 @@ public class OI {
     private XboxController xbox;
 
     private JoystickButton ejectHatch;
-    private JoystickButton retractEjector;
-    private JoystickButton extendHatcher;
-    private JoystickButton retractHatcher;
+    private JoystickButton extendCenter;
+    private JoystickButton toggleHatcherExtended;
+    private JoystickButton secondLevel;
+    private JoystickButton preclimb;
 
+    private JoystickButton floorGet;
     private JoystickButton engageZbar;
-    private JoystickButton disengageZbar;
-    private JoystickButton retractAllFeet;
-    private JoystickButton engageRearFeet;
 
     private OI() {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.OI.RIGHT_JOY);
         xbox = new XboxController(RobotMap.OI.XBOX);
 
+        Runnable extendHatcher = () -> HatchManipulator.getInstance().setExtended(
+                HatchManipulator.getInstance().isExtended() ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
-        retractEjector = new JoystickButton(xbox, RobotMap.OI.RESET_EJECTOR);
-        extendHatcher = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
-        retractHatcher = new JoystickButton(xbox, RobotMap.OI.RETRACT_HATCHER);
+        extendCenter = new JoystickButton(xbox, RobotMap.OI.EXTEND_CENTER);
+        toggleHatcherExtended = new JoystickButton(xbox, RobotMap.OI.EXTEND_HATCHER);
+        secondLevel = new JoystickButton(xbox, RobotMap.OI.SECOND_LEVEL_CLIMBER);
+        preclimb = new JoystickButton(xbox, 2);
+
         ejectHatch.whenPressed(new EjectHatch());
-        retractEjector.whenPressed(new RetractHatchEjector());
-        extendHatcher.whenPressed(new SetHatchExtender(true));
-        retractHatcher.whenPressed(new SetHatchExtender(false));
+        ejectHatch.whenReleased(new RetractHatchEjector());
+        secondLevel.whenPressed(new ToggleRearFeet());
+        extendCenter.whenPressed(
+                new InstantCommand(HatchManipulator.getInstance(),
+                        () -> HatchManipulator.getInstance().toggleCenter()));
+        toggleHatcherExtended.whenPressed(new InstantCommand(HatchManipulator.getInstance(), extendHatcher));
+        preclimb.whenPressed(new TogglePreclimb());
         // Driver joystick binds
-        disengageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_DISENGAGE_BUTTON);
-        engageZbar = new JoystickButton(leftFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
-        engageRearFeet = new JoystickButton(leftFlight, RobotMap.OI.ENGAGE_REAR_FEET);
-        retractAllFeet = new JoystickButton(leftFlight, RobotMap.OI.DISENGAGE_ALL_FEET);
+        floorGet = new JoystickButton(leftFlight, 1);
+        engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
 
-        engageRearFeet.whenPressed(new SetRearFeet(DoubleSolenoid.Value.kForward));
-        retractAllFeet.whenPressed(new SetFrontFoot(DoubleSolenoid.Value.kReverse));
-        retractAllFeet.whenPressed(new SetRearFeet(DoubleSolenoid.Value.kReverse));
-
-        disengageZbar.whenPressed(new LevelThree.UNREADY());
-        engageZbar.whenPressed(new LevelThree.READY());
+        floorGet.whenPressed(new InstantCommand(HatchManipulator.getInstance(), extendHatcher));
+        engageZbar.whenPressed(new ToggleShifter());
     }
 
     public static double removeDeadband(double y) {
@@ -80,12 +82,24 @@ public class OI {
         return -removeDeadband(rightFlight.getY());
     }
 
+    public double getXboxRightY() {
+        return removeDeadband(xbox.getY(GenericHID.Hand.kRight));
+    }
+
     public boolean getXboxLeftBumper() {
         return this.xbox.getBumper(GenericHID.Hand.kLeft);
     }
 
     public boolean getXboxRightBumper() {
         return this.xbox.getBumper(GenericHID.Hand.kRight);
+    }
+
+    public double getXboxLeftTrigger() {
+        return this.xbox.getTriggerAxis(GenericHID.Hand.kLeft);
+    }
+
+    public double getXboxRightTrigger() {
+        return this.xbox.getTriggerAxis(GenericHID.Hand.kRight);
     }
 
     public boolean getXboxA() {
