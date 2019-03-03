@@ -73,6 +73,13 @@ public class RobotMap {
         public static final double OUTAKE_SPEED = -INTAKE_SPEED;
     }
 
+    public class COMBO_MANIPULATOR {
+        public static final int LEFT_MOTOR_CHANNEL = 4;
+        public static final int RIGHT_MOTOR_CHANNEL = 5;
+
+        public static final int PISTONS_CHANNEL = 1;
+    }
+
     public class OI {
         public static final int LEFT_JOY = 0;
         public static final int RIGHT_JOY = 1;
