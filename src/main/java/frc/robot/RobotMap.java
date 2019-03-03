@@ -45,15 +45,14 @@ public class RobotMap {
         public static final int REAR_FEET_FORWARD = 3;
         public static final int REAR_FEET_REVERSE = 2;
 
-        public static final int SHIFTER_FORWARD_CHANNEL = 1;
-        public static final int SHIFTER_REVERSE_CHANNEL = 0;
+        public static final int SHIFTER_FORWARD_CHANNEL = 5;
+        public static final int SHIFTER_REVERSE_CHANNEL = 6;
     }
 
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE = 5;
-        public static final int DISK_BRAKE_REVERSE = 6;
+        public static final int DISK_BRAKE = 1;
     }
 
     public class HATCH_MANIPULATOR {
@@ -80,13 +79,9 @@ public class RobotMap {
         public static final int XBOX = 2;
 
         public static final int ZBAR_ENGAGE_BUTTON = 1;
-        public static final int ZBAR_DISENGAGE_BUTTON = 11;
-
-        public static final int ENGAGE_REAR_FEET = 6;
-        public static final int DISENGAGE_ALL_FEET = 7;
 
         public static final int EXTEND_HATCHER = 4; // Y
-        public static final int EJECT_HATCH = 5; // Left bumper
+        public static final int EJECT_HATCH = 6; // right bumper
         public static final int EXTEND_CENTER = 1; // A
         public static final int SECOND_LEVEL_CLIMBER = 3; // X
     }
