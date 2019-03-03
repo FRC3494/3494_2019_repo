@@ -12,7 +12,7 @@ public class TogglePreclimb extends Command {
 
     @Override
     protected void execute() {
-        if (Climber.getInstance().getFrontFoot().equals(DoubleSolenoid.Value.kForward)) {
+        if (Climber.getInstance().getFrontFoot().equals(DoubleSolenoid.Value.kReverse)) {
             // Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse);
             Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward);
         } else {
