@@ -19,7 +19,7 @@ public class Drive extends Command {
         if (!Climber.getInstance().isEngaged()) {
             Drivetrain.getInstance().tankDrive(left, right);
         } else {
-            Drivetrain.getInstance().tankDrive(left, left);
+            Drivetrain.getInstance().tankDrive(Math.abs(left), Math.abs(left));
         }
     }
 

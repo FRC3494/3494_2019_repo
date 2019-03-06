@@ -20,7 +20,8 @@ public class CargoManipulatorArm extends Subsystem {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
-        diskBrake = new Solenoid(RobotMap.CARGO_ARM.DISK_BRAKE);
+        diskBrake = new Solenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE);
+        diskBrake.set(true);
     }
 
     /**
@@ -42,7 +43,7 @@ public class CargoManipulatorArm extends Subsystem {
     }
 
     public void setBrake(boolean brake) {
-        diskBrake.set(brake);
+        diskBrake.set(!brake);
     }
 
     public static CargoManipulatorArm getInstance() {

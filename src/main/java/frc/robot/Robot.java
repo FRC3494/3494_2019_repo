@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,10 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.Limelight;
 import frc.robot.sensors.PressureSensor;
-import frc.robot.subsystems.CargoManipulatorArm;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.HatchManipulator;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,10 +42,13 @@ public class Robot extends TimedRobot {
         Climber.getInstance();
         CargoManipulatorArm.getInstance();
         HatchManipulator.getInstance();
+        CargoManipulator.getInstance();
         // Start compressor
         new Compressor().start();
         // init limelight
         limelight = new Limelight();
+        UsbCamera c = CameraServer.getInstance().startAutomaticCapture("Emergency USB camera", 0);
+        c.setVideoMode(VideoMode.PixelFormat.kMJPEG, 265, 144, 15);
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
@@ -140,5 +143,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    public static Limelight getLimelight() {
+        return limelight;
     }
 }

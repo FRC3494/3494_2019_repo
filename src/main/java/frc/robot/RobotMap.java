@@ -25,7 +25,7 @@ public class RobotMap {
     // public static final int rangefinderModule = 1;
 
     public class DRIVETRAIN {
-        public static final int LEFT_MASTER_CHANNEL = 0;
+        public static final int LEFT_MASTER_CHANNEL = 17;
         public static final int LEFT_FOLLOWER_ONE_CHANNEL = 1;
         public static final int LEFT_FOLLOWER_TWO_CHANNEL = 2;
         public static final int RIGHT_MASTER_CHANNEL = 13;
@@ -65,22 +65,30 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
-        public static final int SHIFTER_FORWARD_CHANNEL = 0;
-        public static final int SHIFTER_REVERSE_CHANNEL = 1;
+        public static final int FRONT_FOOT_FORWARD = 5;
+        public static final int FRONT_FOOT_REVERSE = 4;
+
+        public static final int REAR_FEET_FORWARD = 3;
+        public static final int REAR_FEET_REVERSE = 2;
+
+        public static final int SHIFTER_FORWARD_CHANNEL = 5;
+        public static final int SHIFTER_REVERSE_CHANNEL = 6;
     }
 
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE = 2;
+        public static final int DISK_BRAKE = 1;
     }
 
     public class HATCH_MANIPULATOR {
-        public static final int PUSH_FORWARD_CHANNEL = 3;
+        public static final int PUSH_FORWARD_CHANNEL = 0;
         public static final int PUSH_REVERSE_CHANNEL = 4;
 
-        public static final int CENTER_FORWARD_CHANNEL = 5;
-        public static final int CENTER_REVERSE_CHANNEL = 6;
+        public static final int CENTER_FORWARD_CHANNEL = 1;
+
+        public static final int EXTENDER_FORWARD = 2;
+        public static final int EXTENDER_REVERSE = 3;
     }
 
     public class CARGO_MANIPULATOR {
@@ -96,14 +104,16 @@ public class RobotMap {
         public static final int RIGHT_JOY = 1;
         public static final int XBOX = 2;
 
-        public static final int SHIFT_ENGAGE_BUTTON = 5;
-        public static final int SHIFT_DISENGAGE_BUTTON = 11;
+        public static final int ZBAR_ENGAGE_BUTTON = 1;
 
-        public static final int ENGAGE_DISK_BRAKE = 1; // A
-        public static final int DISENGAGE_DISK_BRAKE = 2; // B
-        public static final int EXTEND_HATCH_MANIPULATOR_BUTTON = 3; // X
-        public static final int RETRACT_HATCH_MANIPULATOR_BUTTON = 4; // Y
+        public static final int EXTEND_HATCHER = 4; // Y
+        public static final int EJECT_HATCH = 6; // right bumper
+        public static final int EXTEND_CENTER = 1; // A
+        public static final int SECOND_LEVEL_CLIMBER = 3; // X
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;
+
+    public static final int PCM_A = 0;
+    public static final int PCM_B = 1;
 }
