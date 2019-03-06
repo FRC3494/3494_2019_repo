@@ -46,11 +46,18 @@ public class RobotMap {
         public static final double TIMEOUT = 15;
         public static final double CARGO_HATCH_TAPE_WIDTH_FEET = 14.63 / 12;
         public static final double CARGO_HATCH_TAPE_HEIGHT_FEET = 5.83 / 12;
-        public static final double WIDTH_BETWEEN_ROBOT_WHEELS_FEET = 15; //find number
+        public static final double WIDTH_BETWEEN_ROBOT_WHEELS_FEET = 28 / 12; //find number
         public static final double SURFACE_ANGLE = 5; //find number
         public static final double NORMAL_LOWER = 0;//find
         public static final double NORMAL_CENTER = 0;//find
         public static final double NORMAL_UPPER = 0;//find
+        public static final double MAX_SPEED = 0.5;//percent power
+
+        public static final double
+                kP = 0.0,
+                kI = 0.0,
+                kD = 0.0,
+                kF = 0.0;
     }
 
     public class TURN_DRIVE{

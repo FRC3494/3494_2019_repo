@@ -7,23 +7,30 @@ import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.SynchronousPIDF;
 
 
 public class ArcDrive extends TimedCommand {
+    private SynchronousPIDF pidControllerLeft, pidControllerRight;
+
+    private boolean isPossible = false;
+
     private Timer timer;
+    private double lastTime = 0;
+
     private Vector2d directionIntoTarget;//not set yet
     private double arcRadius;
     private double initialAngleToTargetCenter;//not set yet
-    private double initialAngleToTargetEdge;//not set yet
+    private double angleBetweenCenterAndEdge;
     private double initialDistToTargetCenter;//not set yet
     private double initialDistToTargetEdge;//not set yet
-    private double angleBetweenCenterAndEdge;//not set yet
+    private double initialAngleToTargetEdge;//not set yet
     private double kiteLegLength;
     private double cornerToTargetDist;
     private double initialDrivingDist;
     private double initialDistToCorner;
     private double angleToCenterRobotToTarget;//not set yet
-    private double distToTargetAfterArc;//not set yet
+    private double distToTargetAfterArc;
     private double arcAngle;
 
     public ArcDrive() {
@@ -33,11 +40,25 @@ public class ArcDrive extends TimedCommand {
 
         this.timer = new Timer();
 
-        this.directionIntoTarget = new Vector2d(0, 0);
+        this.pidControllerLeft = new SynchronousPIDF(RobotMap.ARC_DRIVE.kP,
+                                                RobotMap.ARC_DRIVE.kI,
+                                                RobotMap.ARC_DRIVE.kD,
+                                                RobotMap.ARC_DRIVE.kF);
+
+        this.pidControllerRight = new SynchronousPIDF(RobotMap.ARC_DRIVE.kP,
+                RobotMap.ARC_DRIVE.kI,
+                RobotMap.ARC_DRIVE.kD,
+                RobotMap.ARC_DRIVE.kF);
+
+        //this.directionIntoTarget = new Vector2d(0, 0);
     }
 
     private boolean isRightOfTarget(){
 
+    }
+
+    private void setAngleBetweenCenterAndEdge(){
+        this.angleBetweenCenterAndEdge = this.initialAngleToTargetEdge - this.initialAngleToTargetCenter;
     }
 
     private void setArcAngle(){
@@ -83,8 +104,16 @@ public class ArcDrive extends TimedCommand {
         return (this.cornerToTargetDist > this.kiteLegLength);
     }
 
+
     private double setInitialDistanceToTargetCenter(){
         return 0;
+    }
+
+    private void setInitialDistToTargetEdge(){
+        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
+                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
+                    - Math.pow(this.initialDistToTargetCenter, 2)
+                    + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
     }
 
     private void setArcRadius(){
@@ -110,7 +139,31 @@ public class ArcDrive extends TimedCommand {
     @Override
     protected void initialize() {
         this.timer.start();
-        this.initialAngleToTargetCenter = Robot.getFrontLimelightInstance().getXDistance();
+        this.isPossible = isPathPossible();
+        if(!isPossible){
+            return;
+        }
+
+        double leftToRightSpeedRatio = (this.arcRadius - RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2)
+                                            / (this.arcRadius + RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2);
+        double leftSetpoint;
+        double rightSetpoint;
+        if(){//if target is left
+            leftSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED;
+            rightSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED * leftToRightSpeedRatio;
+        }else{
+            leftSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED / leftToRightSpeedRatio;
+            rightSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED;
+        }
+        this.pidControllerLeft.setSetpoint(leftSetpoint);
+        this.pidControllerRight.setSetpoint(rightSetpoint);
+
+        this.pidControllerLeft.setOutputRange(-1,1);
+        this.pidControllerLeft.setDeadband(leftSetpoint / 10);
+
+        this.pidControllerRight.setOutputRange(-1,1);
+        this.pidControllerRight.setDeadband(rightSetpoint / 10);
+
     }
 
 
@@ -120,6 +173,12 @@ public class ArcDrive extends TimedCommand {
      */
     @Override
     protected void execute() {
+        double dt = this.timer.get() - lastTime;
+        double left = this.pidControllerLeft.calculate(Drivetrain.getInstance().getLeftAverageVelocity(), dt);
+        double right = this.pidControllerRight.calculate(Drivetrain.getInstance().getRightAverageVelocity(), dt);
+        Drivetrain.getInstance().tankDrive(left, right);
+
+        this.lastTime = timer.get();
 
     }
 
@@ -144,7 +203,7 @@ public class ArcDrive extends TimedCommand {
     @Override
     protected boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return !isPossible && ;
     }
 
 
