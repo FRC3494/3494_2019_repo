@@ -3,6 +3,7 @@ package frc.robot.commands.drive.auto;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
@@ -10,16 +11,20 @@ import frc.robot.subsystems.Drivetrain;
 
 public class ArcDrive extends TimedCommand {
     private Timer timer;
+    private Vector2d directionIntoTarget;//not set yet
     private double arcRadius;
-    private double initialAngleToTargetCenter;
-    private double initialAngleToTargetEdge;
-    private double initialDistToTargetCenter;
-    private double initialDistToTargetEdge;
-    private double angleBetweenCenterAndEdge;
+    private double initialAngleToTargetCenter;//not set yet
+    private double initialAngleToTargetEdge;//not set yet
+    private double initialDistToTargetCenter;//not set yet
+    private double initialDistToTargetEdge;//not set yet
+    private double angleBetweenCenterAndEdge;//not set yet
     private double kiteLegLength;
-    private double cornerToTargetDistance;
-    private double initialDrivingDistance;
-    private double angleToCenterRobotToTarget;
+    private double cornerToTargetDist;
+    private double initialDrivingDist;
+    private double initialDistToCorner;
+    private double angleToCenterRobotToTarget;//not set yet
+    private double distToTargetAfterArc;//not set yet
+    private double arcAngle;
 
     public ArcDrive() {
         super(RobotMap.ARC_DRIVE.TIMEOUT);
@@ -27,24 +32,67 @@ public class ArcDrive extends TimedCommand {
         requires(Drivetrain.getInstance());
 
         this.timer = new Timer();
+
+        this.directionIntoTarget = new Vector2d(0, 0);
     }
 
+    private boolean isRightOfTarget(){
+
+    }
+
+    private void setArcAngle(){
+        this.arcAngle = Math.acos(1
+                - (Math.pow(this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
+                    + this.directionIntoTarget.x * this.distToTargetAfterArc - this.initialDrivingDist, 2)
+                + Math.pow(this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)
+                    + this.directionIntoTarget.y * this.distToTargetAfterArc, 2))
+                / (2 * Math.pow(this.arcRadius, 2)));
+    }
+
+    //this.directionIntoTarget.rotate() takes degrees and rotates counterclockwise
+    private Vector2d getRotatedDirectionIntoTarget(){
+        Vector2d rotatedDirection = new Vector2d(this.directionIntoTarget.x, this.directionIntoTarget.y);
+        rotatedDirection.rotate(90);
+        return rotatedDirection;
+    }
+
+    private void setDistToTargetAfterArc(){
+        this.distToTargetAfterArc = this.cornerToTargetDist - this.kiteLegLength;
+    }
 
     private void setInitialDrivingDistance(){
-        this.initialDrivingDistance = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
+        this.initialDrivingDist = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
             - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
     }
 
-    private void setKiteLegLength(){
-
+    //equation: sqrt((d_ix - L_x)^2 + (d_iy)^2))
+    private void setCornerToTargetDist(){
+        this.cornerToTargetDist = Math.sqrt(Math.pow(
+                this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter) - this.initialDistToCorner, 2))
+                + (Math.pow(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter),2));
     }
 
+    private void setKiteLegLength(){
+        this.kiteLegLength = this.initialDistToCorner - this.initialDrivingDist;
+    }
+    private void setInitialDistToCorner(){
+        this.initialDistToCorner = -(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)) / Math.tan(this.angleToCenterRobotToTarget)
+                + (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter));
+    }
     private boolean isPathPossible(){
-        return (this.cornerToTargetDistance > this.kiteLegLength);
+        return (this.cornerToTargetDist > this.kiteLegLength);
     }
 
     private double setInitialDistanceToTargetCenter(){
         return 0;
+    }
+
+    private void setArcRadius(){
+        Vector2d rotatedDirection = getRotatedDirectionIntoTarget();
+        this.arcRadius = rotatedDirection.y/rotatedDirection.x * (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
+            + this.directionIntoTarget.x * this.distToTargetAfterArc + this.initialDrivingDist)
+            + this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)
+            + this.directionIntoTarget.y * this.distToTargetAfterArc;
     }
 
     private void setInitialAngleToTargetEdge(){
