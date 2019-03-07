@@ -1,10 +1,17 @@
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.sensors.Limelight;
+import frc.robot.sensors.PressureSensor;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -16,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
     Command autonomousCommand;
     SendableChooser<Command> chooser = new SendableChooser<>();
+    private static Limelight limelight;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -23,9 +31,30 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        // HACK: Singletons don't like working unless they're grabbed before use.
+        OI.getInstance();
+        Drivetrain.getInstance();
+        Climber.getInstance();
+        CargoManipulatorArm.getInstance();
+        HatchManipulator.getInstance();
+        CargoManipulator.getInstance();
+        // Start compressor
+        new Compressor().start();
+        // init limelight
+        limelight = new Limelight();
+        UsbCamera c = CameraServer.getInstance().startAutomaticCapture("Emergency USB camera", 0);
+        c.setVideoMode(VideoMode.PixelFormat.kMJPEG, 265, 144, 15);
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+
+        String[] displays = new String[]{"Display Drivetrain data?", "Display navX data?", "Display pressure?"};
+        for (String display : displays) {
+            if (!SmartDashboard.containsKey(display)) {
+                SmartDashboard.putBoolean(display, false);
+                SmartDashboard.setPersistent(display);
+            }
+        }
     }
 
     /**
@@ -38,6 +67,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        if (SmartDashboard.getBoolean("Display pressure?", false)) {
+            SmartDashboard.putNumber("Pnuematic pressure", PressureSensor.getInstance().getPressure());
+        }
     }
 
     /**
@@ -57,9 +89,7 @@ public class Robot extends TimedRobot {
     /**
      * This autonomous (along with the chooser code above) shows how to select
      * between different autonomous modes using the dashboard. The sendable
-     * chooser code works with the Java SmartDashboard. If you prefer the
-     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-     * getString code to get the auto name from the text box below the Gyro
+     * chooser code works with the Java SmartDashboard.
      *
      * <p>You can add additional auto modes by adding additional commands to the
      * chooser code above (like the commented example) or additional comparisons
@@ -92,6 +122,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
     }
 
     /**
@@ -107,5 +138,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    public static Limelight getLimelight() {
+        return limelight;
     }
 }
