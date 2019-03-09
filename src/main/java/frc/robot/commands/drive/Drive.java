@@ -17,14 +17,20 @@ public class Drive extends Command {
         double right = OI.getInstance().getRightY();
 
         if (!Climber.getInstance().isEngaged()) {
-            Drivetrain.getInstance().tankDrive(left, right);
+            Drivetrain.getInstance().tankDrive(powerCurve(left), powerCurve(right));
         } else {
-            Drivetrain.getInstance().tankDrive(Math.abs(left), Math.abs(left));
+            Drivetrain.getInstance().tankDrive(powerCurve(Math.abs(left)), powerCurve(Math.abs(left)));
         }
     }
 
     @Override
     protected boolean isFinished() {
         return false;
+    }
+
+    private static double powerCurve(double x) {
+        // https://www.desmos.com/calculator/g07ukjj7bl
+        double curve = (0.5D * (Math.atan(Math.PI * (x - 0.5D)))) + 0.5D;
+        return Math.copySign(curve, x);
     }
 }
