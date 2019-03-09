@@ -38,12 +38,8 @@ public class CargoManipulatorArm extends Subsystem {
         return armMotor.getSelectedSensorPosition();
     }
 
-    public double getEncoderPos() {
-        return this.getCounts() * 0.25D;
-    }
-
     public double getRotations() {
-        return this.getEncoderPos() * RobotMap.CARGO_ARM.PPR;
+        return this.getCounts() * RobotMap.CARGO_ARM.PPR;
     }
 
     public void resetEncoder() {
