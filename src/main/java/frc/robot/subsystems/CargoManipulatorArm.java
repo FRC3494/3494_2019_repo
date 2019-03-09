@@ -18,7 +18,7 @@ public class CargoManipulatorArm extends Subsystem {
 
     private CargoManipulatorArm() {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
-        armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         diskBrake = new Solenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE);
         diskBrake.set(true);
@@ -36,6 +36,14 @@ public class CargoManipulatorArm extends Subsystem {
 
     public int getCounts() {
         return armMotor.getSelectedSensorPosition();
+    }
+
+    public double getEncoderPos() {
+        return this.getCounts() * 0.25D;
+    }
+
+    public double getRotations() {
+        return this.getEncoderPos() * RobotMap.CARGO_ARM.PPR;
     }
 
     public void resetEncoder() {
