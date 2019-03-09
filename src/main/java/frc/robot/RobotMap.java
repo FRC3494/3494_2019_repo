@@ -53,6 +53,8 @@ public class RobotMap {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
         public static final int DISK_BRAKE = 1;
+
+        public static final int PPR = 4096;
     }
 
     public class HATCH_MANIPULATOR {
