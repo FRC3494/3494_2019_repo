@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
+import frc.robot.sensors.Linebreaker;
 
 public class CargoManipulatorArm extends Subsystem {
 
@@ -16,12 +17,16 @@ public class CargoManipulatorArm extends Subsystem {
     private TalonSRX armMotor;
     private Solenoid diskBrake;
 
+    private Linebreaker lb;
+
     private CargoManipulatorArm() {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         diskBrake = new Solenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE);
         diskBrake.set(true);
+
+        lb = new Linebreaker(RobotMap.CARGO_ARM.LINEBREAK);
     }
 
     /**
@@ -48,6 +53,13 @@ public class CargoManipulatorArm extends Subsystem {
 
     public void setBrake(boolean brake) {
         diskBrake.set(!brake);
+    }
+
+    @Override
+    public void periodic() {
+        if (lb.lineBroken()) {
+            this.resetEncoder();
+        }
     }
 
     public static CargoManipulatorArm getInstance() {
