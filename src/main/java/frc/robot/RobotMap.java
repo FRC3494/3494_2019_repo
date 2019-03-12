@@ -69,9 +69,7 @@ public class RobotMap {
 
         public static final int ZBAR_ENGAGE_BUTTON = 1;
 
-        public static final int EXTEND_HATCHER = 4; // Y
         public static final int EJECT_HATCH = 6; // right bumper
-        public static final int EXTEND_CENTER = 1; // A
         public static final int SECOND_LEVEL_CLIMBER = 3; // X
     }
 
