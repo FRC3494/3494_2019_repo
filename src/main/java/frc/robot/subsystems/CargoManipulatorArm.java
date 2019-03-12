@@ -55,9 +55,13 @@ public class CargoManipulatorArm extends Subsystem {
         diskBrake.set(!brake);
     }
 
+    public boolean lineBroken() {
+        return lb.lineBroken();
+    }
+
     @Override
     public void periodic() {
-        if (lb.lineBroken()) {
+        if (this.lineBroken()) {
             this.resetEncoder();
         }
     }
