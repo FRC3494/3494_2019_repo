@@ -13,13 +13,13 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-        double left = OI.getInstance().getLeftY();
-        double right = OI.getInstance().getRightY();
+        double leftStick = OI.getInstance().getLeftY();
+        double rightStick = OI.getInstance().getRightY();
 
         if (!Climber.getInstance().isEngaged()) {
-            Drivetrain.getInstance().tankDrive(left, right);
+            Drivetrain.getInstance().tankDrive(leftStick, rightStick);
         } else {
-            Drivetrain.getInstance().tankDrive(Math.abs(left), Math.abs(left));
+            Drivetrain.getInstance().tankDrive(Math.abs(leftStick), Math.abs(leftStick));
         }
     }
 
