@@ -7,6 +7,12 @@ import frc.robot.subsystems.Drivetrain;
 
 public class Drive extends Command {
 
+    /**
+     * Indicator of which side of the robot is the "front" for operator driving. Set to true iff the driver has
+     * swapped fronts. Use for applications beyond operator input is strictly forbidden for sanity.
+     */
+    private boolean sideFlipped = false;
+
     public Drive() {
         requires(Drivetrain.getInstance());
     }
@@ -17,9 +23,22 @@ public class Drive extends Command {
         double rightStick = OI.getInstance().getRightY();
 
         if (!Climber.getInstance().isEngaged()) {
-            Drivetrain.getInstance().tankDrive(leftStick, rightStick);
+            if (!sideFlipped) {
+                Drivetrain.getInstance().tankDrive(leftStick, rightStick);
+            } else {
+                Drivetrain.getInstance().tankDrive(-rightStick, -leftStick);
+            }
         } else {
             Drivetrain.getInstance().tankDrive(Math.abs(leftStick), Math.abs(leftStick));
+        }
+
+        int pov = OI.getInstance().getLeftPOV();
+        if (pov != -1) {
+            if (pov == 0) {
+                this.sideFlipped = false;
+            } else if (pov == 180) {
+                this.sideFlipped = true;
+            }
         }
     }
 
