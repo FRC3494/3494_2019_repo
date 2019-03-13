@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
         Drivetrain.getInstance();
         Climber.getInstance();
         CargoManipulatorArm.getInstance();
-        ComboManipulator.getInstance();
+        CargoManipulator.getInstance();
         SpadeHatcher.getInstance();
         // Start compressor
         new Compressor().start();

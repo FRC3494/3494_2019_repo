@@ -60,7 +60,7 @@ public class RobotMap {
         public static final int REVERSE_CHANNEL = 1;
     }
 
-    public class COMBO_MANIPULATOR {
+    public class CARGO_MANIPULATOR {
         public static final int LEFT_MOTOR_CHANNEL = 4;
         public static final int RIGHT_MOTOR_CHANNEL = 5;
 

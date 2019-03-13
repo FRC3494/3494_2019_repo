@@ -5,25 +5,25 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.combo_manipulator.RunWheels;
+import frc.robot.commands.cargo.RunWheels;
 
 /**
  * Combination cargo/hatch manipulator.
  */
-public class ComboManipulator extends Subsystem {
+public class CargoManipulator extends Subsystem {
 
     private TalonSRX leftMotor;
     private TalonSRX rightMotor;
 
     private Solenoid pistons;
 
-    private static final ComboManipulator INSTANCE = new ComboManipulator();
+    private static final CargoManipulator INSTANCE = new CargoManipulator();
 
-    private ComboManipulator() {
-        this.leftMotor = new TalonSRX(RobotMap.COMBO_MANIPULATOR.LEFT_MOTOR_CHANNEL);
-        this.rightMotor = new TalonSRX(RobotMap.COMBO_MANIPULATOR.RIGHT_MOTOR_CHANNEL);
+    private CargoManipulator() {
+        this.leftMotor = new TalonSRX(RobotMap.CARGO_MANIPULATOR.LEFT_MOTOR_CHANNEL);
+        this.rightMotor = new TalonSRX(RobotMap.CARGO_MANIPULATOR.RIGHT_MOTOR_CHANNEL);
 
-        this.pistons = new Solenoid(RobotMap.PCM_B, RobotMap.COMBO_MANIPULATOR.PISTONS_CHANNEL);
+        this.pistons = new Solenoid(RobotMap.PCM_B, RobotMap.CARGO_MANIPULATOR.PISTONS_CHANNEL);
         this.pistons.set(false);
     }
 
@@ -44,7 +44,7 @@ public class ComboManipulator extends Subsystem {
         this.setOpen(!this.isOpen());
     }
 
-    public static ComboManipulator getInstance() {
+    public static CargoManipulator getInstance() {
         return INSTANCE;
     }
 
