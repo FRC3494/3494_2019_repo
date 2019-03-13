@@ -14,15 +14,11 @@ public class GotoPosition extends Command {
 
     @Override
     protected void execute() {
-        if (CargoManipulatorArm.getInstance().getRotations() > this.rotations) {
-            CargoManipulatorArm.getInstance().lift(-0.25);
-        } else if (CargoManipulatorArm.getInstance().getRotations() < this.rotations) {
-            CargoManipulatorArm.getInstance().lift(0.25);
-        }
+        CargoManipulatorArm.getInstance().setLiftTarget(rotations);
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(CargoManipulatorArm.getInstance().getRotations() - rotations) < 0.01;
+        return CargoManipulatorArm.getInstance().getLiftError() < 100;
     }
 }
