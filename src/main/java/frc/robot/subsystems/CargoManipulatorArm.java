@@ -9,6 +9,9 @@ import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
 import frc.robot.sensors.Linebreaker;
 
+/**
+ * Arm subsystem. In the context of this class, "rotations" refers to rotations of the arm gearbox output shaft.
+ */
 public class CargoManipulatorArm extends Subsystem {
 
     // Put methods for controlling this subsystem
