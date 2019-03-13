@@ -23,7 +23,7 @@ public class ComboManipulator extends Subsystem {
         this.leftMotor = new TalonSRX(RobotMap.COMBO_MANIPULATOR.LEFT_MOTOR_CHANNEL);
         this.rightMotor = new TalonSRX(RobotMap.COMBO_MANIPULATOR.RIGHT_MOTOR_CHANNEL);
 
-        this.pistons = new Solenoid(RobotMap.PCM_A, RobotMap.COMBO_MANIPULATOR.PISTONS_CHANNEL);
+        this.pistons = new Solenoid(RobotMap.PCM_B, RobotMap.COMBO_MANIPULATOR.PISTONS_CHANNEL);
         this.pistons.set(false);
     }
 
