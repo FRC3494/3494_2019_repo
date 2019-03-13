@@ -42,8 +42,8 @@ public class RobotMap {
         public static final int FRONT_FOOT_FORWARD = 5;
         public static final int FRONT_FOOT_REVERSE = 4;
 
-        public static final int REAR_FEET_FORWARD = 3;
-        public static final int REAR_FEET_REVERSE = 2;
+        public static final int REAR_FEET_FORWARD = 6;
+        public static final int REAR_FEET_REVERSE = 7;
 
         public static final int SHIFTER_FORWARD_CHANNEL = 5;
         public static final int SHIFTER_REVERSE_CHANNEL = 6;
@@ -59,7 +59,7 @@ public class RobotMap {
         public static final int LEFT_MOTOR_CHANNEL = 4;
         public static final int RIGHT_MOTOR_CHANNEL = 5;
 
-        public static final int PISTONS_CHANNEL = 1;
+        public static final int PISTONS_CHANNEL = 7;
     }
 
     public class OI {
