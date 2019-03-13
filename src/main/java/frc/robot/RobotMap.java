@@ -55,22 +55,11 @@ public class RobotMap {
         public static final int DISK_BRAKE = 1;
     }
 
-    public class HATCH_MANIPULATOR {
-        public static final int PUSH_FORWARD_CHANNEL = 0;
-        public static final int PUSH_REVERSE_CHANNEL = 4;
-
-        public static final int CENTER_FORWARD_CHANNEL = 1;
-
-        public static final int EXTENDER_FORWARD = 2;
-        public static final int EXTENDER_REVERSE = 3;
-    }
-
-    public class CARGO_MANIPULATOR {
+    public class COMBO_MANIPULATOR {
         public static final int LEFT_MOTOR_CHANNEL = 4;
         public static final int RIGHT_MOTOR_CHANNEL = 5;
 
-        public static final double INTAKE_SPEED = 0.5;
-        public static final double OUTAKE_SPEED = -INTAKE_SPEED;
+        public static final int PISTONS_CHANNEL = 1;
     }
 
     public class OI {
@@ -80,9 +69,7 @@ public class RobotMap {
 
         public static final int ZBAR_ENGAGE_BUTTON = 1;
 
-        public static final int EXTEND_HATCHER = 4; // Y
         public static final int EJECT_HATCH = 6; // right bumper
-        public static final int EXTEND_CENTER = 1; // A
         public static final int SECOND_LEVEL_CLIMBER = 3; // X
     }
 
