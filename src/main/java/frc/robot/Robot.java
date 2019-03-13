@@ -6,9 +6,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.auto.arm.RunToHome;
 import frc.robot.sensors.Limelight;
 import frc.robot.sensors.PressureSensor;
 import frc.robot.subsystems.CargoManipulatorArm;
@@ -101,9 +103,18 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
 
-        // schedule the autonomous command (example)
         if (autonomousCommand != null) {
-            autonomousCommand.start();
+            if (!(autonomousCommand instanceof CommandGroup)) {
+                // truly singular command -> add RunToHome in what I hope will be parallel
+                // If both commands require use of the arm strange things will probably happen
+                // to avoid this, use a single command wrapped in a group
+                CommandGroup group = new CommandGroup();
+                group.addParallel(autonomousCommand);
+                group.addParallel(new RunToHome());
+                group.start();
+            } else {
+                autonomousCommand.start();
+            }
         }
     }
 
