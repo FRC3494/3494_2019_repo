@@ -51,12 +51,16 @@ public class OI {
         engageZbar.whenPressed(new ToggleShifter());
     }
 
-    public static double removeDeadband(double y) {
-        if (Math.abs(y) <= .05) {
+    public static double removeDeadband(double y, double deadband) {
+        if (Math.abs(y) <= deadband) {
             return 0;
         } else {
             return y;
         }
+    }
+
+    public static double removeDeadband(double y) {
+        return removeDeadband(y, 0.05);
     }
 
     public double getLeftY() {
@@ -72,7 +76,7 @@ public class OI {
     }
 
     public double getXboxRightY() {
-        return removeDeadband(xbox.getY(GenericHID.Hand.kRight));
+        return removeDeadband(xbox.getY(GenericHID.Hand.kRight), 0.25);
     }
 
     public boolean getXboxLeftBumper() {
