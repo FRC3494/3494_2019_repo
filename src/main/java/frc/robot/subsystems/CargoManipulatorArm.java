@@ -51,6 +51,21 @@ public class CargoManipulatorArm extends Subsystem {
         armMotor.setSelectedSensorPosition(0);
     }
 
+    /**
+     * Drive the arm motor to a given position relative to the last homing.
+     */
+    public void setLiftTarget(double rotations) {
+        armMotor.set(ControlMode.Position, rotations);
+    }
+
+    public int getLiftError() {
+        return armMotor.getClosedLoopError();
+    }
+
+    public double getLiftErrorRotations() {
+        return armMotor.getClosedLoopError() * (1.0D / RobotMap.CARGO_ARM.PPR);
+    }
+
     public void setBrake(boolean brake) {
         diskBrake.set(!brake);
     }
