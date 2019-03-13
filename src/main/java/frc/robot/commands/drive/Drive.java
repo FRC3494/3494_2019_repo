@@ -49,7 +49,7 @@ public class Drive extends Command {
 
     private static double powerCurve(double x) {
         // https://www.desmos.com/calculator/g07ukjj7bl
-        double curve = (0.5D * (Math.atan(Math.PI * (x - 0.5D)))) + 0.5D;
+        double curve = (0.5D * (Math.atan(Math.PI * (Math.abs(x) - 0.5D)))) + 0.5D;
         return Math.copySign(curve, x);
     }
 }
