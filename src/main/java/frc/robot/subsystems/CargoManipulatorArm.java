@@ -47,7 +47,7 @@ public class CargoManipulatorArm extends Subsystem {
     }
 
     public double getRotations() {
-        return this.getCounts() * RobotMap.CARGO_ARM.PPR;
+        return this.getCounts() * (1.0 / RobotMap.CARGO_ARM.PPR);
     }
 
     public void resetEncoder() {
