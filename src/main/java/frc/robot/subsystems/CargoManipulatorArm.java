@@ -3,7 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.Solenoid;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
@@ -18,17 +19,22 @@ public class CargoManipulatorArm extends Subsystem {
     // here. Call these from Commands.
     private static final CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
     private TalonSRX armMotor;
-    private Solenoid diskBrake;
+    private DoubleSolenoid diskBrake;
 
     private Linebreaker lb;
 
     private CargoManipulatorArm() {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
         armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        // Configure talon to use mag encoder for PID (strictly necessary?)
+        TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
+        pidConfig.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
+        armMotor.configurePID(pidConfig);
+        // config PID constants
+        armMotor.config_kP(0, 0.125, 10);
 
-        diskBrake = new Solenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE);
-        diskBrake.set(true);
-
+        diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
+        diskBrake.set(DoubleSolenoid.Value.kForward);
         lb = new Linebreaker(RobotMap.CARGO_ARM.LINEBREAK);
     }
 
@@ -70,7 +76,7 @@ public class CargoManipulatorArm extends Subsystem {
     }
 
     public void setBrake(boolean brake) {
-        diskBrake.set(!brake);
+        diskBrake.set(brake ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
     }
 
     public boolean lineBroken() {

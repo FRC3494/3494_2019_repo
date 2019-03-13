@@ -56,6 +56,8 @@ public class RobotMap {
         public static final int DISK_BRAKE = 1;
 
         public static final int PPR = 4096;
+        public static final int DISK_BRAKE_FORWARD = 2;
+        public static final int DISK_BRAKE_REVERSE = 3;
     }
 
     public class COMBO_MANIPULATOR {
