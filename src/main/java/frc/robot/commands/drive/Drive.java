@@ -19,8 +19,8 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-        double leftStick = OI.getInstance().getLeftY();
-        double rightStick = OI.getInstance().getRightY();
+        double leftStick = powerCurve(OI.getInstance().getLeftY());
+        double rightStick = powerCurve(OI.getInstance().getRightY());
 
         if (!Climber.getInstance().isEngaged()) {
             if (!sideFlipped) {
@@ -45,5 +45,11 @@ public class Drive extends Command {
     @Override
     protected boolean isFinished() {
         return false;
+    }
+
+    private static double powerCurve(double x) {
+        // https://www.desmos.com/calculator/g07ukjj7bl
+        double curve = (0.5D * (Math.atan(Math.PI * (x - 0.5D)))) + 0.5D;
+        return Math.copySign(curve, x);
     }
 }
