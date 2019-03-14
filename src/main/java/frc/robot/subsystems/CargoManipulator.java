@@ -16,7 +16,7 @@ public class CargoManipulator extends Subsystem {
     private static final CargoManipulator INSTANCE = new CargoManipulator();
 
     private CargoManipulator() {
-        this.roller = new TalonSRX(RobotMap.CARGO_MANIPULATOR.LEFT_MOTOR_CHANNEL);
+        this.roller = new TalonSRX(RobotMap.CARGO_MANIPULATOR.ROLLER);
     }
 
     public void runWheels(double power) {
