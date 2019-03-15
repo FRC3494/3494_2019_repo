@@ -56,8 +56,8 @@ public class RobotMap {
     }
 
     public static class SPADE {
-        public static final int FORWARD_CHANNEL = 0;
-        public static final int REVERSE_CHANNEL = 1;
+        public static final int FORWARD_CHANNEL = 2;
+        public static final int REVERSE_CHANNEL = 3;
     }
 
     public static class CARGO_MANIPULATOR {

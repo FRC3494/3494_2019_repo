@@ -11,7 +11,7 @@ public class SpadeHatcher extends Subsystem {
     private static SpadeHatcher INSTANCE = new SpadeHatcher();
 
     private SpadeHatcher() {
-        this.ears = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.SPADE.FORWARD_CHANNEL, RobotMap.SPADE.REVERSE_CHANNEL);
+        this.ears = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.SPADE.FORWARD_CHANNEL, RobotMap.SPADE.REVERSE_CHANNEL);
         this.ears.set(DoubleSolenoid.Value.kReverse);
     }
 
