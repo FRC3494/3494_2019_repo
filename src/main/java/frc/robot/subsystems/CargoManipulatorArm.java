@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
 import frc.robot.sensors.Linebreaker;
@@ -22,6 +24,7 @@ public class CargoManipulatorArm extends Subsystem {
     private DoubleSolenoid diskBrake;
 
     private Linebreaker lb;
+    private Potentiometer pot;
 
     private CargoManipulatorArm() {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
@@ -36,6 +39,8 @@ public class CargoManipulatorArm extends Subsystem {
         diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
         diskBrake.set(DoubleSolenoid.Value.kForward);
         lb = new Linebreaker(RobotMap.CARGO_ARM.LINEBREAK);
+
+        pot = new AnalogPotentiometer(RobotMap.CARGO_ARM.POTENTIOMETER, 270, 0);
     }
 
     /**
