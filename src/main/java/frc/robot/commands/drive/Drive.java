@@ -1,5 +1,7 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.Climber;
@@ -51,5 +53,10 @@ public class Drive extends Command {
         // https://www.desmos.com/calculator/g07ukjj7bl
         double curve = (0.5D * (Math.atan(Math.PI * (Math.abs(x) - 0.5D)))) + 0.5D;
         return Math.copySign(curve, x);
+    }
+
+    private static boolean setCamera(String camera) {
+        NetworkTable engineering = NetworkTableInstance.getDefault().getTable("engineering");
+        return engineering.getEntry("camera").setString(camera);
     }
 }
