@@ -62,11 +62,13 @@ public class RobotMap {
         public static final int DISK_BRAKE_REVERSE = 3;
     }
 
-    public class COMBO_MANIPULATOR {
-        public static final int LEFT_MOTOR_CHANNEL = 4;
-        public static final int RIGHT_MOTOR_CHANNEL = 5;
+    public static class SPADE {
+        public static final int FORWARD_CHANNEL = 2;
+        public static final int REVERSE_CHANNEL = 3;
+    }
 
-        public static final int PISTONS_CHANNEL = 7;
+    public static class CARGO_MANIPULATOR {
+        public static final int ROLLER = 4;
     }
 
     public class OI {
