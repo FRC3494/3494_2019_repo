@@ -51,13 +51,9 @@ public class RobotMap {
 
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
-        public static final int LINEBREAK = 0;
-
-        public static final int DISK_BRAKE = 1;
 
         public static final int POTENTIOMETER = 2;
 
-        public static final int PPR = 4096;
         public static final int DISK_BRAKE_FORWARD = 2;
         public static final int DISK_BRAKE_REVERSE = 3;
     }
