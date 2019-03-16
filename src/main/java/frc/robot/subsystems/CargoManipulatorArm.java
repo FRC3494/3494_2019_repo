@@ -34,7 +34,7 @@ public class CargoManipulatorArm extends PIDSubsystem {
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
 
         diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
-        diskBrake.set(DoubleSolenoid.Value.kForward);
+        diskBrake.set(DoubleSolenoid.Value.kReverse);
 
         pot = new AnalogPotentiometer(RobotMap.CARGO_ARM.POTENTIOMETER, 270, 0);
     }
