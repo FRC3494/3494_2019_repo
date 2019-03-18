@@ -20,6 +20,11 @@ public class Drive extends Command {
     }
 
     @Override
+    protected void initialize() {
+        setCamera("RPI");
+    }
+
+    @Override
     protected void execute() {
         double leftStick = powerCurve(OI.getInstance().getLeftY());
         double rightStick = powerCurve(OI.getInstance().getRightY());
