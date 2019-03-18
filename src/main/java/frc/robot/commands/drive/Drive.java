@@ -38,8 +38,10 @@ public class Drive extends Command {
         if (pov != -1) {
             if (pov == 0) {
                 this.sideFlipped = false;
+                setCamera("RPI");
             } else if (pov == 180) {
                 this.sideFlipped = true;
+                setCamera("USB");
             }
         }
     }
