@@ -49,12 +49,28 @@ public class OI {
         engageZbar.whenPressed(new ToggleShifter());
     }
 
-    public static double removeDeadband(double y) {
-        if (Math.abs(y) <= .05) {
-            return 0;
+    /**
+     * Returns 0.0 if the given value is within the specified range around zero. The remaining range
+     * between the deadband and 1.0 is scaled from 0.0 to 1.0.
+     *
+     * @param value    value to clip
+     * @param deadband range around zero
+     * @author WPI
+     */
+    public static double removeDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                return (value - deadband) / (1.0 - deadband);
+            } else {
+                return (value + deadband) / (1.0 - deadband);
+            }
         } else {
-            return y;
+            return 0.0;
         }
+    }
+
+    public static double removeDeadband(double y) {
+        return removeDeadband(y, 0.05);
     }
 
     public double getLeftY() {
@@ -70,7 +86,7 @@ public class OI {
     }
 
     public double getXboxRightY() {
-        return removeDeadband(xbox.getY(GenericHID.Hand.kRight));
+        return removeDeadband(xbox.getY(GenericHID.Hand.kRight), 0.2);
     }
 
     public boolean getXboxLeftBumper() {
