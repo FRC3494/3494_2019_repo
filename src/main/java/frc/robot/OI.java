@@ -51,6 +51,14 @@ public class OI {
         engageZbar.whenPressed(new ToggleShifter());
     }
 
+    /**
+     * Returns 0.0 if the given value is within the specified range around zero. The remaining range
+     * between the deadband and 1.0 is scaled from 0.0 to 1.0.
+     *
+     * @param value    value to clip
+     * @param deadband range around zero
+     * @author WPI
+     */
     public static double removeDeadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
             if (value > 0.0) {
