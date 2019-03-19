@@ -23,6 +23,7 @@ public class OI {
     private Joystick leftFlight;
     private Joystick rightFlight;
     private XboxController xbox;
+    private ButtonBoard bb;
 
     private JoystickButton ejectHatch;
     private JoystickButton secondLevel;
@@ -34,6 +35,7 @@ public class OI {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.OI.RIGHT_JOY);
         xbox = new XboxController(RobotMap.OI.XBOX);
+        bb = new ButtonBoard(RobotMap.OI.BUTTON_BOARD);
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
