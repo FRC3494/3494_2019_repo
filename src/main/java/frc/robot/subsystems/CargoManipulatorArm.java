@@ -69,7 +69,7 @@ public class CargoManipulatorArm extends PIDSubsystem {
 
     @Override
     protected void usePIDOutput(double output) {
-        this.pidOut = output;
+        this.pidOut = -output;
     }
 
     public double getPidOut() {
