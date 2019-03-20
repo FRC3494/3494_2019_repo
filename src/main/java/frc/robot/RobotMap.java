@@ -37,11 +37,31 @@ public class RobotMap {
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
     }
 
-    public class LIMELIGHT{
+    public static class LIMELIGHT{
         public static final double FOV_DEG = 54;
         public static final double FOV_RAD = 5 * Math.PI / 72;
         public static final double EXPECTED_ASPECT_RATIO = 14.63 / 5.83;
         public static final double FOCAL_LENGTH_FEET = 3.338517 / 25.4 / 12;
+
+        public enum PIPELINE{
+
+            CENTER_LEFT(0),
+            CENTER_RIGHT(1),
+            EDGE_LEFT(2),
+            EDGE_RIGHT(3);
+
+            private int number;
+
+            PIPELINE(int number){
+                this.number = number;
+            }
+
+            public int num(){
+                return this.number;
+            }
+
+        }
+
     }
 
     public class ARC_DRIVE{
@@ -54,6 +74,8 @@ public class RobotMap {
         public static final double NORMAL_CENTER = 0;//find
         public static final double NORMAL_UPPER = 0;//find
         public static final double MAX_SPEED = 0.5;//percent power
+
+        public static boolean flag = false;
 
         public static final double
                 kP = 0.0,

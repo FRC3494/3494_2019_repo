@@ -161,6 +161,10 @@ public class Limelight {
         return Math.toRadians(this.table.getEntry("ty").getDouble(0));
     }
 
+    public boolean isRightOfTarget(){
+        return this.getTargetXAngleDeg() > 0;
+    }
+
     public boolean hasValidTarget() {
         return this.table.getEntry("tv").getDouble(0) == 1;
     }

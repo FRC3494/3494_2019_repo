@@ -2,6 +2,7 @@ package frc.robot.commands.drive.auto;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.Robot;
@@ -11,32 +12,24 @@ import frc.robot.util.SynchronousPIDF;
 
 
 public class ArcDrive extends TimedCommand {
+    public static int numFailures = 0;
+    public double arcRadius;
+
     private SynchronousPIDF pidControllerLeft, pidControllerRight;
 
-    private boolean isPossible = false;
+
 
     private Timer timer;
     private double lastTime = 0;
 
-    private Vector2d directionIntoTarget;//not set yet
-    private double arcRadius;
-    private double initialAngleToTargetCenter;//not set yet
-    private double angleBetweenCenterAndEdge;
-    private double initialDistToTargetCenter;//not set yet
-    private double initialDistToTargetEdge;//not set yet
-    private double initialAngleToTargetEdge;//not set yet
-    private double kiteLegLength;
-    private double cornerToTargetDist;
-    private double initialDrivingDist;
-    private double initialDistToCorner;
-    private double angleToCenterRobotToTarget;//not set yet
-    private double distToTargetAfterArc;
-    private double arcAngle;
 
-    public ArcDrive() {
+
+    public ArcDrive(double arcRadius) {
         super(RobotMap.ARC_DRIVE.TIMEOUT);
 
         requires(Drivetrain.getInstance());
+
+        this.arcRadius = arcRadius;
 
         this.timer = new Timer();
 
@@ -54,83 +47,8 @@ public class ArcDrive extends TimedCommand {
     }
 
     private boolean isRightOfTarget(){
-
+        return Robot.getFrontLimelightInstance().isRightOfTarget();
     }
-
-    private void setAngleBetweenCenterAndEdge(){
-        this.angleBetweenCenterAndEdge = this.initialAngleToTargetEdge - this.initialAngleToTargetCenter;
-    }
-
-    private void setArcAngle(){
-        this.arcAngle = Math.acos(1
-                - (Math.pow(this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
-                    + this.directionIntoTarget.x * this.distToTargetAfterArc - this.initialDrivingDist, 2)
-                + Math.pow(this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)
-                    + this.directionIntoTarget.y * this.distToTargetAfterArc, 2))
-                / (2 * Math.pow(this.arcRadius, 2)));
-    }
-
-    //this.directionIntoTarget.rotate() takes degrees and rotates counterclockwise
-    private Vector2d getRotatedDirectionIntoTarget(){
-        Vector2d rotatedDirection = new Vector2d(this.directionIntoTarget.x, this.directionIntoTarget.y);
-        rotatedDirection.rotate(90);
-        return rotatedDirection;
-    }
-
-    private void setDistToTargetAfterArc(){
-        this.distToTargetAfterArc = this.cornerToTargetDist - this.kiteLegLength;
-    }
-
-    private void setInitialDrivingDistance(){
-        this.initialDrivingDist = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
-            - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
-    }
-
-    //equation: sqrt((d_ix - L_x)^2 + (d_iy)^2))
-    private void setCornerToTargetDist(){
-        this.cornerToTargetDist = Math.sqrt(Math.pow(
-                this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter) - this.initialDistToCorner, 2))
-                + (Math.pow(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter),2));
-    }
-
-    private void setKiteLegLength(){
-        this.kiteLegLength = this.initialDistToCorner - this.initialDrivingDist;
-    }
-    private void setInitialDistToCorner(){
-        this.initialDistToCorner = -(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)) / Math.tan(this.angleToCenterRobotToTarget)
-                + (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter));
-    }
-    private boolean isPathPossible(){
-        return (this.cornerToTargetDist > this.kiteLegLength);
-    }
-
-
-    private double setInitialDistanceToTargetCenter(){
-        return 0;
-    }
-
-    private void setInitialDistToTargetEdge(){
-        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
-                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
-                    - Math.pow(this.initialDistToTargetCenter, 2)
-                    + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
-    }
-
-    private void setArcRadius(){
-        Vector2d rotatedDirection = getRotatedDirectionIntoTarget();
-        this.arcRadius = rotatedDirection.y/rotatedDirection.x * (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
-            + this.directionIntoTarget.x * this.distToTargetAfterArc + this.initialDrivingDist)
-            + this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)
-            + this.directionIntoTarget.y * this.distToTargetAfterArc;
-    }
-
-    private void setInitialAngleToTargetEdge(){
-        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
-                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
-                - Math.pow(this.initialDistToTargetCenter, 2)
-                + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
-    }
-
 
     /**
      * The initialize method is called just before the first time
@@ -138,17 +56,17 @@ public class ArcDrive extends TimedCommand {
      */
     @Override
     protected void initialize() {
-        this.timer.start();
-        this.isPossible = isPathPossible();
-        if(!isPossible){
-            return;
+        if(numFailures == 2){
+            numFailures = 0;
         }
+
+        this.timer.start();
 
         double leftToRightSpeedRatio = (this.arcRadius - RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2)
                                             / (this.arcRadius + RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2);
         double leftSetpoint;
         double rightSetpoint;
-        if(){//if target is left
+        if(!this.isRightOfTarget()){
             leftSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED;
             rightSetpoint = RobotMap.ARC_DRIVE.MAX_SPEED * leftToRightSpeedRatio;
         }else{
@@ -203,7 +121,7 @@ public class ArcDrive extends TimedCommand {
     @Override
     protected boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return !isPossible && ;
+        return !isPossible && ;//add whether its on target
     }
 
 
@@ -215,7 +133,21 @@ public class ArcDrive extends TimedCommand {
      */
     @Override
     protected void end() {
+        if(numFailures < 1){
+            if(!isPossible())
+            {
+                if(isRightOfTarget()){
+                    Scheduler.getInstance().add(new TurnAndArcDrive( this.initialAngleToTargetEdge - RobotMap.LIMELIGHT.FOV_DEG / 2));
+                }else{
+                    Scheduler.getInstance().add(new TurnAndArcDrive(-this.initialAngleToTargetEdge + RobotMap.LIMELIGHT.FOV_DEG / 2));
+                }
 
+            }
+        }
+        //create isOnTarget()
+        if(isOnTarget()){
+            RobotMap.ARC_DRIVE.flag = false;
+        }
     }
 
 
