@@ -15,6 +15,7 @@ public class GotoPosition extends Command {
     protected void initialize() {
         CargoManipulatorArm.getInstance().enable();
         CargoManipulatorArm.getInstance().setSetpoint(angle);
+        CargoManipulatorArm.getInstance().setBrake(false);
     }
 
     @Override
@@ -30,5 +31,6 @@ public class GotoPosition extends Command {
     @Override
     protected void end() {
         CargoManipulatorArm.getInstance().disable();
+        CargoManipulatorArm.getInstance().setBrake(true);
     }
 }
