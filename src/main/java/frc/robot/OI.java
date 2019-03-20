@@ -7,15 +7,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.climb.TogglePreclimb;
+import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.ToggleShifter;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.SpadeHatcher;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class OI {
 
@@ -24,27 +29,47 @@ public class OI {
     private Joystick rightFlight;
     private XboxController xbox;
     private ButtonBoard bb;
+    private JoystickButton[] boardButtons;
 
     private JoystickButton ejectHatch;
     private JoystickButton secondLevel;
+    private JoystickButton secondLevelUnready;
     private JoystickButton preclimb;
 
     private JoystickButton engageZbar;
+
+    private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
     private OI() {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.OI.RIGHT_JOY);
         xbox = new XboxController(RobotMap.OI.XBOX);
         bb = new ButtonBoard(RobotMap.OI.BUTTON_BOARD);
+        boardButtons = new JoystickButton[15];
+        OI.initArmPositions();
+
+        // button board binds
+        for (Map.Entry<Integer, Double> e : OI.armPositions.entrySet()) {
+            JoystickButton b = new JoystickButton(bb, e.getKey());
+            b.whenPressed(new GotoPosition(e.getValue()));
+            this.boardButtons[e.getKey()] = b;
+        }
+        secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
+        secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
+        preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
+
+        secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse)));
+        boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
+        secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward)));
+        boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
+        preclimb.whenPressed(new ToggleRearFeet());
+        boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
-        secondLevel = new JoystickButton(xbox, RobotMap.OI.SECOND_LEVEL_CLIMBER);
-        preclimb = new JoystickButton(xbox, 2);
 
-        ejectHatch.whenPressed(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().toggle()));
-        secondLevel.whenPressed(new ToggleRearFeet());
-        preclimb.whenPressed(new TogglePreclimb());
+        ejectHatch.whenPressed(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kReverse)));
+        ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward)));
         // Driver joystick binds
         engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
 
@@ -119,6 +144,15 @@ public class OI {
         return (this.getLeftY() != 0 || this.getRightY() != 0) ||
                 (this.getXboxA() || this.getXboxB()) ||
                 (this.getXboxLeftBumper() || this.getXboxRightBumper());
+    }
+
+    private static void initArmPositions() {
+        OI.armPositions.put(1, 90.0);
+        OI.armPositions.put(3, 50.0);
+        OI.armPositions.put(6, 45.0);
+        OI.armPositions.put(2, 0.0);
+        OI.armPositions.put(9, -45.0);
+        OI.armPositions.put(12, -90.0);
     }
 
     public static OI getInstance() {
