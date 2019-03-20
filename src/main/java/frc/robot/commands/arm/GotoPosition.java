@@ -30,6 +30,7 @@ public class GotoPosition extends Command {
 
     @Override
     protected void end() {
+        CargoManipulatorArm.getInstance().lift(0);
         CargoManipulatorArm.getInstance().disable();
         CargoManipulatorArm.getInstance().setBrake(true);
     }
