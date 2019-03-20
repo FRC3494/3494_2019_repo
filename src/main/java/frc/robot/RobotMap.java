@@ -41,7 +41,7 @@ public class RobotMap {
         public static final double FOV_DEG = 54;
         public static final double FOV_RAD = 5 * Math.PI / 72;
         public static final double EXPECTED_ASPECT_RATIO = 14.63 / 5.83;
-        public static final double FOCAL_LENGTH;
+        public static final double FOCAL_LENGTH_FEET = 3.338517 / 25.4 / 12;
     }
 
     public class ARC_DRIVE{

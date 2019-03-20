@@ -132,6 +132,10 @@ public class Limelight {
         return this.table.getEntry("thor").getDouble(0);
     }
 
+    /**
+     * gets the aspect ratio fo the target's vertical bounding box.
+     * @return the aspect ratio of the target's vertical bounding box.
+     */
     private double getAspectRatio() {
         return this.getTHor() / this.getTVert();
     }
