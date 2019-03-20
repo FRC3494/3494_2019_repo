@@ -2,6 +2,7 @@ package frc.robot.sensors;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.RobotMap;
 
 /**
  * Class to represent a Limelight vision system.
@@ -65,7 +66,6 @@ public class Limelight {
     }
 
 
-
     /**
      * Sets the LED mode on the Limelight.
      * {@code final static int}s are available as part of this class
@@ -83,9 +83,59 @@ public class Limelight {
      *
      * @return The horizontal distance from image center to object center in degrees.
      */
-    public double getXDistance() {
+    public double getTargetXAngleDeg() {
         return this.table.getEntry("tx").getDouble(0);
     }
+
+    /**
+     * Gets the horizontal distance from the center of the image
+     * to the center of the detected object, in radians.
+     *
+     * @return The horizontal distance from image center to object center in radians.
+     */
+    public double getTargetXAngleRad() {
+        return Math.toRadians(this.table.getEntry("tx").getDouble(0));
+    }
+
+
+    /**
+     * Gets the distance between the robot and the target, in feet.
+     * @return the distance between the robot and the target, in feet.
+     */
+    public double getDistance() {
+        return this.getTVert() / this.getTHor() * RobotMap.LIMELIGHT.FOCAL_LENGTH;
+    }
+
+    /**
+     * Returns the difference in angle from the direction the camera is looking and the
+     * direction the target faces.
+     * A target not "flush" with the camera is skewed.
+     * @return the skew angle.
+     */
+    public double getSkewAngle() {
+        return Math.PI / 2 - Math.acos(this.getAspectRatio() / RobotMap.LIMELIGHT.EXPECTED_ASPECT_RATIO);
+    }
+
+    /**
+     *gets the vertical height of the target in pixels.
+     * @return the vertical height of the target in pixels.
+     */
+    private double getTVert() {
+        return this.table.getEntry("tvert").getDouble(0);
+    }
+
+    /**
+     *gets the horizontal height of the target in pixels.
+     * @return the horizontal height of the target in pixels.
+     */
+    private double getTHor() {
+        return this.table.getEntry("thor").getDouble(0);
+    }
+
+    private double getAspectRatio() {
+        return this.getTHor() / this.getTVert();
+    }
+
 
     /**
      * Gets the vertical distance from the center of the image
@@ -93,12 +143,18 @@ public class Limelight {
      *
      * @return The vertical distance from image center to object center in degrees.
      */
-    public double getYDistance() {
+    public double getYTargetAngleDeg() {
         return this.table.getEntry("ty").getDouble(0);
     }
 
-    public double[] getCameraTransform(){
-        return this.table.getEntry("camtran").getDoubleArray();
+    /**
+     * Gets the vertical distance from the center of the image
+     * to the center of the detected object, in radians.
+     *
+     * @return The vertical distance from image center to object center in radians.
+     */
+    public double getYTargetAngleRad() {
+        return Math.toRadians(this.table.getEntry("ty").getDouble(0));
     }
 
     public boolean hasValidTarget() {

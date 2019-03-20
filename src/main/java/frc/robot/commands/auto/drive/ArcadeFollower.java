@@ -27,7 +27,7 @@ public class ArcadeFollower extends Command {
 
     @Override
     protected void execute() {
-        Drivetrain.getInstance().setSetpoint(NavX.getInstance().getFusedHeading() + Robot.getLimelight().getXDistance());
+        Drivetrain.getInstance().setSetpoint(NavX.getInstance().getFusedHeading() + Robot.getLimelight().getTargetXAngleDeg());
         double tune = Drivetrain.getInstance().getPidOutput();
         Drivetrain.getInstance().tankDrive(velo + tune, velo - tune);
     }
