@@ -47,6 +47,9 @@ public class RobotMap {
 
         public static final int SHIFTER_FORWARD_CHANNEL = 5;
         public static final int SHIFTER_REVERSE_CHANNEL = 6;
+
+        public static final double CLIMB_DISTANCE_INITIAL = 3;//this is a guess
+        public static final double CLIMB_DISTANCE_FINAL = 3 / 12;
     }
 
     public class CARGO_ARM {
