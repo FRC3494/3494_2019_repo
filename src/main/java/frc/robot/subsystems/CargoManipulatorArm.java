@@ -25,7 +25,7 @@ public class CargoManipulatorArm extends PIDSubsystem {
     private double pidOut;
 
     private CargoManipulatorArm() {
-        super(0.125, 0, 0);
+        super(0.5, 0, 0);
         this.getPIDController().setContinuous(false);
         this.setInputRange(-90, 90);
         this.setOutputRange(-0.75, 0.75);
