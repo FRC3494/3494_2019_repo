@@ -1,27 +1,42 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.TwistArm;
 
-public class CargoManipulatorArm extends Subsystem {
+/**
+ * Arm subsystem. In the context of this class, "rotations" refers to rotations of the arm gearbox output shaft.
+ */
+public class CargoManipulatorArm extends PIDSubsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     private static final CargoManipulatorArm INSTANCE = new CargoManipulatorArm();
     private TalonSRX armMotor;
-    private Solenoid diskBrake;
+    private DoubleSolenoid diskBrake;
+
+    private Potentiometer pot;
+
+    private double pidOut;
 
     private CargoManipulatorArm() {
-        armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
-        armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+        super(0.5, 0, 0);
+        this.getPIDController().setContinuous(false);
+        this.setInputRange(-90, 90);
+        this.setOutputRange(-0.75, 0.75);
+        this.setAbsoluteTolerance(3.5);
 
-        diskBrake = new Solenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE);
-        diskBrake.set(true);
+        armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
+
+        diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
+        diskBrake.set(DoubleSolenoid.Value.kReverse);
+
+        pot = new AnalogPotentiometer(RobotMap.CARGO_ARM.POTENTIOMETER, 270, 0);
     }
 
     /**
@@ -34,16 +49,8 @@ public class CargoManipulatorArm extends Subsystem {
         armMotor.set(ControlMode.PercentOutput, power);
     }
 
-    public int getCounts() {
-        return armMotor.getSelectedSensorPosition();
-    }
-
-    public void resetEncoder() {
-        armMotor.setSelectedSensorPosition(0);
-    }
-
     public void setBrake(boolean brake) {
-        diskBrake.set(!brake);
+        diskBrake.set(brake ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
     }
 
     public static CargoManipulatorArm getInstance() {
@@ -53,6 +60,20 @@ public class CargoManipulatorArm extends Subsystem {
     public void initDefaultCommand() {
         // TODO: Set the default command, if any, for a subsystem here. Example:
         setDefaultCommand(new TwistArm());
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return ((-90.0 / 106.0) * this.pot.get()) + (13320.0 / 106.0);
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        this.pidOut = -output;
+    }
+
+    public double getPidOut() {
+        return pidOut;
     }
 }
 

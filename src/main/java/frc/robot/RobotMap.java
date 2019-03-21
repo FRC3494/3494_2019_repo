@@ -52,7 +52,10 @@ public class RobotMap {
     public class CARGO_ARM {
         public static final int ARM_MOTOR_CHANNEL = 6;
 
-        public static final int DISK_BRAKE = 1;
+        public static final int POTENTIOMETER = 3;
+
+        public static final int DISK_BRAKE_FORWARD = 2;
+        public static final int DISK_BRAKE_REVERSE = 3;
     }
 
     public static class SPADE {
@@ -73,7 +76,10 @@ public class RobotMap {
         public static final int ZBAR_ENGAGE_BUTTON = 11;
 
         public static final int EJECT_HATCH = 6; // right bumper
-        public static final int SECOND_LEVEL_CLIMBER = 3; // X
+        // button board
+        public static final int SECOND_LEVEL_CLIMBER = 11;
+        public static final int SECOND_LEVEL_UNREADY = 8;
+        public static final int REAR_FEET = 14;
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;
