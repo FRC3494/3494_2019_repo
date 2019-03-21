@@ -28,8 +28,8 @@ public class CargoManipulatorArm extends PIDSubsystem {
         super(0.125, 0, 0);
         this.getPIDController().setContinuous(false);
         this.setInputRange(-90, 90);
-        this.setOutputRange(-0.5, 0.5);
-        this.setPercentTolerance(1.0);
+        this.setOutputRange(-0.75, 0.75);
+        this.setAbsoluteTolerance(3.5);
 
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
 
