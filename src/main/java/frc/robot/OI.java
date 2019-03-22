@@ -147,6 +147,7 @@ public class OI {
     }
 
     private static void initArmPositions() {
+        OI.armPositions = new HashMap<>();
         OI.armPositions.put(1, 90.0);
         OI.armPositions.put(3, 50.0);
         OI.armPositions.put(6, 45.0);
