@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -20,15 +21,16 @@ public class CargoManipulatorArm extends PIDSubsystem {
     private TalonSRX armMotor;
     private DoubleSolenoid diskBrake;
 
+    private AnalogInput ai;
     private Potentiometer pot;
 
     private double pidOut;
 
     private CargoManipulatorArm() {
         super(0.5, 0, 0);
-        this.getPIDController().setContinuous(false);
         this.setInputRange(-90, 90);
         this.setOutputRange(-0.75, 0.75);
+        this.getPIDController().setContinuous(false);
         this.setAbsoluteTolerance(3.5);
 
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
@@ -36,7 +38,8 @@ public class CargoManipulatorArm extends PIDSubsystem {
         diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
         diskBrake.set(DoubleSolenoid.Value.kReverse);
 
-        pot = new AnalogPotentiometer(RobotMap.CARGO_ARM.POTENTIOMETER, 270, 0);
+        ai = new AnalogInput(RobotMap.CARGO_ARM.POTENTIOMETER);
+        pot = new AnalogPotentiometer(ai, 270, 0);
     }
 
     /**
@@ -53,6 +56,10 @@ public class CargoManipulatorArm extends PIDSubsystem {
         diskBrake.set(brake ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
     }
 
+    public double getPotVoltage() {
+        return ai.getVoltage();
+    }
+
     public static CargoManipulatorArm getInstance() {
         return INSTANCE;
     }
@@ -64,7 +71,8 @@ public class CargoManipulatorArm extends PIDSubsystem {
 
     @Override
     protected double returnPIDInput() {
-        return ((-90.0 / 106.0) * this.pot.get()) + (13320.0 / 106.0);
+        // return ((-90.0 / 106.0) * this.pot.get()) + (13320.0 / 106.0);
+        return (-90.0 / 37.8) * (this.pot.get() - 38);
     }
 
     @Override
