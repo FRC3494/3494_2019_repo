@@ -39,11 +39,11 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
-        public static final int FRONT_FOOT_FORWARD = 5;
+        public static final int FRONT_FOOT_FORWARD = 0;
         public static final int FRONT_FOOT_REVERSE = 4;
 
-        public static final int REAR_FEET_FORWARD = 6;
-        public static final int REAR_FEET_REVERSE = 7;
+        public static final int REAR_FEET_FORWARD = 5;
+        public static final int REAR_FEET_REVERSE = 4;
 
         public static final int SHIFTER_FORWARD_CHANNEL = 5;
         public static final int SHIFTER_REVERSE_CHANNEL = 6;
@@ -54,8 +54,8 @@ public class RobotMap {
 
         public static final int POTENTIOMETER = 3;
 
-        public static final int DISK_BRAKE_FORWARD = 2;
-        public static final int DISK_BRAKE_REVERSE = 3;
+        public static final int DISK_BRAKE_FORWARD = 3;
+        public static final int DISK_BRAKE_REVERSE = 2;
     }
 
     public static class SPADE {
