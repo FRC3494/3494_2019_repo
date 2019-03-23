@@ -49,7 +49,7 @@ public class CargoManipulatorArm extends PIDSubsystem {
      *              between -1 and 1.
      */
     public void lift(double power) {
-        armMotor.set(ControlMode.PercentOutput, power);
+        armMotor.set(ControlMode.PercentOutput, power * 0.5);
     }
 
     public void setBrake(boolean brake) {
