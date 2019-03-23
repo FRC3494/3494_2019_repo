@@ -17,10 +17,10 @@ public class Climber extends Subsystem {
         this.shifter = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
         this.shifter.set(DoubleSolenoid.Value.kForward);
 
-        this.frontFoot = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.FRONT_FOOT_FORWARD, RobotMap.CLIMBER.FRONT_FOOT_REVERSE);
-        this.frontFoot.set(DoubleSolenoid.Value.kReverse);
+        this.frontFoot = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.CLIMBER.FRONT_FOOT_FORWARD, RobotMap.CLIMBER.FRONT_FOOT_REVERSE);
+        this.frontFoot.set(DoubleSolenoid.Value.kForward);
         this.rearFeet = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.REAR_FEET_FORWARD, RobotMap.CLIMBER.REAR_FEET_REVERSE);
-        this.rearFeet.set(DoubleSolenoid.Value.kForward);
+        this.rearFeet.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void setShifter(DoubleSolenoid.Value value) {
