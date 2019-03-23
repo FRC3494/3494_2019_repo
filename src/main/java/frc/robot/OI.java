@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.ToggleShifter;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
+import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.SpadeHatcher;
 
@@ -68,7 +69,7 @@ public class OI {
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
 
-        ejectHatch.whenPressed(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kReverse)));
+        ejectHatch.whenPressed(new EjectHatch());
         ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward)));
         // Driver joystick binds
         engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
