@@ -12,7 +12,7 @@ public class RunWheels extends Command {
 
     @Override
     protected void execute() {
-        CargoManipulator.getInstance().runWheels((OI.getInstance().getXboxLeftTrigger() - OI.getInstance().getXboxRightTrigger()) / 2.0);
+        CargoManipulator.getInstance().runWheels((OI.getInstance().getXboxLeftTrigger() - OI.getInstance().getXboxRightTrigger()) * 0.75D);
     }
 
     @Override
