@@ -70,7 +70,11 @@ public class OI {
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
 
         ejectHatch.whenPressed(new EjectHatch());
-        ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward)));
+        Runnable releaseEject = () -> {
+            SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward);
+            SpadeHatcher.getInstance().setEjectors(false);
+        };
+        ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), releaseEject));
         // Driver joystick binds
         engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
 
