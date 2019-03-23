@@ -37,14 +37,6 @@ public class SpadeHatcher extends Subsystem {
         return this.ejectors.get();
     }
 
-    public void toggle() {
-        if (this.getEars().equals(DoubleSolenoid.Value.kForward)) {
-            this.setEars(DoubleSolenoid.Value.kReverse);
-        } else {
-            this.setEars(DoubleSolenoid.Value.kForward);
-        }
-    }
-
     public static SpadeHatcher getInstance() {
         return INSTANCE;
     }
