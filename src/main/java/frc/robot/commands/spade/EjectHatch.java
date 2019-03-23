@@ -14,9 +14,8 @@ public class EjectHatch extends Command {
     @Override
     protected void execute() {
         SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kReverse);
-        SpadeHatcher.getInstance().setEjectors(true);
         Timer.delay(0.1);
-        SpadeHatcher.getInstance().setEjectors(false);
+        SpadeHatcher.getInstance().setEjectors(true);
     }
 
     @Override
