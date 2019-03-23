@@ -12,7 +12,7 @@ public class TwistArm extends Command {
 
     @Override
     protected void execute() {
-        double x = powerCurve(OI.getInstance().getXboxRightY());
+        double x = powerCurve(OI.getInstance().getXboxRightX());
         if (x != 0) {
             CargoManipulatorArm.getInstance().setBrake(false);
             CargoManipulatorArm.getInstance().lift(x);
