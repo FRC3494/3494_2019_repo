@@ -124,6 +124,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        limelight.setPipeline(1);
     }
 
     /**
