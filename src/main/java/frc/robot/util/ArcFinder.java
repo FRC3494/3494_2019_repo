@@ -19,6 +19,7 @@ public class ArcFinder {
     private double distToTargetAfterArc;
     private double arcAngle;
     private boolean isRightOfTarget;
+    private double leftToRightRatio;
 
 
     private static ArcFinder INSTANCE;
@@ -27,7 +28,7 @@ public class ArcFinder {
         return INSTANCE;
     }
 
-    public double calculate(ArcConfig config) {
+    public void calculate(ArcConfig config) {
         this.directionIntoTarget = config.getDirectionIntoTarget();
         this.targetSkewAngle = config.getTargetSkewAngle();
 
@@ -52,8 +53,14 @@ public class ArcFinder {
 
         this.setArcRadius();
         this.setArcAngle();
+    }
 
+    public double getArcRadius(){
         return this.arcRadius;
+    }
+
+    public double getArcAngle(){
+        return this.arcAngle;
     }
 
     public boolean shouldTurn() {
@@ -62,7 +69,7 @@ public class ArcFinder {
         double yDist = this.initialDistToCorner * Math.sin(this.initialAngleToTargetCenter);
         double xDist = this.initialDistToCorner * Math.cos(this.initialAngleToTargetCenter);
 
-        if (isRightOfTarget()) {
+        if (isRightOfTarget) {
             angleToTurn = this.initialAngleToTargetEdge - RobotMap.LIMELIGHT.FOV_DEG / 2;
         } else {
             angleToTurn = -this.initialAngleToTargetEdge + RobotMap.LIMELIGHT.FOV_DEG / 2;
@@ -141,5 +148,14 @@ public class ArcFinder {
                 + this.directionIntoTarget.x * this.distToTargetAfterArc + this.initialDrivingDistance)
                 + this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)
                 + this.directionIntoTarget.y * this.distToTargetAfterArc;
+    }
+
+    private void setLeftToRightRatio(){
+        this.leftToRightRatio = (this.arcRadius - RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2)
+                / (this.arcRadius + RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2);
+    }
+
+    public double getLeftToRightRatio(){
+        return this.leftToRightRatio;
     }
 }

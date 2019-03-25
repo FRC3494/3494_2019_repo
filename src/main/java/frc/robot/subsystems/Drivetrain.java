@@ -98,6 +98,15 @@ public class Drivetrain extends PIDSubsystem {
         this.driveRightMaster.set(rightSpeed);
     }
 
+    public void resetEncoders(){
+        this.encLeftMaster.setPosition(0);
+        this.encLeftFollowOne.setPosition(0);
+        this.encLeftFollowTwo.setPosition(0);
+        this.encRightMaster.setPosition(0);
+        this.encRightFollowOne.setPosition(0);
+        this.encRightFollowTwo.setPosition(0);
+    }
+
     //returns feet per sec velocity
     public double getLeftAverageVelocity() {
         double sum = this.encLeftMaster.getVelocity() + this.encLeftFollowOne.getVelocity() + this.encLeftFollowTwo.getVelocity();
