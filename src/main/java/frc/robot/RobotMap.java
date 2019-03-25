@@ -75,8 +75,6 @@ public class RobotMap {
         public static final double NORMAL_UPPER = 0;//find
         public static final double MAX_SPEED = 0.5;//percent power
 
-        public static boolean flag = false;
-
         public static final double
                 kP = 0.0,
                 kI = 0.0,

@@ -8,12 +8,7 @@ public class TurnAndArcDrive extends CommandGroup {
     public boolean flag;
 
     public TurnAndArcDrive(double angleToTurnDeg) {
-        if(!flag){
-            addSequential(new TurnDrive(angleToTurnDeg));
-            addSequential(new ArcDrive());
-            RobotMap.ARC_DRIVE.flag = true;
-        }else{
-            flag = false;
-        }
+        addSequential(new TurnDrive(angleToTurnDeg));
+        addSequential(new ArcDrive());
     }
 }

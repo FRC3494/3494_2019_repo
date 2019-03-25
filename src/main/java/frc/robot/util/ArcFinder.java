@@ -10,8 +10,8 @@ public class ArcFinder {
     private double initialAngleToTargetCenter;//not set yet
     private double angleBetweenCenterAndEdge;
     private double initialDistToTargetCenter;//not set yet
-    private double initialDistToTargetEdge;//not set yet
-    private double initialAngleToTargetEdge;//not set yet
+    private double initialDistToTargetEdge;
+    private double initialAngleToTargetEdge;
     private double kiteLegLength;
     private double cornerToTargetDist;
     private double initialDrivingDist;
@@ -20,14 +20,14 @@ public class ArcFinder {
     private double distToTargetAfterArc;
     private double arcAngle;
 
-     private boolean isPossible = false;
 
     private static ArcFinder INSTANCE;
-    public static ArcFinder getInstance(){
+
+    public static ArcFinder getInstance() {
         return INSTANCE;
     }
 
-    public void compute(){
+    public void compute() {
         this.setDirectionIntoTarget();
         this.setTargetSkewAngle();
 
@@ -50,115 +50,135 @@ public class ArcFinder {
         this.setArcAngle();
     }
 
-    private void setDirectionIntoTarget(){
+    public boolean shouldTurn() {
+        double angleToTurn;
+
+        double yDist = this.initialDistToCorner * Math.sin(this.initialAngleToTargetCenter);
+        double xDist = this.initialDistToCorner * Math.cos(this.initialAngleToTargetCenter);
+
+        if (isRightOfTarget()) {
+            angleToTurn = this.initialAngleToTargetEdge - RobotMap.LIMELIGHT.FOV_DEG / 2);
+        } else {
+            angleToTurn = -this.initialAngleToTargetEdge + RobotMap.LIMELIGHT.FOV_DEG / 2);
+        }
+
+        return Math.sqrt(Math.pow(yDist / Math.tan(this.targetSkewAngle), 2)
+                + Math.pow(xDist, 2)) >
+                (-yDist / Math.tan(targetSkewAngle) +
+                        xDist - this.initialDrivingDist);
+    }
+
+    private void setDirectionIntoTarget() {
         this.directionIntoTarget = new Vector2d(Math.cos(Robot.getFrontLimelightInstance().getSkewAngle()),
                 Math.sin(Robot.getFrontLimelightInstance().getSkewAngle()));
     }
 
-    private boolean isRightOfTarget(){
+    private boolean isRightOfTarget() {
         return Robot.getFrontLimelightInstance().isRightOfTarget();
     }
 
-    private void setAngleBetweenCenterAndEdge(){
+    private void setAngleBetweenCenterAndEdge() {
         this.angleBetweenCenterAndEdge = this.initialAngleToTargetEdge - this.initialAngleToTargetCenter;
     }
 
-    private void setArcAngle(){
+    private void setArcAngle() {
         this.arcAngle = Math.acos(1
-                - (Math.pow(this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
+                - (Math.pow(this.initialDistToTargetCenter * Math.cos(this.initialAngleToTargetCenter)
                 + this.directionIntoTarget.x * this.distToTargetAfterArc - this.initialDrivingDist, 2)
                 + Math.pow(this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)
                 + this.directionIntoTarget.y * this.distToTargetAfterArc, 2))
                 / (2 * Math.pow(this.arcRadius, 2)));
     }
 
-    private void setTargetSkewAngle(){
+    private void setTargetSkewAngle() {
         this.targetSkewAngle = Robot.getFrontLimelightInstance().getSkewAngle();
     }
 
-    private void setPipelineToCenter(){
-        if(this.isRightOfTarget()){
+    private void setPipelineToCenter() {
+        if (this.isRightOfTarget()) {
             Robot.getFrontLimelightInstance().setPipeline(RobotMap.LIMELIGHT.PIPELINE.CENTER_RIGHT.num());
-        }else{
+        } else {
             Robot.getFrontLimelightInstance().setPipeline(RobotMap.LIMELIGHT.PIPELINE.CENTER_LEFT.num());
         }
     }
 
-    private void setPipelineToEdge(){
-        if(this.isRightOfTarget()){
+    private void setPipelineToEdge() {
+        if (this.isRightOfTarget()) {
             Robot.getFrontLimelightInstance().setPipeline(RobotMap.LIMELIGHT.PIPELINE.EDGE_RIGHT.num());
-        }else{
+        } else {
             Robot.getFrontLimelightInstance().setPipeline(RobotMap.LIMELIGHT.PIPELINE.EDGE_LEFT.num());
         }
     }
 
-    private void setInitialDistToTargetCenter(){
+    private void setInitialDistToTargetCenter() {
         this.setPipelineToCenter();
         this.initialDistToTargetCenter = Robot.getFrontLimelightInstance().getDistance();
     }
 
-    private void setInitialAngleToTargetCenter(){
+    private void setInitialAngleToTargetCenter() {
         this.setPipelineToCenter();
-        this.initialAngleToTargetCenter =  Robot.getFrontLimelightInstance().getTargetXAngleRad();
+        this.initialAngleToTargetCenter = Robot.getFrontLimelightInstance().getTargetXAngleRad();
     }
 
-    private void setInitialAngleToTargetEdge(){
+    private void setInitialAngleToTargetEdge() {
         this.setPipelineToEdge();
-        this.initialAngleToTargetEdge =  Robot.getFrontLimelightInstance().getTargetXAngleRad();
+        this.initialAngleToTargetEdge = Robot.getFrontLimelightInstance().getTargetXAngleRad();
 
     }
 
     //this.directionIntoTarget.rotate() takes degrees and rotates counterclockwise
-    private Vector2d getRotatedDirectionIntoTarget(){
+    private Vector2d getRotatedDirectionIntoTarget() {
         Vector2d rotatedDirection = new Vector2d(this.directionIntoTarget.x, this.directionIntoTarget.y);
         rotatedDirection.rotate(90);
         return rotatedDirection;
     }
 
-    private void setDistToTargetAfterArc(){
+    private void setDistToTargetAfterArc() {
         this.distToTargetAfterArc = this.cornerToTargetDist - this.kiteLegLength;
     }
 
-    private void setInitialDrivingDistance(){
+    private void setInitialDrivingDistance() {
         this.initialDrivingDist = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
                 - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
     }
 
     //equation: sqrt((d_ix - L_x)^2 + (d_iy)^2))
-    private void setCornerToTargetDist(){
+    private void setCornerToTargetDist() {
         this.cornerToTargetDist = Math.sqrt(Math.pow(
-                this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter) - this.initialDistToCorner, 2))
-                + (Math.pow(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter),2));
+                this.initialDistToTargetCenter * Math.cos(this.initialAngleToTargetCenter) - this.initialDistToCorner, 2))
+                + (Math.pow(this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter), 2));
     }
 
-    private void setKiteLegLength(){
+    private void setKiteLegLength() {
         this.kiteLegLength = this.initialDistToCorner - this.initialDrivingDist;
     }
-    private void setInitialDistToCorner(){
-        this.initialDistToCorner = -(this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)) / Math.tan(this.targetSkewAngle)
-                + (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter));
+
+    private void setInitialDistToCorner() {
+        this.initialDistToCorner = -(this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)) / Math.tan(this.targetSkewAngle)
+                + (this.initialDistToTargetCenter * Math.cos(this.initialAngleToTargetCenter));
     }
-    private boolean isPathPossible(){
+
+    public boolean isPathPossible() {
         return (this.cornerToTargetDist > this.kiteLegLength);
     }
 
 
-    private double setInitialDistanceToTargetCenter(){
+    private double setInitialDistanceToTargetCenter() {
         return 0;
     }
 
-    private void setInitialDistToTargetEdge(){
+    private void setInitialDistToTargetEdge() {
         this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
                 + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
                 - Math.pow(this.initialDistToTargetCenter, 2)
                 + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
     }
 
-    private void setArcRadius(){
+    private void setArcRadius() {
         Vector2d rotatedDirection = getRotatedDirectionIntoTarget();
-        this.arcRadius = rotatedDirection.y/rotatedDirection.x * (this.initialDistToTargetCenter*Math.cos(this.initialAngleToTargetCenter)
+        this.arcRadius = rotatedDirection.y / rotatedDirection.x * (this.initialDistToTargetCenter * Math.cos(this.initialAngleToTargetCenter)
                 + this.directionIntoTarget.x * this.distToTargetAfterArc + this.initialDrivingDist)
-                + this.initialDistToTargetCenter*Math.sin(this.initialAngleToTargetCenter)
+                + this.initialDistToTargetCenter * Math.sin(this.initialAngleToTargetCenter)
                 + this.directionIntoTarget.y * this.distToTargetAfterArc;
     }
 }
