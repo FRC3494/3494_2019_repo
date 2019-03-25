@@ -12,11 +12,14 @@ public class TwistArm extends Command {
 
     @Override
     protected void execute() {
-        double x = OI.getInstance().getXboxRightY();
+        double x = powerCurve(OI.getInstance().getXboxRightX());
         if (x != 0) {
+            CargoManipulatorArm.getInstance().setBrake(false);
             CargoManipulatorArm.getInstance().lift(x);
+        } else if (OI.getInstance().getXboxA()) {
+            CargoManipulatorArm.getInstance().lift(0.3);
+            CargoManipulatorArm.getInstance().setBrake(true);
         } else {
-            CargoManipulatorArm.getInstance().lift(0);
             CargoManipulatorArm.getInstance().setBrake(true);
         }
     }
@@ -24,5 +27,11 @@ public class TwistArm extends Command {
     @Override
     protected boolean isFinished() {
         return false;
+    }
+
+    private static double powerCurve(double x) {
+        // https://www.desmos.com/calculator/77lmnjh7c8
+        double curve = -0.5 * (Math.cos(Math.abs(Math.PI * x))) + 0.5;
+        return Math.copySign(curve, x);
     }
 }

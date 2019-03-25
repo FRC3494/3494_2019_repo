@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
         Drivetrain.getInstance();
         Climber.getInstance();
         CargoManipulatorArm.getInstance();
-        HatchManipulator.getInstance();
         CargoManipulator.getInstance();
+        SpadeHatcher.getInstance();
         // Start compressor
         new Compressor().start();
         // init limelight
@@ -70,6 +70,8 @@ public class Robot extends TimedRobot {
         if (SmartDashboard.getBoolean("Display pressure?", false)) {
             SmartDashboard.putNumber("Pnuematic pressure", PressureSensor.getInstance().getPressure());
         }
+        SmartDashboard.putNumber("Pot pos", CargoManipulatorArm.getInstance().getPosition());
+        SmartDashboard.putNumber("Pot voltage", CargoManipulatorArm.getInstance().getPotVoltage());
     }
 
     /**
@@ -99,7 +101,6 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
 
-        // schedule the autonomous command (example)
         if (autonomousCommand != null) {
             autonomousCommand.start();
         }
@@ -123,6 +124,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        limelight.setPipeline(1);
     }
 
     /**
