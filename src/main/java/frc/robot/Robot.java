@@ -70,6 +70,8 @@ public class Robot extends TimedRobot {
         if (SmartDashboard.getBoolean("Display pressure?", false)) {
             SmartDashboard.putNumber("Pnuematic pressure", PressureSensor.getInstance().getPressure());
         }
+        SmartDashboard.putNumber("Pot pos", CargoManipulatorArm.getInstance().getPosition());
+        SmartDashboard.putNumber("Pot voltage", CargoManipulatorArm.getInstance().getPotVoltage());
     }
 
     /**
@@ -122,6 +124,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
         limelight.setLEDs(Limelight.LIMELIGHT_LED_OFF);
+        limelight.setPipeline(1);
     }
 
     /**

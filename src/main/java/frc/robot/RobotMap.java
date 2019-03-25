@@ -25,12 +25,12 @@ public class RobotMap {
     // public static final int rangefinderModule = 1;
 
     public class DRIVETRAIN {
-        public static final int LEFT_MASTER_CHANNEL = 17;
-        public static final int LEFT_FOLLOWER_ONE_CHANNEL = 1;
-        public static final int LEFT_FOLLOWER_TWO_CHANNEL = 2;
-        public static final int RIGHT_MASTER_CHANNEL = 13;
-        public static final int RIGHT_FOLLOWER_ONE_CHANNEL = 14;
-        public static final int RIGHT_FOLLOWER_TWO_CHANNEL = 15;
+        public static final int LEFT_MASTER_CHANNEL = 13;
+        public static final int LEFT_FOLLOWER_ONE_CHANNEL = 14;
+        public static final int LEFT_FOLLOWER_TWO_CHANNEL = 15;
+        public static final int RIGHT_MASTER_CHANNEL = 17;
+        public static final int RIGHT_FOLLOWER_ONE_CHANNEL = 1;
+        public static final int RIGHT_FOLLOWER_TWO_CHANNEL = 2;
 
         public static final double GEAR_RATIO = 7.58 / 12 / 15;
         public static final double WHEEL_RADIUS_FEET = .25;
@@ -39,11 +39,11 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class CLIMBER {
-        public static final int FRONT_FOOT_FORWARD = 5;
+        public static final int FRONT_FOOT_FORWARD = 0;
         public static final int FRONT_FOOT_REVERSE = 4;
 
-        public static final int REAR_FEET_FORWARD = 6;
-        public static final int REAR_FEET_REVERSE = 7;
+        public static final int REAR_FEET_FORWARD = 5;
+        public static final int REAR_FEET_REVERSE = 4;
 
         public static final int SHIFTER_FORWARD_CHANNEL = 5;
         public static final int SHIFTER_REVERSE_CHANNEL = 6;
@@ -54,13 +54,15 @@ public class RobotMap {
 
         public static final int POTENTIOMETER = 3;
 
-        public static final int DISK_BRAKE_FORWARD = 2;
-        public static final int DISK_BRAKE_REVERSE = 3;
+        public static final int DISK_BRAKE_FORWARD = 3;
+        public static final int DISK_BRAKE_REVERSE = 2;
     }
 
     public static class SPADE {
         public static final int FORWARD_CHANNEL = 2;
         public static final int REVERSE_CHANNEL = 3;
+
+        public static final int EJECTORS = 1;
     }
 
     public static class CARGO_MANIPULATOR {

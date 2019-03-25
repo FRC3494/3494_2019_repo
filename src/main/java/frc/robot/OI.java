@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.ToggleShifter;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
+import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.SpadeHatcher;
 
@@ -58,9 +59,9 @@ public class OI {
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
         preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
 
-        secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse)));
+        secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
-        secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward)));
+        secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
@@ -68,8 +69,12 @@ public class OI {
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
 
-        ejectHatch.whenPressed(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kReverse)));
-        ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), () -> SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward)));
+        ejectHatch.whenPressed(new EjectHatch());
+        Runnable releaseEject = () -> {
+            SpadeHatcher.getInstance().setEars(DoubleSolenoid.Value.kForward);
+            SpadeHatcher.getInstance().setEjectors(false);
+        };
+        ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), releaseEject));
         // Driver joystick binds
         engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
 
@@ -112,8 +117,8 @@ public class OI {
         return -removeDeadband(rightFlight.getY());
     }
 
-    public double getXboxRightY() {
-        return removeDeadband(xbox.getY(GenericHID.Hand.kRight), 0.2);
+    public double getXboxRightX() {
+        return removeDeadband(xbox.getX(GenericHID.Hand.kRight), 0.2);
     }
 
     public boolean getXboxLeftBumper() {
