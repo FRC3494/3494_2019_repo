@@ -90,7 +90,7 @@ public class RobotMap {
         public static final int SECOND_LEVEL_UNREADY = 8;
         public static final int REAR_FEET = 14;
 
-        public static final int WINCH_CLIMBER = 12;//this needs to be updated
+        public static final int WINCH_CLIMBER = 4;
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;
