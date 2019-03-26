@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.ToggleShifter;
+import frc.robot.commands.climb.WinchesForward;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
@@ -37,6 +38,8 @@ public class OI {
     private JoystickButton secondLevelUnready;
     private JoystickButton preclimb;
 
+    private JoystickButton winchClimber;
+
     private JoystickButton engageZbar;
 
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
@@ -55,6 +58,8 @@ public class OI {
             b.whenPressed(new GotoPosition(e.getValue()));
             this.boardButtons[e.getKey()] = b;
         }
+        winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
+
         secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
         preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
@@ -64,6 +69,8 @@ public class OI {
         secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
+
+        winchClimber.whileHeld(new WinchesForward());
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
 
         // Xbox binds
