@@ -58,18 +58,18 @@ public class OI {
             b.whenPressed(new GotoPosition(e.getValue()));
             this.boardButtons[e.getKey()] = b;
         }
-        winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
 
         secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
         preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
+        winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
+        boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
         secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
         secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
-
         winchClimber.whileHeld(new WinchesForward());
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
 
