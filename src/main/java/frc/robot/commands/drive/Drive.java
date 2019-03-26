@@ -29,14 +29,10 @@ public class Drive extends Command {
         double leftStick = powerCurve(OI.getInstance().getLeftY());
         double rightStick = powerCurve(OI.getInstance().getRightY());
 
-        if (!Climber.getInstance().isEngaged()) {
-            if (!sideFlipped) {
-                Drivetrain.getInstance().tankDrive(leftStick, rightStick);
-            } else {
-                Drivetrain.getInstance().tankDrive(-rightStick, -leftStick);
-            }
+        if (!sideFlipped) {
+            Drivetrain.getInstance().tankDrive(leftStick, rightStick);
         } else {
-            Drivetrain.getInstance().tankDrive(Math.abs(leftStick), Math.abs(leftStick));
+            Drivetrain.getInstance().tankDrive(-rightStick, -leftStick);
         }
 
         int pov = OI.getInstance().getLeftPOV();
