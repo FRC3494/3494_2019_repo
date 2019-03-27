@@ -8,8 +8,6 @@ import frc.robot.RobotMap;
 
 public class Climber extends Subsystem {
 
-    private DoubleSolenoid shifter;
-
     private DoubleSolenoid frontFoot;
     private DoubleSolenoid rearFeet;
 
@@ -21,9 +19,6 @@ public class Climber extends Subsystem {
     private static Climber INSTANCE = new Climber();
 
     private Climber() {
-        this.shifter = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.CLIMBER.SHIFTER_FORWARD_CHANNEL, RobotMap.CLIMBER.SHIFTER_REVERSE_CHANNEL);
-        this.shifter.set(DoubleSolenoid.Value.kForward);
-
         this.frontFoot = new DoubleSolenoid(RobotMap.PCM_B, RobotMap.CLIMBER.FRONT_FOOT_FORWARD, RobotMap.CLIMBER.FRONT_FOOT_REVERSE);
         this.frontFoot.set(DoubleSolenoid.Value.kForward);
         this.rearFeet = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CLIMBER.REAR_FEET_FORWARD, RobotMap.CLIMBER.REAR_FEET_REVERSE);
@@ -42,10 +37,6 @@ public class Climber extends Subsystem {
         this.winchRightFollower.follow(this.winchRightMaster);
     }
 
-    public void setShifter(DoubleSolenoid.Value value) {
-        this.shifter.set(value);
-    }
-
     public void setFrontFoot(DoubleSolenoid.Value value) {
         this.frontFoot.set(value);
     }
@@ -54,11 +45,11 @@ public class Climber extends Subsystem {
         this.rearFeet.set(value);
     }
 
-    public void setWinchLeftMaster(double power){
+    public void setWinchLeftMaster(double power) {
         this.winchLeftMaster.set(ControlMode.PercentOutput, power);
     }
 
-    public void setWinchRightMaster(double power){
+    public void setWinchRightMaster(double power) {
         this.winchRightMaster.set(ControlMode.PercentOutput, power);
     }
 
@@ -68,10 +59,6 @@ public class Climber extends Subsystem {
 
     public DoubleSolenoid.Value getRearFeet() {
         return this.rearFeet.get();
-    }
-
-    public boolean isEngaged() {
-        return this.shifter.get().equals(DoubleSolenoid.Value.kForward);
     }
 
     public static Climber getInstance() {
