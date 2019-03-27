@@ -81,6 +81,27 @@ public class ArcFinder {
                         xDist - this.initialDrivingDistance);
     }
 
+    //uses Newton's method to approximate the smallest angle the robot would need to turn to make the path possible
+    public double getAngleToTurn(double guessAngle){
+        double x = guessAngle, xNew;
+        double yDist = this.initialDistToCorner * Math.sin(this.initialAngleToTargetCenter);
+        double xDist = this.initialDistToCorner * Math.cos(this.initialAngleToTargetCenter);
+        double y;
+        double yPrime;
+
+        for(int i = 0; i< 15; i++){
+            y = Math.sqrt(Math.pow(yDist / Math.tan(x), 2) +
+                        Math.pow(xDist, 2)) -
+                        (-yDist / Math.tan(x) +
+                            xDist - this.initialDrivingDistance);
+            yPrime = -yDist / Math.pow(Math.cos(x) * Math.tan(x), 2) -
+                            Math.pow(yDist / Math.cos(x),2) / (Math.pow(Math.tan(x), 3) *
+                                    Math.sqrt(Math.pow(yDist / Math.tan(x), 2) + Math.pow(xDist, 2)));
+            x = -y/yPrime + x;
+        }
+        return x;
+    }
+
     private void setInitialDrivingDistance() {
         this.initialDrivingDistance = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
                 - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
