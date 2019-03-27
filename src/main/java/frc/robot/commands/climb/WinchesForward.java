@@ -18,10 +18,8 @@ public class WinchesForward extends Command {
      */
     @Override
     protected void initialize() {
-        if(Climber.getInstance().isEngaged()){
-            Climber.getInstance().setWinchLeftMaster(RobotMap.CLIMBER.WINCH_POWER);
-            Climber.getInstance().setWinchRightMaster(RobotMap.CLIMBER.WINCH_POWER);
-        }
+        Climber.getInstance().setWinchLeftMaster(RobotMap.CLIMBER.WINCH_POWER);
+        Climber.getInstance().setWinchRightMaster(RobotMap.CLIMBER.WINCH_POWER);
     }
 
 
