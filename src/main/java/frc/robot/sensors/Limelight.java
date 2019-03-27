@@ -103,7 +103,7 @@ public class Limelight {
      * @return the distance between the robot and the target, in feet.
      */
     public double getDistance() {
-        return this.getTVert() / this.getTHor() * RobotMap.LIMELIGHT.FOCAL_LENGTH;
+        return this.getTVert() / this.getThor() * RobotMap.LIMELIGHT.FOCAL_LENGTH_FEET;
     }
 
     /**
@@ -128,7 +128,7 @@ public class Limelight {
      *gets the horizontal height of the target in pixels.
      * @return the horizontal height of the target in pixels.
      */
-    private double getTHor() {
+    private double getThor() {
         return this.table.getEntry("thor").getDouble(0);
     }
 
@@ -137,7 +137,7 @@ public class Limelight {
      * @return the aspect ratio of the target's vertical bounding box.
      */
     private double getAspectRatio() {
-        return this.getTHor() / this.getTVert();
+        return this.getThor() / this.getTVert();
     }
 
 

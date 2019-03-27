@@ -6,20 +6,21 @@ import frc.robot.RobotMap;
 public class ArcFinder {
     private Vector2d directionIntoTarget;
     private double arcRadius;
-    private double initialAngleToTargetCenter;//not set yet
+    private double initialAngleToTargetCenter;
     private double angleBetweenCenterAndEdge;
-    private double initialDistToTargetCenter;//not set yet
+    private double initialDistToTargetCenter;
     private double initialDistToTargetEdge;
     private double initialAngleToTargetEdge;
     private double kiteLegLength;
     private double cornerToTargetDist;
     private double initialDrivingDistance;
     private double initialDistToCorner;
-    private double targetSkewAngle;//not set yet
+    private double targetSkewAngle;
     private double distToTargetAfterArc;
     private double arcAngle;
     private boolean isRightOfTarget;
     private double leftToRightRatio;
+    private boolean targetFacesRight;
 
 
     private static ArcFinder INSTANCE;
@@ -32,7 +33,7 @@ public class ArcFinder {
         this.directionIntoTarget = config.getDirectionIntoTarget();
         this.targetSkewAngle = config.getTargetSkewAngle();
 
-        this.setInitialDistanceToTargetCenter();
+        this.initialDistToTargetCenter = config.getInitialDistToTargetCenter();
         this.initialAngleToTargetCenter = config.getInitialAngleToTargetCenter();
 
         this.setInitialDistToCorner();
@@ -42,8 +43,8 @@ public class ArcFinder {
 
 
 
-        this.setAngleBetweenCenterAndEdge();
-        this.setInitialDistToTargetEdge();
+        this.angleBetweenCenterAndEdge = config.getAngleBetweenCenterAndEdge();
+        this.initialDistToTargetEdge = config.getInitialDistToTargetEdge();
 
         this.setInitialDrivingDistance();
 
@@ -81,7 +82,9 @@ public class ArcFinder {
                         xDist - this.initialDrivingDistance);
     }
 
-    //uses Newton's method to approximate the smallest angle the robot would need to turn to make the path possible
+    /**uses Newton's method to approximate the smallest angle the robot would need to turn to make the path possible
+     * @return x, the angle the robot should turn in radians
+     */
     public double getAngleToTurn(double guessAngle){
         double x = guessAngle, xNew;
         double yDist = this.initialDistToCorner * Math.sin(this.initialAngleToTargetCenter);
@@ -102,13 +105,13 @@ public class ArcFinder {
         return x;
     }
 
+    public int getDirectionToTurn(){
+        return (int)Math.signum(this.cornerToTargetDist - this.kiteLegLength) * (this.targetFacesRight ? 1 : -1);
+    }
+
     private void setInitialDrivingDistance() {
         this.initialDrivingDistance = (this.initialDistToTargetEdge * Math.cos(RobotMap.LIMELIGHT.FOV_RAD / 2)
                 - this.initialDistToTargetEdge * Math.sin(RobotMap.LIMELIGHT.FOV_RAD / 2)) / Math.tan(RobotMap.LIMELIGHT.FOV_RAD / 2);
-    }
-
-    private void setAngleBetweenCenterAndEdge() {
-        this.angleBetweenCenterAndEdge = this.initialAngleToTargetEdge - this.initialAngleToTargetCenter;
     }
 
     private void setArcAngle() {
@@ -149,18 +152,6 @@ public class ArcFinder {
 
     public boolean isPathPossible() {
         return (this.cornerToTargetDist > this.kiteLegLength);
-    }
-
-
-    private double setInitialDistanceToTargetCenter() {
-        return 0;
-    }
-
-    private void setInitialDistToTargetEdge() {
-        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
-                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
-                - Math.pow(this.initialDistToTargetCenter, 2)
-                + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
     }
 
     private void setArcRadius() {

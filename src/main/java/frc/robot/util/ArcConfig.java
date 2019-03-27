@@ -8,17 +8,50 @@ public class ArcConfig {
     private Vector2d directionIntoTarget;
     private boolean isRightOfTarget;
     private double targetSkewAngle;
-    private double initialAngleToTargetCenter;
-    private double initialAngleToTargetEdge;
-    private double initialDistToTargetCenter;
-    private double initialDistToTargetEdge;
+    private Double initialAngleToTargetCenter;
+    private Double initialAngleToTargetEdge;
+    private Double initialDistToTargetCenter;
+    private Double initialDistToTargetEdge;
+    private double targetToPointAngle;
+    private double angleBetweenCenterAndEdge;
+
 
     public ArcConfig() {
+        this.setIsRightOfTarget();
         this.setDirectionIntoTarget();
         this.setTargetSkewAngle();
         this.setInitialAngleToTargetCenter();
+        this.setInitialDistToTargetCenter();
         this.setInitialAngleToTargetEdge();
-        this.setIsRightOfTarget();
+        this.setAngleBetweenCenterAndEdge();
+        this.setInitialDistToTargetEdge();
+        this.transformPoint(initialDistToTargetCenter, initialAngleToTargetCenter);
+        this.transformPoint(initialDistToTargetEdge, initialAngleToTargetEdge);
+
+        //this has to be reset with the transformed angles to center and edge
+        this.setAngleBetweenCenterAndEdge();
+    }
+
+
+    private void transformPoint(Double visualDistance, Double visualAngleRad){
+        double trueDist;
+        double trueAngle;
+
+        if(isRightOfTarget){
+            this.targetToPointAngle = Math.PI / 2 - RobotMap.LIMELIGHT.OFFSET_ANGLE_RAD - visualAngleRad;
+        }else{
+            this.targetToPointAngle = Math.PI / 2 - RobotMap.LIMELIGHT.OFFSET_ANGLE_RAD + visualAngleRad;
+        }
+        trueDist = Math.sqrt(Math.pow(visualDistance, 2) + Math.pow(RobotMap.LIMELIGHT.OFFSET_MAGNITUDE, 2) -
+                2*visualDistance*RobotMap.LIMELIGHT.OFFSET_MAGNITUDE * Math.cos(targetToPointAngle));
+        if(isRightOfTarget){
+            trueAngle = Math.asin(Math.sin(targetToPointAngle) / trueDist * visualDistance) -
+                        (Math.PI - visualAngleRad - targetToPointAngle);
+        }else{
+            trueAngle = Math.asin(Math.sin(targetToPointAngle) / trueDist * visualDistance);
+        }
+        visualDistance = trueDist;
+        visualAngleRad = trueAngle;
     }
 
     private void setTargetSkewAngle() {
@@ -76,6 +109,25 @@ public class ArcConfig {
     private void setDirectionIntoTarget() {
         this.directionIntoTarget = new Vector2d(Math.cos(Robot.getFrontLimelightInstance().getSkewAngle()),
                 Math.sin(Robot.getFrontLimelightInstance().getSkewAngle()));
+    }
+
+    private void setInitialDistToTargetEdge() {
+        this.initialDistToTargetEdge = this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge)
+                + Math.sqrt(Math.pow(RobotMap.ARC_DRIVE.CARGO_HATCH_TAPE_WIDTH_FEET, 2) / 4
+                - Math.pow(this.initialDistToTargetCenter, 2)
+                + Math.pow(this.initialDistToTargetCenter * Math.cos(this.angleBetweenCenterAndEdge), 2));
+    }
+
+    public double getInitialDistToTargetEdge(){
+        return this.initialDistToTargetEdge;
+    }
+
+    private void setAngleBetweenCenterAndEdge() {
+        this.angleBetweenCenterAndEdge = this.initialAngleToTargetEdge - this.initialAngleToTargetCenter;
+    }
+
+    public double getAngleBetweenCenterAndEdge(){
+        return this.angleBetweenCenterAndEdge;
     }
 
     public Vector2d getDirectionIntoTarget(){

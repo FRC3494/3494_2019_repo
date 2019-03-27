@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.time.OffsetDateTime;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -42,6 +44,10 @@ public class RobotMap {
         public static final double FOV_RAD = 5 * Math.PI / 72;
         public static final double EXPECTED_ASPECT_RATIO = 14.63 / 5.83;
         public static final double FOCAL_LENGTH_FEET = 3.338517 / 25.4 / 12;
+        public static final double OFFSET_X = 1;
+        public static final double OFFSET_Y = 1;
+        public static final double OFFSET_ANGLE_RAD = Math.atan(OFFSET_Y / OFFSET_X);
+        public static final double OFFSET_MAGNITUDE = Math.sqrt(Math.pow(OFFSET_X, 2) + Math.pow(OFFSET_Y, 2));
 
         public enum PIPELINE{
 
@@ -92,6 +98,11 @@ public class RobotMap {
         public static final double TOLERANCE_RANGE_PID = 1.0;
     }
     //gear ratio is 7.58:12:15
+
+    public class TURN_UNTIL_ARC_POSSIBLE{
+        public static final double TIMEOUT = 5.0;
+        public static final double TURN_SPEED = 0.2;
+    }
 
     public class CLIMBER {
         public static final int FRONT_FOOT_FORWARD = 5;
