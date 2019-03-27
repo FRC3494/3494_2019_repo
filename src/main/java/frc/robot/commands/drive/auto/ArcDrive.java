@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.drive.Drive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.ArcConfig;
 import frc.robot.util.ArcFinder;
@@ -20,7 +19,7 @@ public class ArcDrive extends TimedCommand {
     private double leftInitialDist;
     private double rightInitialDist;
 
-    private SynchronousPIDF pidControllerLeft, pidControllerRight, pidControllerPosition;
+    private SynchronousPIDF pidControllerLeft, pidControllerRight, pidControllerPositionRatio, pidControllerPosition;
 
     private ArcConfig config;
 
@@ -39,15 +38,23 @@ public class ArcDrive extends TimedCommand {
 
         this.timer = new Timer();
 
-        this.pidControllerLeft = new SynchronousPIDF(RobotMap.ARC_DRIVE.kP,
-                                                RobotMap.ARC_DRIVE.kI,
-                                                RobotMap.ARC_DRIVE.kD,
-                                                RobotMap.ARC_DRIVE.kF);
+        this.pidControllerLeft = new SynchronousPIDF(RobotMap.ARC_DRIVE.speedkP,
+                                                RobotMap.ARC_DRIVE.speedkI,
+                                                RobotMap.ARC_DRIVE.speedkD,
+                                                RobotMap.ARC_DRIVE.speedkF);
 
-        this.pidControllerRight = new SynchronousPIDF(RobotMap.ARC_DRIVE.kP,
-                RobotMap.ARC_DRIVE.kI,
-                RobotMap.ARC_DRIVE.kD,
-                RobotMap.ARC_DRIVE.kF);
+        this.pidControllerRight = new SynchronousPIDF(RobotMap.ARC_DRIVE.speedkP,
+                RobotMap.ARC_DRIVE.speedkI,
+                RobotMap.ARC_DRIVE.speedkD,
+                RobotMap.ARC_DRIVE.speedkF);
+
+        this.pidControllerPositionRatio = new SynchronousPIDF(RobotMap.ARC_DRIVE.ratiokP,
+                RobotMap.ARC_DRIVE.ratiokI,
+                RobotMap.ARC_DRIVE.ratiokD,
+                RobotMap.ARC_DRIVE.ratioKF);
+
+        this.pidControllerPosition = new SynchronousPIDF(1.0, 0,0,0);
+        this.pidControllerPosition.setOutputRange(0.1, 1);
 
         //this.directionIntoTarget = new Vector2d(0, 0);
     }
@@ -99,7 +106,7 @@ public class ArcDrive extends TimedCommand {
         this.pidControllerRight.setOutputRange(-1,1);
         this.pidControllerRight.setDeadband(rightSetpoint / 10);
 
-        if(!isRightOfTarget()){//have Drason check this
+        if(!isRightOfTarget()){
             this.leftInitialDist = (this.arcRadius + RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2) *
                                     this.arcAngle;
             this.rightInitialDist = (this.arcRadius - RobotMap.ARC_DRIVE.WIDTH_BETWEEN_ROBOT_WHEELS_FEET / 2) *
@@ -111,6 +118,8 @@ public class ArcDrive extends TimedCommand {
                     this.arcAngle;
         }
 
+        this.pidControllerPosition.setSetpoint(1);
+
     }
 
 
@@ -121,19 +130,32 @@ public class ArcDrive extends TimedCommand {
     @Override
     protected void execute() {
         double dt = this.timer.get() - lastTime;
+        double ratio = Drivetrain.getInstance().getLeftAveragePosition() / Drivetrain.getInstance().getRightAveragePosition();
+        double percentFinished = (Drivetrain.getInstance().getLeftAveragePosition() / this.leftInitialDist +
+                                    Drivetrain.getInstance().getRightAveragePosition() / this.rightInitialDist) / 2;
+
         double left = this.pidControllerLeft.calculate(Drivetrain.getInstance().getLeftAverageVelocity(), dt);
         double right = this.pidControllerRight.calculate(Drivetrain.getInstance().getRightAverageVelocity(), dt);
+
+        left += this.pidControllerPositionRatio.calculate(ratio, dt);
+        right -= this.pidControllerPositionRatio.calculate(ratio, dt);
+
+        left *= this.pidControllerPosition.calculate(percentFinished, dt);
+        right *= this.pidControllerPosition.calculate(percentFinished, dt);
 
         Drivetrain.getInstance().tankDrive(left, right);
 
         this.lastTime = timer.get();
+
+        this.configureArc();
+        this.setSetpoints();
 
     }
 
     @Override
     protected boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return !isPossible && ;//add whether its on target
+        return pidControllerPosition.onTarget(.05);//add whether its on target
     }
 
     @Override

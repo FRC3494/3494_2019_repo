@@ -54,6 +54,7 @@ public class ArcFinder {
 
         this.setArcRadius();
         this.setArcAngle();
+        this.setLeftToRightRatio();
     }
 
     public double getArcRadius(){

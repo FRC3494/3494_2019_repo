@@ -82,10 +82,15 @@ public class RobotMap {
         public static final double MAX_SPEED = 0.5;//percent power
 
         public static final double
-                kP = 0.0,
-                kI = 0.0,
-                kD = 0.0,
-                kF = 0.0;
+                speedkP = 0.0,
+                speedkI = 0.0,
+                speedkD = 0.0,
+                speedkF = 0.0;
+        public static final double
+                ratiokP = 0.0,
+                ratiokI = 0.0,
+                ratiokD = 0.0,
+                ratioKF = 0.0;
     }
 
     public class TURN_DRIVE{
