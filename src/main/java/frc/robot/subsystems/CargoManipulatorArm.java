@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -34,6 +35,7 @@ public class CargoManipulatorArm extends PIDSubsystem {
         this.setAbsoluteTolerance(3.5);
 
         armMotor = new TalonSRX(RobotMap.CARGO_ARM.ARM_MOTOR_CHANNEL);
+        armMotor.setNeutralMode(NeutralMode.Coast);
 
         diskBrake = new DoubleSolenoid(RobotMap.PCM_A, RobotMap.CARGO_ARM.DISK_BRAKE_FORWARD, RobotMap.CARGO_ARM.DISK_BRAKE_REVERSE);
         diskBrake.set(DoubleSolenoid.Value.kReverse);

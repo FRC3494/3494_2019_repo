@@ -47,10 +47,17 @@ public class RobotMap {
 
         public static final int SHIFTER_FORWARD_CHANNEL = 5;
         public static final int SHIFTER_REVERSE_CHANNEL = 6;
+
+        public static final int WINCH_LEFT_MASTER_CHANNEL = 7;//this needs to be updated
+        public static final int WINCH_LEFT_FOLLOWER_CHANNEL = 8;
+        public static final int WINCH_RIGHT_MASTER_CHANNEL = 9;//this needs to be updated
+        public static final int WINCH_RIGHT_FOLLOWER_CHANNEL = 10;
+
+        public static final double WINCH_POWER = .5;
     }
 
     public class CARGO_ARM {
-        public static final int ARM_MOTOR_CHANNEL = 6;
+        public static final int ARM_MOTOR_CHANNEL = 7;
 
         public static final int POTENTIOMETER = 3;
 
@@ -82,6 +89,8 @@ public class RobotMap {
         public static final int SECOND_LEVEL_CLIMBER = 11;
         public static final int SECOND_LEVEL_UNREADY = 8;
         public static final int REAR_FEET = 14;
+
+        public static final int WINCH_CLIMBER = 4;
     }
 
     public static final int PRESSURE_SENSOR_PORT = 0;
