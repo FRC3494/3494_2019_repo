@@ -57,7 +57,7 @@ public class RobotMap {
     }
 
     public class CARGO_ARM {
-        public static final int ARM_MOTOR_CHANNEL = 6;
+        public static final int ARM_MOTOR_CHANNEL = 7;
 
         public static final int POTENTIOMETER = 3;
 

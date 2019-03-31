@@ -125,7 +125,7 @@ public class OI {
     }
 
     public double getXboxRightX() {
-        return removeDeadband(xbox.getX(GenericHID.Hand.kRight), 0.2);
+        return removeDeadband(xbox.getX(GenericHID.Hand.kRight), 0.3);
     }
 
     public boolean getXboxLeftBumper() {
