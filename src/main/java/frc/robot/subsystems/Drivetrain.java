@@ -49,6 +49,8 @@ public class Drivetrain extends PIDSubsystem {
     private CANEncoder encRightFollowOne;
     private CANEncoder encRightFollowTwo;
 
+    private boolean isAntiTipDisabled;
+
     private double pidOutput = 0;
 
     private HRLVMaxSonar ultrasonic;
@@ -156,6 +158,10 @@ public class Drivetrain extends PIDSubsystem {
 
     public double getUltrasonicDistance() {
         return this.ultrasonic.getDistance();
+    }
+
+    public boolean getIsAntiTipDisabled() {
+        return this.isAntiTipDisabled;
     }
 
     public void stop() {

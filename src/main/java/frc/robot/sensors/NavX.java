@@ -30,6 +30,14 @@ public class NavX {
         resetValue = ahrs.getFusedHeading();
     }
 
+    public double getPitchDegrees(){
+        return this.ahrs.getPitch();
+    }
+
+    public double getRollDegrees(){
+        return this.ahrs.getRoll();
+    }
+
     /*
      * periodic had to be commented out because NavX was moved to sensors.
      * This code is saved so it can be reused.
