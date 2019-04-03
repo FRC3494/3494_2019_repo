@@ -31,6 +31,7 @@ public class AntiTip extends Command {
     private void changePitch(){//x-tip
         this.leftSpeed = ;
         this.rightSpeed = ;
+        Drivetrain.getInstance().tankDrive(this.leftSpeed, this.rightSpeed);
     }
 
 /** Team 263 example
@@ -75,14 +76,7 @@ public class AntiTip extends Command {
     @Override
     protected void execute() {
         updateThresholdStatus();
-        if(pitchProblem){
-            changePitch();
-        }
-        if(rollProblem){
-            changeRoll();
-        }
-        Drivetrain.getInstance().tankDrive(this.leftSpeed, this.rightSpeed);
-
+        changePitch();
     }
 
 
@@ -106,7 +100,7 @@ public class AntiTip extends Command {
     @Override
     protected boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return Drivetrain.getInstance().getIsAntiTipDisabled();
+        return Drivetrain.getInstance().getIsAntiTipDisabled() || !pitchProblem;
     }
 
 
