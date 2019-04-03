@@ -62,10 +62,11 @@ public class Drive extends Command {
         //double leftStick = RobotMath.powerCurve(OI.getInstance().getLeftY());
         //double rightStick = RobotMath.powerCurve(OI.getInstance().getRightY());
 
-
         updatePitchStatus();
-        if(NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES){
-            this.correctForPitch(stickSpeeds);
+        if(!Drivetrain.getInstance().getIsAntiTipDisabled()) {
+            if (NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
+                this.correctForPitch(stickSpeeds);
+            }
         }
         this.displayTippiness();
 
