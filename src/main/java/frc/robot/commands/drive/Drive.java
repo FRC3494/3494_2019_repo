@@ -29,6 +29,10 @@ public class Drive extends Command {
         return Math.copySign(curve, x);
     }
 
+    /**@param array array of motor power values
+     * If any of the values are more than 1, they aren't valid values for motor power.
+     * If so, it divides all array values by the largest value to preserve the value ratios while making them valid motor power values.
+    */
     public static void normalize(double[] array) {
         double max = Math.abs(array[0]);
         boolean normFlag = max > 1;
