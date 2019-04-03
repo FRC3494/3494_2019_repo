@@ -166,6 +166,7 @@ public class Drivetrain extends PIDSubsystem {
 
     public void toggleAntiTip(){
         this.isAntiTipDisabled = !this.isAntiTipDisabled;
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     public void stop() {
@@ -182,7 +183,6 @@ public class Drivetrain extends PIDSubsystem {
                     + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL) + ", " +
                     PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL));
         }
-        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     public static Drivetrain getInstance() {
