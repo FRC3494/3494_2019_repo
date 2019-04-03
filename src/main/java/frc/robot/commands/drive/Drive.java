@@ -23,30 +23,31 @@ public class Drive extends Command {
         requires(Drivetrain.getInstance());
     }
 
-    public static double powerCurve(double x) {
+    private double powerCurve(double x) {
         // https://www.desmos.com/calculator/g07ukjj7bl
         double curve = (0.5D * (Math.atan(Math.PI * (Math.abs(x) - 0.5D)))) + 0.5D;
         return Math.copySign(curve, x);
     }
 
-    /**@param array array of motor power values
-     * If any of the values are more than 1, they aren't valid values for motor power.
-     * If so, it divides all array values by the largest value to preserve the value ratios while making them valid motor power values.
-    */
-    public static void normalize(double[] array) {
-        double max = Math.abs(array[0]);
+    /**
+     * @param motorSpeeds array of motor power values
+     *              If any of the values are more than 1, they aren't valid values for motor power.
+     *              If so, it divides all array values by the largest value to preserve the value ratios while making them valid motor power values.
+     */
+    private void normalize(double[] motorSpeeds) {
+        double max = Math.abs(motorSpeeds[0]);
         boolean normFlag = max > 1;
 
-        for (int i = 1; i < array.length; i++) {
-            if (Math.abs(array[i]) > max) {
-                max = Math.abs(array[i]);
+        for (int i = 1; i < motorSpeeds.length; i++) {
+            if (Math.abs(motorSpeeds[i]) > max) {
+                max = Math.abs(motorSpeeds[i]);
                 normFlag = max > 1;
             }
         }
 
         if (normFlag) {
-            for (int i = 0; i < array.length; i++) {
-                array[i] /= max;
+            for (int i = 0; i < motorSpeeds.length; i++) {
+                motorSpeeds[i] /= max;
             }
         }
     }
@@ -55,9 +56,8 @@ public class Drive extends Command {
         //if its over 45 there's no point in correcting it
         if (Math.abs(pitchDegrees) < 45) {
             //correctionFactor keeps the tilt correction within a certain threshold so it doesn't correct too much
-            double correctionFactor = (RobotMap.DRIVE.MAX_CORRECTION_FACTOR - RobotMap.DRIVE.MIN_CORRECTION_FACTOR) / (45 - RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES);
 
-            double correctionOffset = correctionFactor * (pitchDegrees - RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES);
+            double correctionOffset = RobotMap.DRIVE.CORRECTION_FACTOR * (pitchDegrees - RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES);
             stickSpeeds[0] += correctionOffset;
             stickSpeeds[1] += correctionOffset;
             normalize(stickSpeeds);
@@ -68,7 +68,7 @@ public class Drive extends Command {
         this.pitchDegrees = NavX.getInstance().getPitchDegrees();
     }
 
-    private void displayTippiness(){
+    private void displayTippiness() {
         boolean forwardProblem = NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES;
         boolean backwardProblem = NavX.getInstance().getPitchDegrees() < -RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES;
 
@@ -88,7 +88,7 @@ public class Drive extends Command {
         //double rightStick = RobotMath.powerCurve(OI.getInstance().getRightY());
 
         updatePitchStatus();
-        if(!Drivetrain.getInstance().getIsAntiTipDisabled()) {
+        if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
             if (NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
                 this.correctForPitch(stickSpeeds);
             }

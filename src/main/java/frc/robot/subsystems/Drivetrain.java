@@ -164,7 +164,7 @@ public class Drivetrain extends PIDSubsystem {
         return this.isAntiTipDisabled;
     }
 
-    public void toggleAntiTip(){
+    public void toggleAntiTip() {
         this.isAntiTipDisabled = !this.isAntiTipDisabled;
         SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
