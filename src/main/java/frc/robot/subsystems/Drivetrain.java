@@ -49,13 +49,13 @@ public class Drivetrain extends PIDSubsystem {
     private CANEncoder encRightFollowOne;
     private CANEncoder encRightFollowTwo;
 
-    private boolean isAntiTipDisabled;
-
     private double pidOutput = 0;
 
     private HRLVMaxSonar ultrasonic;
 
     private static Drivetrain INSTANCE = new Drivetrain();
+
+    private boolean isAntiTipDisabled = false;
 
 
     private Drivetrain() {
@@ -164,6 +164,10 @@ public class Drivetrain extends PIDSubsystem {
         return this.isAntiTipDisabled;
     }
 
+    public void toggleAntiTip(){
+        this.isAntiTipDisabled = !this.isAntiTipDisabled;
+    }
+
     public void stop() {
         this.tankDrive(0, 0);
     }
@@ -178,6 +182,7 @@ public class Drivetrain extends PIDSubsystem {
                     + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL) + ", " +
                     PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL));
         }
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     public static Drivetrain getInstance() {
