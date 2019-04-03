@@ -93,7 +93,7 @@ public class Drive extends Command {
                 this.correctForPitch(stickSpeeds);
             }
         }
-        this.displayTippiness();
+        //this.displayTippiness();
 
         if (!sideFlipped) {
             Drivetrain.getInstance().tankDrive(stickSpeeds[0], stickSpeeds[1]);
