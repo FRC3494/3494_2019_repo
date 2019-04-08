@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -12,9 +13,9 @@ public class Climber extends Subsystem {
     private DoubleSolenoid rearFeet;
 
     private TalonSRX winchLeftMaster;
-    private TalonSRX winchLeftFollower;
+    private VictorSPX winchLeftFollower;
     private TalonSRX winchRightMaster;
-    private TalonSRX winchRightFollower;
+    private VictorSPX winchRightFollower;
 
     private static Climber INSTANCE = new Climber();
 
@@ -27,13 +28,13 @@ public class Climber extends Subsystem {
         this.winchLeftMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_MASTER_CHANNEL);
         this.winchLeftMaster.setInverted(true);
 
-        this.winchLeftFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_FOLLOWER_CHANNEL);
+        this.winchLeftFollower = new VictorSPX(RobotMap.CLIMBER.WINCH_LEFT_FOLLOWER_CHANNEL);
         this.winchLeftFollower.setInverted(true);
         this.winchLeftFollower.follow(this.winchLeftMaster);
 
         this.winchRightMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_MASTER_CHANNEL);
 
-        this.winchRightFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_FOLLOWER_CHANNEL);
+        this.winchRightFollower = new VictorSPX(RobotMap.CLIMBER.WINCH_RIGHT_FOLLOWER_CHANNEL);
         this.winchRightFollower.follow(this.winchRightMaster);
     }
 
