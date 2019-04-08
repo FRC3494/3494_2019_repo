@@ -20,6 +20,7 @@ public class TwistArm extends Command {
             CargoManipulatorArm.getInstance().lift(0.3);
             CargoManipulatorArm.getInstance().setBrake(true);
         } else {
+            CargoManipulatorArm.getInstance().lift(0);
             CargoManipulatorArm.getInstance().setBrake(true);
         }
     }
