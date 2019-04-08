@@ -53,6 +53,11 @@ public class Climber extends Subsystem {
         this.winchRightMaster.set(ControlMode.PercentOutput, power);
     }
 
+    public void setAllMotors(double power) {
+        this.setWinchLeftMaster(power);
+        this.setWinchRightMaster(power);
+    }
+
     public DoubleSolenoid.Value getFrontFoot() {
         return this.frontFoot.get();
     }
