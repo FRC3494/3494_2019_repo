@@ -1,8 +1,5 @@
 package frc.robot;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoMode;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -42,8 +39,6 @@ public class Robot extends TimedRobot {
         new Compressor().start();
         // init limelight
         limelight = new Limelight();
-        UsbCamera c = CameraServer.getInstance().startAutomaticCapture("Emergency USB camera", 0);
-        c.setVideoMode(VideoMode.PixelFormat.kMJPEG, 265, 144, 15);
         // chooser.setDefaultOption("Default Auto", new ExampleCommand());
         // chooser.addOption("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
