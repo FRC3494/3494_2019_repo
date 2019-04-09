@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
-import frc.robot.commands.climb.ToggleShifter;
-import frc.robot.commands.climb.WinchesForward;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
@@ -41,10 +39,7 @@ public class OI {
 
     private JoystickButton winchClimber;
 
-    private JoystickButton engageZbar;
-
     private JoystickButton toggleAntiTip;
-
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
     private OI() {
@@ -75,9 +70,11 @@ public class OI {
         secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
-        winchClimber.whileHeld(new WinchesForward());
         toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
+        winchClimber.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(RobotMap.CLIMBER.WINCH_POWER)));
+        winchClimber.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(0)));
+        boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
@@ -88,10 +85,6 @@ public class OI {
             SpadeHatcher.getInstance().setEjectors(false);
         };
         ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), releaseEject));
-        // Driver joystick binds
-        engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
-
-        engageZbar.whenPressed(new ToggleShifter());
     }
 
     /**
