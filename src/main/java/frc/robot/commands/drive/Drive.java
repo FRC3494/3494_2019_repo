@@ -76,9 +76,9 @@ public class Drive extends Command {
     protected void execute() {
         double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
 
-        updatePitchStatus();
         if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
-            if (NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
+            updatePitchStatus();
+            if (pitchDegrees > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
                 this.correctForPitch(stickSpeeds);
             }
         }
