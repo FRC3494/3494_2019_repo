@@ -31,8 +31,8 @@ public class Drive extends Command {
 
     /**
      * @param motorSpeeds array of motor power values
-     *              If any of the values are more than 1, they aren't valid values for motor power.
-     *              If so, it divides all array values by the largest value to preserve the value ratios while making them valid motor power values.
+     *                    If any of the values are more than 1, they aren't valid values for motor power.
+     *                    If so, it divides all array values by the largest value to preserve the value ratios while making them valid motor power values.
      */
     private void normalize(double[] motorSpeeds) {
         double max = Math.abs(motorSpeeds[0]);
@@ -83,7 +83,7 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-        double stickSpeeds[] = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
+        double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
         //double leftStick = RobotMath.powerCurve(OI.getInstance().getLeftY());
         //double rightStick = RobotMath.powerCurve(OI.getInstance().getRightY());
 
@@ -118,7 +118,6 @@ public class Drive extends Command {
     protected boolean isFinished() {
         return false;
     }
-
 
     private static boolean setCamera(String camera) {
         NetworkTable engineering = NetworkTableInstance.getDefault().getTable("engineering");
