@@ -30,11 +30,11 @@ public class NavX {
         resetValue = ahrs.getFusedHeading();
     }
 
-    public double getPitchDegrees(){
+    public double getPitchDegrees() {
         return this.ahrs.getPitch();
     }
 
-    public double getRollDegrees(){
+    public double getRollDegrees() {
         return this.ahrs.getRoll();
     }
 

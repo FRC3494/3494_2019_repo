@@ -3,7 +3,6 @@ package frc.robot.commands.drive;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.sensors.NavX;
@@ -68,14 +67,6 @@ public class Drive extends Command {
         this.pitchDegrees = NavX.getInstance().getPitchDegrees();
     }
 
-    private void displayTippiness() {
-        boolean forwardProblem = NavX.getInstance().getPitchDegrees() > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES;
-        boolean backwardProblem = NavX.getInstance().getPitchDegrees() < -RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES;
-
-        SmartDashboard.putBoolean("Tipping Forward", forwardProblem);
-        SmartDashboard.putBoolean("Tipping Backward", backwardProblem);
-    }
-
     @Override
     protected void initialize() {
         setCamera("RPI");
@@ -84,8 +75,6 @@ public class Drive extends Command {
     @Override
     protected void execute() {
         double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
-        //double leftStick = RobotMath.powerCurve(OI.getInstance().getLeftY());
-        //double rightStick = RobotMath.powerCurve(OI.getInstance().getRightY());
 
         updatePitchStatus();
         if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
@@ -93,7 +82,6 @@ public class Drive extends Command {
                 this.correctForPitch(stickSpeeds);
             }
         }
-        //this.displayTippiness();
 
         if (!sideFlipped) {
             Drivetrain.getInstance().tankDrive(stickSpeeds[0], stickSpeeds[1]);
