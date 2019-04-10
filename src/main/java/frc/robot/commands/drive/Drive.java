@@ -54,12 +54,23 @@ public class Drive extends Command {
 
     private void correctForPitch(double[] stickSpeeds) {//x-tip
         //if its over 45 there's no point in correcting it
+        SmartDashboard.putBoolean("Correcting for Pitch: ", true);
         if (Math.abs(pitchDegrees) < 45) {
             //correctionFactor keeps the tilt correction within a certain threshold so it doesn't correct too much
 
             double correctionOffset = RobotMap.DRIVE.CORRECTION_FACTOR * (pitchDegrees - RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES);
-            stickSpeeds[0] = correctionOffset;
-            stickSpeeds[1] = correctionOffset;
+            //double correctionOffset = this.pitchDegrees / 10;
+            if (Math.abs(pitchDegrees) < RobotMap.DRIVE.PITCH_ALARM_THRESHOLD) {
+                stickSpeeds[0] += correctionOffset;
+                stickSpeeds[1] += correctionOffset;
+                SmartDashboard.putBoolean("Locked out: ", false);
+                SmartDashboard.putBoolean("Anti-tip bias: ", true);
+            } else {
+                stickSpeeds[0] = correctionOffset;
+                stickSpeeds[1] = correctionOffset;
+                SmartDashboard.putBoolean("Locked out: ", true);
+                SmartDashboard.putBoolean("Anti-tip bias: ", false);
+            }
             normalize(stickSpeeds);
         }
     }
@@ -76,12 +87,15 @@ public class Drive extends Command {
     @Override
     protected void execute() {
         double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
-        System.out.println("Before: " + stickSpeeds[0]+ " " +  stickSpeeds[1]);
-
+        System.out.println("Before: " + stickSpeeds[0] + " " + stickSpeeds[1]);
         if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
             updatePitchStatus();
-            if (pitchDegrees > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
+            if (Math.abs(pitchDegrees) > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {
                 this.correctForPitch(stickSpeeds);
+            } else {
+                SmartDashboard.putBoolean("Locked out: ", false);
+                SmartDashboard.putBoolean("Correcting for Pitch: ", false);
+                SmartDashboard.putBoolean("Anti-tip bias: ", false);
             }
         }
         System.out.println("After: " + stickSpeeds[0] + " " + stickSpeeds[1]);
