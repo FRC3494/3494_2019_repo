@@ -2,7 +2,6 @@ package frc.robot.sensors;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 
 public class NavX {
 
@@ -18,11 +17,10 @@ public class NavX {
     }
 
     public static NavX getInstance() {
-
         return INSTANCE;
     }
 
-    public void resetPitch(){
+    public void resetPitch() {
         this.resetPitchValue = -this.ahrs.getPitch();
     }
 
