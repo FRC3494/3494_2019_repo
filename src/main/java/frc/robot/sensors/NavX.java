@@ -40,9 +40,6 @@ public class NavX {
 
     public double getPitchDegrees() {
         double pitchDegrees = -this.ahrs.getPitch() - resetPitchValue;
-        if(pitchDegrees < 0){
-            return 360 + pitchDegrees;
-        }
         return pitchDegrees;
     }
 
