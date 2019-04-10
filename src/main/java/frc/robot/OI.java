@@ -17,6 +17,7 @@ import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpadeHatcher;
 
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class OI {
 
     private JoystickButton winchClimber;
 
+    private JoystickButton toggleAntiTip;
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
     private OI() {
@@ -59,12 +61,16 @@ public class OI {
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
         preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
+        toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
+        boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
+        boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
 
         secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
         secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
+        toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
         winchClimber.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(RobotMap.CLIMBER.WINCH_POWER)));
         winchClimber.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(0)));

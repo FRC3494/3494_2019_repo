@@ -55,6 +55,8 @@ public class Drivetrain extends PIDSubsystem {
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
+    private boolean isAntiTipDisabled = false;
+
 
     private Drivetrain() {
         super("Drivetrain", 1.0, 0, 0);
@@ -156,6 +158,15 @@ public class Drivetrain extends PIDSubsystem {
 
     public double getUltrasonicDistance() {
         return this.ultrasonic.getDistance();
+    }
+
+    public boolean getIsAntiTipDisabled() {
+        return this.isAntiTipDisabled;
+    }
+
+    public void toggleAntiTip() {
+        this.isAntiTipDisabled = !this.isAntiTipDisabled;
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     public void stop() {
