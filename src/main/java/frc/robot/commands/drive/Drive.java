@@ -3,6 +3,7 @@ package frc.robot.commands.drive;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.sensors.NavX;
@@ -57,8 +58,8 @@ public class Drive extends Command {
             //correctionFactor keeps the tilt correction within a certain threshold so it doesn't correct too much
 
             double correctionOffset = RobotMap.DRIVE.CORRECTION_FACTOR * (pitchDegrees - RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES);
-            stickSpeeds[0] += correctionOffset;
-            stickSpeeds[1] += correctionOffset;
+            stickSpeeds[0] = correctionOffset;
+            stickSpeeds[1] = correctionOffset;
             normalize(stickSpeeds);
         }
     }
@@ -75,6 +76,7 @@ public class Drive extends Command {
     @Override
     protected void execute() {
         double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
+        System.out.println("Before: " + stickSpeeds[0]+ " " +  stickSpeeds[1]);
 
         if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
             updatePitchStatus();
@@ -82,6 +84,7 @@ public class Drive extends Command {
                 this.correctForPitch(stickSpeeds);
             }
         }
+        System.out.println("After: " + stickSpeeds[0] + " " + stickSpeeds[1]);
 
         if (!sideFlipped) {
             Drivetrain.getInstance().tankDrive(stickSpeeds[0], stickSpeeds[1]);

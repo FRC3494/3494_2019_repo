@@ -1,6 +1,7 @@
 package frc.robot.sensors;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class NavX {
@@ -8,14 +9,21 @@ public class NavX {
     private static NavX INSTANCE = new NavX();
     private AHRS ahrs;
     private double resetValue;
+    private double resetPitchValue;
 
     private NavX() {
-        this.ahrs = new AHRS(SerialPort.Port.kMXP);
+        this.ahrs = new AHRS(SPI.Port.kMXP);
         this.resetFusedHeading();
+        this.resetPitch();
     }
 
     public static NavX getInstance() {
+
         return INSTANCE;
+    }
+
+    public void resetPitch(){
+        this.resetPitchValue = -this.ahrs.getPitch();
     }
 
     public double getFusedHeading() {
@@ -31,7 +39,11 @@ public class NavX {
     }
 
     public double getPitchDegrees() {
-        return this.ahrs.getPitch();
+        double pitchDegrees = -this.ahrs.getPitch() - resetPitchValue;
+        if(pitchDegrees < 0){
+            return 360 + pitchDegrees;
+        }
+        return pitchDegrees;
     }
 
     public double getRollDegrees() {

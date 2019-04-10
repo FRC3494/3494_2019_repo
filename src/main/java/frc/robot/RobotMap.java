@@ -39,10 +39,10 @@ public class RobotMap {
     //gear ratio is 7.58:12:15
 
     public class DRIVE {
-        public static final double PITCH_THRESHOLD_DEGREES = 5;
+        public static final double PITCH_THRESHOLD_DEGREES = 10;
 
         public static final double MIN_CORRECTION_FACTOR = .1;
-        public static final double MAX_CORRECTION_FACTOR = .4;
+        public static final double MAX_CORRECTION_FACTOR = .7;
         public static final double CORRECTION_FACTOR = (MAX_CORRECTION_FACTOR - MIN_CORRECTION_FACTOR) / (45 - PITCH_THRESHOLD_DEGREES);
     }
 

@@ -183,6 +183,8 @@ public class Drivetrain extends PIDSubsystem {
                     + PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL) + ", " +
                     PDP.getInstance().getCurrent(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL));
         }
+        SmartDashboard.putNumber("Pitch Degrees", NavX.getInstance().getPitchDegrees());
+        SmartDashboard.putBoolean("Anti tip disabled: ", Drivetrain.getInstance().getIsAntiTipDisabled());
     }
 
     public static Drivetrain getInstance() {
