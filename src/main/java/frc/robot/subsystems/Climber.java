@@ -91,6 +91,13 @@ public class Climber extends Subsystem {
     }
 
     @Override
+    public void periodic() {
+        if (this.getRightCurrent() > 60.0 || this.getLeftCurrent() > 60.0) {
+            this.setAllMotors(0);
+        }
+    }
+
+    @Override
     protected void initDefaultCommand() {
     }
 
