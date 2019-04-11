@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -16,6 +17,8 @@ public class Climber extends Subsystem {
     private TalonSRX winchRightMaster;
     private TalonSRX winchRightFollower;
 
+    private AnalogInput opticalSensor;
+
     private static Climber INSTANCE = new Climber();
 
     private Climber() {
@@ -25,16 +28,26 @@ public class Climber extends Subsystem {
         this.rearFeet.set(DoubleSolenoid.Value.kReverse);
 
         this.winchLeftMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_MASTER_CHANNEL);
+        this.winchLeftMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchLeftMaster.configPeakCurrentLimit(0);
 
         this.winchLeftFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_FOLLOWER_CHANNEL);
+        this.winchLeftFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchLeftFollower.configPeakCurrentLimit(0);
         this.winchLeftFollower.follow(this.winchLeftMaster);
 
         this.winchRightMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_MASTER_CHANNEL);
+        this.winchRightMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchRightMaster.configPeakCurrentLimit(0);
         this.winchRightMaster.setInverted(true);
 
         this.winchRightFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_FOLLOWER_CHANNEL);
+        this.winchRightFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchRightFollower.configPeakCurrentLimit(0);
         this.winchRightFollower.setInverted(true);
         this.winchRightFollower.follow(this.winchRightMaster);
+
+        this.opticalSensor = new AnalogInput(RobotMap.CLIMBER.OPTICAL_SENSOR);
     }
 
     public void setFrontFoot(DoubleSolenoid.Value value) {
@@ -58,6 +71,18 @@ public class Climber extends Subsystem {
         this.setWinchRightMaster(power);
     }
 
+    public double getLeftCurrent() {
+        return this.winchLeftMaster.getOutputCurrent() + this.winchLeftFollower.getOutputCurrent();
+    }
+
+    public double getRightCurrent() {
+        return this.winchRightMaster.getOutputCurrent() + this.winchRightFollower.getOutputCurrent();
+    }
+
+    public double getTotalCurrent() {
+        return this.getLeftCurrent() + this.getRightCurrent();
+    }
+
     public DoubleSolenoid.Value getFrontFoot() {
         return this.frontFoot.get();
     }
@@ -66,8 +91,19 @@ public class Climber extends Subsystem {
         return this.rearFeet.get();
     }
 
+    public boolean sprocketTapeFound() {
+        return this.opticalSensor.getVoltage() < 1.0;
+    }
+
     public static Climber getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public void periodic() {
+        if (this.getRightCurrent() > 60.0 || this.getLeftCurrent() > 60.0 || this.sprocketTapeFound()) {
+            this.setAllMotors(0);
+        }
     }
 
     @Override
