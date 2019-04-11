@@ -101,7 +101,7 @@ public class Climber extends Subsystem {
 
     @Override
     public void periodic() {
-        if (this.getRightCurrent() > 60.0 || this.getLeftCurrent() > 60.0) {
+        if (this.getRightCurrent() > 60.0 || this.getLeftCurrent() > 60.0 || this.sprocketTapeFound()) {
             this.setAllMotors(0);
         }
     }
