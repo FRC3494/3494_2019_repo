@@ -53,7 +53,5 @@ public class RunWinches extends Command {
      */
     @Override
     protected void end() {
-        Climber.getInstance().setWinchLeftMaster(0);
-        Climber.getInstance().setWinchRightMaster(0);
     }
 }
