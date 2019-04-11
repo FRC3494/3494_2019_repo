@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
+import frc.robot.commands.climb.RunWinches;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
@@ -62,18 +63,17 @@ public class OI {
         preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
         toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
-        boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
-        boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
 
         secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
         secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
-        toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
-        winchClimber.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(RobotMap.CLIMBER.WINCH_POWER)));
-        winchClimber.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setAllMotors(0)));
+        toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
+        boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
+        winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
+        winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
         // Xbox binds

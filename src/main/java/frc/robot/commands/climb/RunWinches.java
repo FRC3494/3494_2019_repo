@@ -1,13 +1,16 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 
 
-public class WinchesForward extends Command {
-    public WinchesForward() {
+public class RunWinches extends Command {
+
+    private double power;
+
+    public RunWinches(double power) {
         requires(Climber.getInstance());
+        this.power = power;
     }
 
     /**
@@ -16,8 +19,8 @@ public class WinchesForward extends Command {
      */
     @Override
     protected void initialize() {
-        Climber.getInstance().setWinchLeftMaster(RobotMap.CLIMBER.WINCH_POWER);
-        Climber.getInstance().setWinchRightMaster(RobotMap.CLIMBER.WINCH_POWER);
+        Climber.getInstance().setWinchLeftMaster(power);
+        Climber.getInstance().setWinchRightMaster(power);
     }
 
     /**
@@ -39,8 +42,7 @@ public class WinchesForward extends Command {
      */
     @Override
     protected boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return true;
     }
 
     /**
@@ -51,7 +53,5 @@ public class WinchesForward extends Command {
      */
     @Override
     protected void end() {
-        Climber.getInstance().setWinchLeftMaster(0);
-        Climber.getInstance().setWinchRightMaster(0);
     }
 }
