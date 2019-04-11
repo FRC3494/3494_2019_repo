@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -15,6 +16,8 @@ public class Climber extends Subsystem {
     private TalonSRX winchLeftFollower;
     private TalonSRX winchRightMaster;
     private TalonSRX winchRightFollower;
+
+    private AnalogInput opticalSensor;
 
     private static Climber INSTANCE = new Climber();
 
@@ -43,6 +46,8 @@ public class Climber extends Subsystem {
         this.winchRightFollower.configPeakCurrentLimit(0);
         this.winchRightFollower.setInverted(true);
         this.winchRightFollower.follow(this.winchRightMaster);
+
+        this.opticalSensor = new AnalogInput(RobotMap.CLIMBER.OPTICAL_SENSOR);
     }
 
     public void setFrontFoot(DoubleSolenoid.Value value) {
@@ -84,6 +89,10 @@ public class Climber extends Subsystem {
 
     public DoubleSolenoid.Value getRearFeet() {
         return this.rearFeet.get();
+    }
+
+    public boolean sprocketTapeFound() {
+        return this.opticalSensor.getVoltage() < 1.0;
     }
 
     public static Climber getInstance() {

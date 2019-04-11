@@ -62,6 +62,7 @@ public class RobotMap {
         public static final double WINCH_POWER = .8;
 
         public static final int CURRENT_LIMIT = 30; // amps
+        public static final int OPTICAL_SENSOR = 2;
     }
 
     public class CARGO_ARM {
