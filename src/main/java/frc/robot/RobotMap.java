@@ -32,6 +32,8 @@ public class RobotMap {
         public static final int RIGHT_FOLLOWER_ONE_CHANNEL = 1;
         public static final int RIGHT_FOLLOWER_TWO_CHANNEL = 2;
 
+        public static final int CURRENT_LIMIT = 50;
+
         public static final double GEAR_RATIO = 7.58 / 12 / 15;
         public static final double WHEEL_RADIUS_FEET = .25;
         public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_FEET;
