@@ -80,7 +80,10 @@ public class Drive extends Command {
 
     @Override
     protected void execute() {
-        double[] stickSpeeds = {powerCurve(OI.getInstance().getLeftY()), powerCurve(OI.getInstance().getRightY())};
+        double leftRaw = OI.getInstance().lowPower() ? OI.getInstance().getLeftY() / 2.0 : OI.getInstance().getLeftY();
+        double rightRaw = OI.getInstance().lowPower() ? OI.getInstance().getRightY() / 2.0 : OI.getInstance().getRightY();
+        double[] stickSpeeds = {powerCurve(leftRaw), powerCurve(rightRaw)};
+
         if (!Drivetrain.getInstance().getIsAntiTipDisabled()) {
             updatePitchStatus();
             if (Math.abs(pitchDegrees) > RobotMap.DRIVE.PITCH_THRESHOLD_DEGREES) {

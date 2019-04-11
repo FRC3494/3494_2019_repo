@@ -175,4 +175,8 @@ public class OI {
     protected Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
+
+    public boolean lowPower() {
+        return leftFlight.getTrigger() && rightFlight.getTrigger();
+    }
 }
