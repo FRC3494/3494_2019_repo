@@ -25,14 +25,22 @@ public class Climber extends Subsystem {
         this.rearFeet.set(DoubleSolenoid.Value.kReverse);
 
         this.winchLeftMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_MASTER_CHANNEL);
+        this.winchLeftMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchLeftMaster.configPeakCurrentLimit(0);
 
         this.winchLeftFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_FOLLOWER_CHANNEL);
+        this.winchLeftFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchLeftFollower.configPeakCurrentLimit(0);
         this.winchLeftFollower.follow(this.winchLeftMaster);
 
         this.winchRightMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_MASTER_CHANNEL);
+        this.winchRightMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchRightMaster.configPeakCurrentLimit(0);
         this.winchRightMaster.setInverted(true);
 
         this.winchRightFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_FOLLOWER_CHANNEL);
+        this.winchRightFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
+        this.winchRightFollower.configPeakCurrentLimit(0);
         this.winchRightFollower.setInverted(true);
         this.winchRightFollower.follow(this.winchRightMaster);
     }
@@ -56,6 +64,18 @@ public class Climber extends Subsystem {
     public void setAllMotors(double power) {
         this.setWinchLeftMaster(power);
         this.setWinchRightMaster(power);
+    }
+
+    public double getLeftCurrent() {
+        return this.winchLeftMaster.getOutputCurrent() + this.winchLeftFollower.getOutputCurrent();
+    }
+
+    public double getRightCurrent() {
+        return this.winchRightMaster.getOutputCurrent() + this.winchRightFollower.getOutputCurrent();
+    }
+
+    public double getTotalCurrent() {
+        return this.getLeftCurrent() + this.getRightCurrent();
     }
 
     public DoubleSolenoid.Value getFrontFoot() {
