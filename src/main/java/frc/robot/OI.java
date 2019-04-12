@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.RunWinches;
+import frc.robot.commands.climb.feet.SetFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpadeHatcher;
 
@@ -64,9 +64,9 @@ public class OI {
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
         toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
 
-        secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
+        secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
-        secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
+        secondLevelUnready.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kForward));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
         preclimb.whenPressed(new ToggleRearFeet());
         boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
@@ -153,6 +153,10 @@ public class OI {
 
     public boolean getButtonBoardButton(int button) {
         return this.bb.getRawButton(button);
+    }
+
+    public boolean climberSafetyOff() {
+        return this.bb.getRawButton(7);
     }
 
     public boolean cruiseControlCancel() {
