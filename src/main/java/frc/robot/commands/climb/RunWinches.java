@@ -20,7 +20,7 @@ public class RunWinches extends Command {
      */
     @Override
     protected void initialize() {
-        if (power == 0 || OI.getInstance().getButtonBoardButton(7)) {
+        if (power == 0 || OI.getInstance().climberSafetyOff()) {
             Climber.getInstance().setWinchLeftMaster(power);
             Climber.getInstance().setWinchRightMaster(power);
         }
