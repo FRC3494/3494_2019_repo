@@ -55,7 +55,7 @@ public class Drivetrain extends PIDSubsystem {
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
-    private boolean isAntiTipDisabled = false;
+    private boolean isAntiTipDisabled = true;
 
     private Drivetrain() {
         super("Drivetrain", 1.0, 0, 0);
