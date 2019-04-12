@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.climb.RunWinches;
-import frc.robot.commands.climb.feet.SetFrontFeet;
+import frc.robot.commands.climb.ToggleFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Drivetrain;
@@ -32,14 +33,14 @@ public class OI {
     private JoystickButton[] boardButtons;
 
     private JoystickButton ejectHatch;
-    private JoystickButton secondLevel;
+    private JoystickButton frontFeet;
     private JoystickButton secondLevelUnready;
     private JoystickButton rearFeet;
 
     private JoystickButton winchClimber;
-    private JoystickButton winchReverse;
+    private POVButton winchReverse;
 
-    private JoystickButton toggleAntiTip;
+    private POVButton toggleAntiTip;
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
     private OI() {
@@ -57,35 +58,26 @@ public class OI {
             this.boardButtons[e.getKey()] = b;
         }*/
 
-        secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
-        secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
-        rearFeet = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
-        winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
-        winchReverse = new JoystickButton(bb, RobotMap.OI.WINCH_REVERSE);
-        toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
+        frontFeet = new JoystickButton(xbox, RobotMap.OI.SECOND_LEVEL_CLIMBER);
+        rearFeet = new JoystickButton(xbox, RobotMap.OI.REAR_FEET);
+        winchClimber = new JoystickButton(xbox, RobotMap.OI.WINCH_CLIMBER);
+        winchReverse = new POVButton(xbox, 180);
+        toggleAntiTip = new POVButton(xbox, 0);
 
-        secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
-        boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
-
-        secondLevelUnready.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kForward));
-        boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
+        // Xbox binds
+        frontFeet.whenPressed(new ToggleFrontFeet());
 
         rearFeet.whenPressed(new ToggleRearFeet());
         rearFeet.whenReleased(new ToggleRearFeet());
-        boardButtons[RobotMap.OI.REAR_FEET] = rearFeet;
 
         toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
-        boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
 
         winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
         winchClimber.whenReleased(new RunWinches(0));
-        boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
         winchReverse.whenPressed(new RunWinches(-0.05));
         winchReverse.whenReleased(new RunWinches(0));
-        boardButtons[RobotMap.OI.WINCH_REVERSE] = winchClimber;
 
-        // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
 
         ejectHatch.whenPressed(new EjectHatch());
@@ -160,12 +152,8 @@ public class OI {
         return this.xbox.getBButton();
     }
 
-    public boolean getButtonBoardButton(int button) {
-        return this.bb.getRawButton(button);
-    }
-
     public boolean climberSafetyOff() {
-        return this.bb.getRawButton(7);
+        return this.xbox.getBumper(GenericHID.Hand.kLeft);
     }
 
     public boolean cruiseControlCancel() {
