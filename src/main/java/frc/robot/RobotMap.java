@@ -100,6 +100,7 @@ public class RobotMap {
         public static final int SECOND_LEVEL_CLIMBER = 11;
         public static final int SECOND_LEVEL_UNREADY = 8;
         public static final int REAR_FEET = 14;
+        public static final int ALL_LVL_2 = 5;
 
         public static final int WINCH_CLIMBER = 4;
         public static final int WINCH_REVERSE = 10;

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.climb.RunWinches;
 import frc.robot.commands.climb.feet.SetFrontFeet;
+import frc.robot.commands.climb.feet.ToggleFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Drivetrain;
@@ -35,6 +36,7 @@ public class OI {
     private JoystickButton secondLevel;
     private JoystickButton secondLevelUnready;
     private JoystickButton rearFeet;
+    private JoystickButton allLevelTwo;
 
     private JoystickButton winchClimber;
     private JoystickButton winchReverse;
@@ -73,6 +75,11 @@ public class OI {
         rearFeet.whenPressed(new ToggleRearFeet());
         rearFeet.whenReleased(new ToggleRearFeet());
         boardButtons[RobotMap.OI.REAR_FEET] = rearFeet;
+
+        allLevelTwo = new JoystickButton(bb, RobotMap.OI.ALL_LVL_2);
+        allLevelTwo.whenPressed(new ToggleRearFeet());
+        allLevelTwo.whenPressed(new ToggleFrontFeet());
+        boardButtons[RobotMap.OI.ALL_LVL_2] = allLevelTwo;
 
         toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
