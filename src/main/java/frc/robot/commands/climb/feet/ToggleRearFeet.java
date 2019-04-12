@@ -14,8 +14,7 @@ public class ToggleRearFeet extends Command {
     @Override
     protected void initialize() {
         if (OI.getInstance().climberSafetyOff()) {
-            DoubleSolenoid.Value v = Climber.getInstance().getRearFeet();
-            if (v.equals(DoubleSolenoid.Value.kForward)) {
+            if (Climber.getInstance().getRearFeet().equals(DoubleSolenoid.Value.kForward)) {
                 Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse);
             } else {
                 Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward);
