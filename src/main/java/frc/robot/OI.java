@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.climb.RunWinches;
+import frc.robot.commands.climb.feet.DelayedUnready;
 import frc.robot.commands.climb.feet.SetFrontFeet;
 import frc.robot.commands.climb.feet.ToggleFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
@@ -85,6 +86,7 @@ public class OI {
         boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
 
         winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
+        winchClimber.whenPressed(new DelayedUnready());
         winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
