@@ -19,7 +19,7 @@ public class DelayedUnready extends Command {
     @Override
     protected void initialize() {
         this.timer.reset();
-        this.timer.start(); // redundant?
+        this.timer.start();
     }
 
     @Override
@@ -36,5 +36,10 @@ public class DelayedUnready extends Command {
     @Override
     protected boolean isFinished() {
         return this.done;
+    }
+
+    @Override
+    protected void end() {
+        this.timer.stop();
     }
 }
