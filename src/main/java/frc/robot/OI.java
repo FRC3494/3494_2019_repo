@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.arm.GotoPosition;
 import frc.robot.commands.climb.RunWinches;
 import frc.robot.commands.climb.feet.SetFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
@@ -22,7 +21,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpadeHatcher;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class OI {
 
@@ -53,11 +51,11 @@ public class OI {
         OI.initArmPositions();
 
         // button board binds
-        for (Map.Entry<Integer, Double> e : OI.armPositions.entrySet()) {
+        /*for (Map.Entry<Integer, Double> e : OI.armPositions.entrySet()) {
             JoystickButton b = new JoystickButton(bb, e.getKey());
             b.whenPressed(new GotoPosition(e.getValue()));
             this.boardButtons[e.getKey()] = b;
-        }
+        }*/
 
         secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
