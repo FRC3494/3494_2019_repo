@@ -1,6 +1,7 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
 
@@ -19,8 +20,10 @@ public class RunWinches extends Command {
      */
     @Override
     protected void initialize() {
-        Climber.getInstance().setWinchLeftMaster(power);
-        Climber.getInstance().setWinchRightMaster(power);
+        if (power == 0 || OI.getInstance().getButtonBoardButton(7)) {
+            Climber.getInstance().setWinchLeftMaster(power);
+            Climber.getInstance().setWinchRightMaster(power);
+        }
     }
 
     /**

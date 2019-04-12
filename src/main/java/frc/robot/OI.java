@@ -151,6 +151,10 @@ public class OI {
         return this.xbox.getBButton();
     }
 
+    public boolean getButtonBoardButton(int button) {
+        return this.bb.getRawButton(button);
+    }
+
     public boolean cruiseControlCancel() {
         return (this.getLeftY() != 0 || this.getRightY() != 0) ||
                 (this.getXboxA() || this.getXboxB()) ||
