@@ -81,7 +81,7 @@ public class OI {
         winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
-        winchReverse.whenPressed(new RunWinches(-0.05));
+        winchReverse.whenPressed(new RunWinches(-0.1));
         winchReverse.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_REVERSE] = winchClimber;
 
