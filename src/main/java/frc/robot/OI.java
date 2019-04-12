@@ -39,6 +39,7 @@ public class OI {
     private JoystickButton rearFeet;
 
     private JoystickButton winchClimber;
+    private JoystickButton winchReverse;
 
     private JoystickButton toggleAntiTip;
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
@@ -62,6 +63,7 @@ public class OI {
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
         rearFeet = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
+        winchReverse = new JoystickButton(bb, RobotMap.OI.WINCH_REVERSE);
         toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
 
         secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
@@ -80,6 +82,10 @@ public class OI {
         winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
         winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
+
+        winchReverse.whenPressed(new RunWinches(-0.05));
+        winchReverse.whenReleased(new RunWinches(0));
+        boardButtons[RobotMap.OI.WINCH_REVERSE] = winchClimber;
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);

@@ -100,6 +100,7 @@ public class RobotMap {
         public static final int REAR_FEET = 14;
 
         public static final int WINCH_CLIMBER = 4;
+        public static final int WINCH_REVERSE = 10;
         public static final int TOGGLE_ANTI_TIP = 13;
     }
 
