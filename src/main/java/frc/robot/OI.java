@@ -36,7 +36,7 @@ public class OI {
     private JoystickButton ejectHatch;
     private JoystickButton secondLevel;
     private JoystickButton secondLevelUnready;
-    private JoystickButton preclimb;
+    private JoystickButton rearFeet;
 
     private JoystickButton winchClimber;
 
@@ -60,18 +60,23 @@ public class OI {
 
         secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
-        preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
+        rearFeet = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
         toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
 
         secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
+
         secondLevelUnready.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kForward));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
-        preclimb.whenPressed(new ToggleRearFeet());
-        boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
+
+        rearFeet.whenPressed(new ToggleRearFeet());
+        rearFeet.whenReleased(new ToggleRearFeet());
+        boardButtons[RobotMap.OI.REAR_FEET] = rearFeet;
+
         toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
+
         winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
         winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
