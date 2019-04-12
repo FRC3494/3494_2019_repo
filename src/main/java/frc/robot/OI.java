@@ -29,12 +29,9 @@ public class OI {
     private Joystick leftFlight;
     private Joystick rightFlight;
     private XboxController xbox;
-    private ButtonBoard bb;
-    private JoystickButton[] boardButtons;
 
     private JoystickButton ejectHatch;
     private JoystickButton frontFeet;
-    private JoystickButton secondLevelUnready;
     private JoystickButton rearFeet;
 
     private JoystickButton winchClimber;
@@ -47,8 +44,6 @@ public class OI {
         leftFlight = new Joystick(RobotMap.OI.LEFT_JOY);
         rightFlight = new Joystick(RobotMap.OI.RIGHT_JOY);
         xbox = new XboxController(RobotMap.OI.XBOX);
-        bb = new ButtonBoard(RobotMap.OI.BUTTON_BOARD);
-        boardButtons = new JoystickButton[15];
         OI.initArmPositions();
 
         // button board binds
