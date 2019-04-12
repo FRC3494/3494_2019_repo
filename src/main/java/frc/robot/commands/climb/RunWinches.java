@@ -21,8 +21,13 @@ public class RunWinches extends Command {
     @Override
     protected void initialize() {
         if (power == 0 || OI.getInstance().climberSafetyOff()) {
-            Climber.getInstance().setWinchLeftMaster(power);
-            Climber.getInstance().setWinchRightMaster(power);
+            if (power != 0) {
+                power = Climber.getInstance().sprocketTapeFound() ? Math.copySign(0.05, power) : power;
+                Climber.getInstance().setWinchLeftMaster(power);
+                Climber.getInstance().setWinchRightMaster(power);
+            } else {
+                Climber.getInstance().setAllMotors(0);
+            }
         }
     }
 
