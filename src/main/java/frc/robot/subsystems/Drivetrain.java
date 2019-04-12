@@ -57,7 +57,6 @@ public class Drivetrain extends PIDSubsystem {
 
     private boolean isAntiTipDisabled = false;
 
-
     private Drivetrain() {
         super("Drivetrain", 1.0, 0, 0);
 
@@ -87,6 +86,8 @@ public class Drivetrain extends PIDSubsystem {
         this.encRightFollowTwo = this.driveRightFollowTwo.getEncoder();
 
         this.ultrasonic = new HRLVMaxSonar(1);
+
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     /**
