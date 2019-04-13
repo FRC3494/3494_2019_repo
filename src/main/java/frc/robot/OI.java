@@ -86,7 +86,7 @@ public class OI {
         allLevelTwo.whenPressed(new ToggleFrontFeet());
         boardButtons[RobotMap.OI.ALL_LVL_2] = allLevelTwo;
 
-        toggleAntiTip.whenPressed(new InstantCommand(() -> Drivetrain.getInstance().toggleAntiTip()));
+        toggleAntiTip.whenPressed(new InstantCommand(Drivetrain.getInstance(), () -> Drivetrain.getInstance().toggleAntiTip()));
         boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
 
         winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
