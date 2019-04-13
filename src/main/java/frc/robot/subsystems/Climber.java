@@ -97,8 +97,12 @@ public class Climber extends Subsystem {
 
     @Override
     public void periodic() {
-        if (this.sprocketTapeFound() && Math.abs(this.winchLeftMaster.getMotorOutputPercent()) > 0.05) {
-            this.setAllMotors(Math.copySign(0.05, this.winchLeftMaster.getMotorOutputPercent()));
+        if (this.sprocketTapeFound()) {
+            if (Math.abs(this.winchLeftMaster.getMotorOutputPercent()) > 0.05) {
+                this.setAllMotors(Math.copySign(0.05, this.winchLeftMaster.getMotorOutputPercent()));
+            }
+            this.setRearFeet(DoubleSolenoid.Value.kReverse);
+            this.setFrontFoot(DoubleSolenoid.Value.kForward);
         }
     }
 
