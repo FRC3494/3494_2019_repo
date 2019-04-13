@@ -78,8 +78,8 @@ public class OI {
         secondLevelUnready.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kForward));
         boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
 
-        rearFeet.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse)));
-        rearFeet.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward)));
+        rearFeet.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward)));
+        rearFeet.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse)));
         boardButtons[RobotMap.OI.REAR_FEET] = rearFeet;
 
         allLevelTwo = new JoystickButton(bb, RobotMap.OI.ALL_LVL_2);
