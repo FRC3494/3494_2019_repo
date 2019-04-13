@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.auto.drive.DistanceDrive;
 import frc.robot.commands.climb.RunWinches;
 import frc.robot.commands.climb.feet.DelayedUnready;
 import frc.robot.commands.climb.feet.SetFrontFeet;
@@ -42,6 +43,8 @@ public class OI {
     private JoystickButton winchClimber;
     private JoystickButton winchReverse;
 
+    private JoystickButton autoPark;
+
     private JoystickButton toggleAntiTip;
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
@@ -66,6 +69,7 @@ public class OI {
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
         winchReverse = new JoystickButton(bb, RobotMap.OI.WINCH_REVERSE);
         toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
+        autoPark = new JoystickButton(bb, RobotMap.OI.AUTOMATIC_PARK);
 
         secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
         boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
@@ -93,6 +97,9 @@ public class OI {
         winchReverse.whenPressed(new RunWinches(-0.1));
         winchReverse.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_REVERSE] = winchClimber;
+
+        autoPark.whenPressed(new DistanceDrive(-RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE));
+        boardButtons[RobotMap.OI.AUTOMATIC_PARK] = autoPark;
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);

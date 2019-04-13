@@ -92,9 +92,7 @@ public class RobotMap {
         public static final int RIGHT_JOY = 1;
         public static final int XBOX = 2;
         public static final int BUTTON_BOARD = 3;
-
-        public static final int ZBAR_ENGAGE_BUTTON = 11;
-
+        // xbox
         public static final int EJECT_HATCH = 6; // right bumper
         // button board
         public static final int SECOND_LEVEL_CLIMBER = 11;
@@ -104,6 +102,8 @@ public class RobotMap {
 
         public static final int WINCH_CLIMBER = 4;
         public static final int WINCH_REVERSE = 10;
+        public static final int AUTOMATIC_PARK = 9;
+
         public static final int TOGGLE_ANTI_TIP = 13;
     }
 
