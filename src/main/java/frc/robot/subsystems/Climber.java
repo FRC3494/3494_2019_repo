@@ -28,22 +28,18 @@ public class Climber extends Subsystem {
         this.rearFeet.set(DoubleSolenoid.Value.kReverse);
 
         this.winchLeftMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_MASTER_CHANNEL);
-        this.winchLeftMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
-        this.winchLeftMaster.configPeakCurrentLimit(0);
+        this.winchLeftMaster.configFactoryDefault();
 
         this.winchLeftFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_LEFT_FOLLOWER_CHANNEL);
-        this.winchLeftFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
-        this.winchLeftFollower.configPeakCurrentLimit(0);
+        this.winchLeftFollower.configFactoryDefault();
         this.winchLeftFollower.follow(this.winchLeftMaster);
 
         this.winchRightMaster = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_MASTER_CHANNEL);
-        this.winchRightMaster.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
-        this.winchRightMaster.configPeakCurrentLimit(0);
+        this.winchRightMaster.configFactoryDefault();
         this.winchRightMaster.setInverted(true);
 
         this.winchRightFollower = new TalonSRX(RobotMap.CLIMBER.WINCH_RIGHT_FOLLOWER_CHANNEL);
-        this.winchRightFollower.configContinuousCurrentLimit(RobotMap.CLIMBER.CURRENT_LIMIT);
-        this.winchRightFollower.configPeakCurrentLimit(0);
+        this.winchRightFollower.configFactoryDefault();
         this.winchRightFollower.setInverted(true);
         this.winchRightFollower.follow(this.winchRightMaster);
 
@@ -101,8 +97,12 @@ public class Climber extends Subsystem {
 
     @Override
     public void periodic() {
-        if (this.getRightCurrent() > 60.0 || this.getLeftCurrent() > 60.0 || this.sprocketTapeFound()) {
-            this.setAllMotors(0);
+        if (this.sprocketTapeFound()) {
+            if (Math.abs(this.winchLeftMaster.getMotorOutputPercent()) > 0.05) {
+                this.setAllMotors(Math.copySign(0.05, this.winchLeftMaster.getMotorOutputPercent()));
+            }
+            this.setRearFeet(DoubleSolenoid.Value.kReverse);
+            this.setFrontFoot(DoubleSolenoid.Value.kForward);
         }
     }
 
