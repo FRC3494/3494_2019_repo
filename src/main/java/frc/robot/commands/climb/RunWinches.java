@@ -1,16 +1,18 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
+import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
 
-public class WinchesForward extends Command {
-    public WinchesForward() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+public class RunWinches extends Command {
 
+    private double power;
+
+    public RunWinches(double power) {
+        requires(Climber.getInstance());
+        this.power = power;
+    }
 
     /**
      * The initialize method is called just before the first time
@@ -18,13 +20,16 @@ public class WinchesForward extends Command {
      */
     @Override
     protected void initialize() {
-        if(Climber.getInstance().isEngaged()){
-            Climber.getInstance().setWinchLeftMaster(RobotMap.CLIMBER.WINCH_POWER);
-            Climber.getInstance().setWinchRightMaster(RobotMap.CLIMBER.WINCH_POWER);
+        if (power == 0 || OI.getInstance().climberSafetyOff()) {
+            if (power != 0) {
+                power = Climber.getInstance().sprocketTapeFound() ? Math.copySign(0.05, power) : power;
+                Climber.getInstance().setWinchLeftMaster(power);
+                Climber.getInstance().setWinchRightMaster(power);
+            } else {
+                Climber.getInstance().setAllMotors(0);
+            }
         }
     }
-
-
 
     /**
      * <p>
@@ -45,10 +50,8 @@ public class WinchesForward extends Command {
      */
     @Override
     protected boolean isFinished() {
-        // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return true;
     }
-
 
     /**
      * Called once when the command ended peacefully; that is it is called once
@@ -58,27 +61,5 @@ public class WinchesForward extends Command {
      */
     @Override
     protected void end() {
-        Climber.getInstance().setWinchLeftMaster(0);
-        Climber.getInstance().setWinchRightMaster(0);
-    }
-
-
-    /**
-     * <p>
-     * Called when the command ends because somebody called {@link #cancel()} or
-     * another command shared the same requirements as this one, and booted it out. For example,
-     * it is called when another command which requires one or more of the same
-     * subsystems is scheduled to run.
-     * </p><p>
-     * This is where you may want to wrap up loose ends, like shutting off a motor that was being
-     * used in the command.
-     * </p><p>
-     * Generally, it is useful to simply call the {@link #end()} method within this
-     * method, as done here.
-     * </p>
-     */
-    @Override
-    protected void interrupted() {
-        super.interrupted();
     }
 }

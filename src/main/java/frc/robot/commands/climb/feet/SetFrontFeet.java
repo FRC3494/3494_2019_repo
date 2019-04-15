@@ -2,20 +2,23 @@ package frc.robot.commands.climb.feet;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
-public class SetFrontFoot extends Command {
+public class SetFrontFeet extends Command {
 
     private DoubleSolenoid.Value v;
 
-    public SetFrontFoot(DoubleSolenoid.Value value) {
+    public SetFrontFeet(DoubleSolenoid.Value value) {
         requires(Climber.getInstance());
-        v = value;
+        this.v = value;
     }
 
     @Override
-    protected void execute() {
-        Climber.getInstance().setFrontFoot(v);
+    protected void initialize() {
+        if (OI.getInstance().climberSafetyOff()) {
+            Climber.getInstance().setFrontFoot(v);
+        }
     }
 
     @Override

@@ -13,16 +13,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.commands.arm.GotoPosition;
-import frc.robot.commands.climb.ToggleShifter;
-import frc.robot.commands.climb.WinchesForward;
+import frc.robot.commands.auto.drive.DistanceDrive;
+import frc.robot.commands.climb.RunWinches;
+import frc.robot.commands.climb.feet.SetFrontFeet;
+import frc.robot.commands.climb.feet.ToggleFrontFeet;
 import frc.robot.commands.climb.feet.ToggleRearFeet;
 import frc.robot.commands.spade.EjectHatch;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpadeHatcher;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class OI {
 
@@ -36,12 +37,15 @@ public class OI {
     private JoystickButton ejectHatch;
     private JoystickButton secondLevel;
     private JoystickButton secondLevelUnready;
-    private JoystickButton preclimb;
+    private JoystickButton rearFeet;
+    private JoystickButton allLevelTwo;
 
     private JoystickButton winchClimber;
+    private JoystickButton winchReverse;
 
-    private JoystickButton engageZbar;
+    private JoystickButton autoPark;
 
+    private JoystickButton toggleAntiTip;
     private static HashMap<Integer, Double> armPositions = new HashMap<>();
 
     private OI() {
@@ -53,25 +57,48 @@ public class OI {
         OI.initArmPositions();
 
         // button board binds
-        for (Map.Entry<Integer, Double> e : OI.armPositions.entrySet()) {
+        /*for (Map.Entry<Integer, Double> e : OI.armPositions.entrySet()) {
             JoystickButton b = new JoystickButton(bb, e.getKey());
             b.whenPressed(new GotoPosition(e.getValue()));
             this.boardButtons[e.getKey()] = b;
-        }
+        }*/
 
         secondLevel = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_CLIMBER);
         secondLevelUnready = new JoystickButton(bb, RobotMap.OI.SECOND_LEVEL_UNREADY);
-        preclimb = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
+        rearFeet = new JoystickButton(bb, RobotMap.OI.REAR_FEET);
         winchClimber = new JoystickButton(bb, RobotMap.OI.WINCH_CLIMBER);
+        winchReverse = new JoystickButton(bb, RobotMap.OI.WINCH_REVERSE);
+        toggleAntiTip = new JoystickButton(bb, RobotMap.OI.TOGGLE_ANTI_TIP);
+        autoPark = new JoystickButton(bb, RobotMap.OI.AUTOMATIC_PARK);
+
+        secondLevel.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kReverse));
+        boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
+
+        secondLevelUnready.whenPressed(new SetFrontFeet(DoubleSolenoid.Value.kForward));
+        boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
+
+        rearFeet.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward)));
+        rearFeet.whenReleased(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse)));
+        boardButtons[RobotMap.OI.REAR_FEET] = rearFeet;
+
+        allLevelTwo = new JoystickButton(bb, RobotMap.OI.ALL_LVL_2);
+        allLevelTwo.whenPressed(new ToggleRearFeet());
+        allLevelTwo.whenPressed(new ToggleFrontFeet());
+        boardButtons[RobotMap.OI.ALL_LVL_2] = allLevelTwo;
+
+        toggleAntiTip.whenPressed(new InstantCommand(Drivetrain.getInstance(), () -> Drivetrain.getInstance().toggleAntiTip()));
+        boardButtons[RobotMap.OI.TOGGLE_ANTI_TIP] = toggleAntiTip;
+
+        winchClimber.whenPressed(new RunWinches(RobotMap.CLIMBER.WINCH_POWER));
+        winchClimber.whenReleased(new RunWinches(0));
         boardButtons[RobotMap.OI.WINCH_CLIMBER] = winchClimber;
 
-        secondLevel.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse)));
-        boardButtons[RobotMap.OI.SECOND_LEVEL_CLIMBER] = secondLevel;
-        secondLevelUnready.whenPressed(new InstantCommand(Climber.getInstance(), () -> Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward)));
-        boardButtons[RobotMap.OI.SECOND_LEVEL_UNREADY] = secondLevelUnready;
-        preclimb.whenPressed(new ToggleRearFeet());
-        winchClimber.whileHeld(new WinchesForward());
-        boardButtons[RobotMap.OI.REAR_FEET] = preclimb;
+        winchReverse.whenPressed(new RunWinches(-0.1));
+        winchReverse.whenReleased(new RunWinches(0));
+        boardButtons[RobotMap.OI.WINCH_REVERSE] = winchClimber;
+
+        autoPark.whenPressed(new DistanceDrive(-RobotMap.DRIVETRAIN.WHEEL_CIRCUMFERENCE));
+        boardButtons[RobotMap.OI.AUTOMATIC_PARK] = autoPark;
 
         // Xbox binds
         ejectHatch = new JoystickButton(xbox, RobotMap.OI.EJECT_HATCH);
@@ -82,10 +109,6 @@ public class OI {
             SpadeHatcher.getInstance().setEjectors(false);
         };
         ejectHatch.whenReleased(new InstantCommand(SpadeHatcher.getInstance(), releaseEject));
-        // Driver joystick binds
-        engageZbar = new JoystickButton(rightFlight, RobotMap.OI.ZBAR_ENGAGE_BUTTON);
-
-        engageZbar.whenPressed(new ToggleShifter());
     }
 
     /**
@@ -152,6 +175,14 @@ public class OI {
         return this.xbox.getBButton();
     }
 
+    public boolean getButtonBoardButton(int button) {
+        return this.bb.getRawButton(button);
+    }
+
+    public boolean climberSafetyOff() {
+        return this.bb.getRawButton(7);
+    }
+
     public boolean cruiseControlCancel() {
         return (this.getLeftY() != 0 || this.getRightY() != 0) ||
                 (this.getXboxA() || this.getXboxB()) ||
@@ -175,5 +206,9 @@ public class OI {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
+    }
+
+    public boolean lowPower() {
+        return leftFlight.getTrigger() && rightFlight.getTrigger();
     }
 }

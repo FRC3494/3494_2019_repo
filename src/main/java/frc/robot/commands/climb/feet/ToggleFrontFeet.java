@@ -5,19 +5,20 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
-public class ToggleRearFeet extends Command {
+public class ToggleFrontFeet extends Command {
 
-    public ToggleRearFeet() {
+
+    public ToggleFrontFeet() {
         requires(Climber.getInstance());
     }
 
     @Override
-    protected void initialize() {
+    protected void execute() {
         if (OI.getInstance().climberSafetyOff()) {
-            if (Climber.getInstance().getRearFeet().equals(DoubleSolenoid.Value.kForward)) {
-                Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kReverse);
+            if (Climber.getInstance().getFrontFoot().equals(DoubleSolenoid.Value.kForward)) {
+                Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kReverse);
             } else {
-                Climber.getInstance().setRearFeet(DoubleSolenoid.Value.kForward);
+                Climber.getInstance().setFrontFoot(DoubleSolenoid.Value.kForward);
             }
         }
     }

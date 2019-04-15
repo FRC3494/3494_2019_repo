@@ -55,36 +55,58 @@ public class Drivetrain extends PIDSubsystem {
 
     private static Drivetrain INSTANCE = new Drivetrain();
 
+    private boolean isAntiTipDisabled = true;
 
     private Drivetrain() {
         super("Drivetrain", 1.0, 0, 0);
 
+        CANSparkMax[] motors = new CANSparkMax[6];
+        int i = 0;
+
         this.driveLeftMaster = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftMaster.setInverted(true);
+        motors[i] = this.driveLeftMaster;
+        i += 1;
         this.encLeftMaster = this.driveLeftMaster.getEncoder();
 
         this.driveLeftFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowOne.follow(driveLeftMaster);
         this.driveLeftFollowOne.setInverted(true);
+        motors[i] = this.driveLeftFollowOne;
+        i += 1;
         this.encLeftFollowOne = this.driveLeftFollowOne.getEncoder();
 
         this.driveLeftFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.LEFT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveLeftFollowTwo.follow(driveLeftMaster);
         this.driveLeftFollowTwo.setInverted(true);
+        motors[i] = this.driveLeftFollowTwo;
+        i += 1;
         this.encLeftFollowTwo = this.driveLeftFollowTwo.getEncoder();
 
         this.driveRightMaster = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_MASTER_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motors[i] = this.driveRightMaster;
+        i += 1;
         this.encRightMaster = this.driveRightMaster.getEncoder();
 
         this.driveRightFollowOne = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_ONE_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowOne.follow(driveRightMaster);
+        motors[i] = this.driveRightFollowOne;
+        i += 1;
         this.encRightFollowOne = this.driveRightFollowOne.getEncoder();
 
         this.driveRightFollowTwo = new CANSparkMax(RobotMap.DRIVETRAIN.RIGHT_FOLLOWER_TWO_CHANNEL, CANSparkMaxLowLevel.MotorType.kBrushless);
         this.driveRightFollowTwo.follow(driveRightMaster);
+        motors[i] = this.driveRightFollowTwo;
+        i += 1;
         this.encRightFollowTwo = this.driveRightFollowTwo.getEncoder();
 
+        for (CANSparkMax m : motors) {
+            m.setSmartCurrentLimit(RobotMap.DRIVETRAIN.CURRENT_LIMIT);
+        }
+
         this.ultrasonic = new HRLVMaxSonar(1);
+
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     /**
@@ -156,6 +178,15 @@ public class Drivetrain extends PIDSubsystem {
 
     public double getUltrasonicDistance() {
         return this.ultrasonic.getDistance();
+    }
+
+    public boolean getIsAntiTipDisabled() {
+        return this.isAntiTipDisabled;
+    }
+
+    public void toggleAntiTip() {
+        this.isAntiTipDisabled = !this.isAntiTipDisabled;
+        SmartDashboard.putBoolean("Anti-Tip Enabled", !this.isAntiTipDisabled);
     }
 
     public void stop() {
